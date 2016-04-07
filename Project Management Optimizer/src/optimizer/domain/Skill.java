@@ -1,4 +1,4 @@
-package domain;
+package optimizer.domain;
 
 public class Skill {
 	private String name;

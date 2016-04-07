@@ -1,4 +1,4 @@
-package domain;
+package optimizer.domain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ public class Task {
 		this.name = name;
 		this.duration = duration;
 		this.skills = skills;
-		this.precedences = precedencies;
+		this.precedences = precedences;
 	}
 	
 	public void addSkill(Skill skill) {
@@ -43,7 +43,7 @@ public class Task {
 	}
 	
 	public void setPrecedencies(List<Task> precedences) {
-		this.precedences = precedencies;
+		this.precedences = precedences;
 	}
 	
 	public void setDuration(int duration) {

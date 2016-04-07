@@ -1,4 +1,4 @@
-package domain;
+package optimizer.domain;
 
 import java.util.HashMap;
 import java.util.Map;
