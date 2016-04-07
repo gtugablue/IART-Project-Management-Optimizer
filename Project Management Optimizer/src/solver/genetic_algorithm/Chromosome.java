@@ -4,6 +4,7 @@ import optimizer.Problem;
 
 public class Chromosome {
 	private boolean[] genes;
+	private int score;
 	
 	public Chromosome(int length) {
 		this.genes = new boolean[length];
