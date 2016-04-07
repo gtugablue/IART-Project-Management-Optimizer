@@ -7,19 +7,19 @@ public class Task {
 	private String name;
 	private int duration;
 	private List<Skill> skills;
-	private List<Task> precedencies;
+	private List<Task> precedences;
 	public Task(String name, int duration) {
 		this.name = name;
 		this.duration = duration;
 		this.skills = new ArrayList<Skill>();
-		this.precedencies = new ArrayList<Task>();
+		this.precedences = new ArrayList<Task>();
 	}
 	
-	public Task(String name, int duration, List<Skill> skills, List<Task> precedencies) {
+	public Task(String name, int duration, List<Skill> skills, List<Task> precedences) {
 		this.name = name;
 		this.duration = duration;
 		this.skills = skills;
-		this.precedencies = precedencies;
+		this.precedences = precedencies;
 	}
 	
 	public void addSkill(Skill skill) {
@@ -39,11 +39,11 @@ public class Task {
 	}
 	
 	public List<Task> getPrecedencies() {
-		return this.precedencies;
+		return this.precedences;
 	}
 	
-	public void setPrecedencies(List<Task> precedencies) {
-		this.precedencies = precedencies;
+	public void setPrecedencies(List<Task> precedences) {
+		this.precedences = precedencies;
 	}
 	
 	public void setDuration(int duration) {
