@@ -1,10 +1,11 @@
 package solver.genetic_algorithm;
 
+import java.util.Random;
+
 import optimizer.Problem;
 
 public class Chromosome {
 	private boolean[] genes;
-	private int score;
 	
 	public Chromosome(int length) {
 		this.genes = new boolean[length];
@@ -25,6 +26,9 @@ public class Chromosome {
 	}
 	
 	private void randomizeGenes() {
-		// TODO
+		Random r = new Random();
+		for (int i = 0; i < genes.length; i++) {
+			genes[i] = r.nextBoolean();
+		}
 	}
 }
