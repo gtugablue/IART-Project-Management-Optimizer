@@ -27,4 +27,8 @@ public class Chromosome {
 	private void randomizeGenes() {
 		// TODO
 	}
+	
+	public int getScore(){
+		return score;
+	}
 }
