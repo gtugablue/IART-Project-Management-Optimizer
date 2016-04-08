@@ -6,6 +6,7 @@ import optimizer.Problem;
 
 public class Chromosome {
 	private boolean[] genes;
+	private int fitness;
 	
 	public Chromosome(int length) {
 		this.genes = new boolean[length];
@@ -32,7 +33,7 @@ public class Chromosome {
 		}
 	}
 	
-	public int getScore(){
-		return score;
+	public int getFitness() {
+		return this.fitness;
 	}
 }

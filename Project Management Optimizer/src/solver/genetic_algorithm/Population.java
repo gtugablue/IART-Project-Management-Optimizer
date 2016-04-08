@@ -44,7 +44,7 @@ public class Population {
 	}
 	
 	/**
-	 * Method to find the population's chromosome with highest score
+	 * Method to find the population's chromosome with the highest fitness
 	 * @return Chromosome
 	 */
 	public Chromosome getFittest(){
@@ -53,12 +53,10 @@ public class Population {
 		int index = 0;
 		
 		for(int i = 0; i < chromosomes.size(); i++){
-			
-			if(chromosomes.get(i).getScore() > maxFit){
-				maxFit = chromosomes.get(i).getScore();
+			if(chromosomes.get(i).getFitness() > maxFit){
+				maxFit = chromosomes.get(i).getFitness();
 				index = i;
 			}
-			
 		}
 		
 		return chromosomes.get(index);
