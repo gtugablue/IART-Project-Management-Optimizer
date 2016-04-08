@@ -31,4 +31,8 @@ public class Chromosome {
 			genes[i] = r.nextBoolean();
 		}
 	}
+	
+	public int getScore(){
+		return score;
+	}
 }
