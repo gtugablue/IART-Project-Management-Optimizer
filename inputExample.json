@@ -1,0 +1,58 @@
+{
+  "skills": [
+    "Escrever relatórios",
+    "Y",
+    "Z"
+  ],
+  "tasks": [
+    {
+      "name": "A",
+      "skill": 0
+    },
+    {
+      "name": "B",
+      "skill": 1
+    },
+    {
+      "name": "C",
+      "skill": 2
+    }
+  ],
+  "elements": [
+    {
+      "name": "Duarte Pinto",
+      "skills": [
+        [
+          0,
+          0.5
+        ],
+        [
+          2,
+          0.1
+        ]
+      ]
+    },
+    {
+      "name": "Filipa Ramos",
+      "skills": [
+        [
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "name": "Gustavo Silva",
+      "skills": [
+        [
+          1,
+          0.5
+        ],
+        [
+          2,
+          0.1
+        ]
+      ]
+    }
+  ]
+}
