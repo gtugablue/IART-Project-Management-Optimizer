@@ -5,7 +5,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class Population {
+import optimizer.Problem;
+
+public class Population implements Cloneable{
 	
 	private List<Chromosome> chromosomes;
 	
@@ -16,16 +18,11 @@ public class Population {
 	 * @param chromosomeLength
 	 */
 	public Population(int populationSize, int chromosomeLength){
-		
 		chromosomes = new ArrayList<Chromosome>();
-		
 		for(int i = 0; i < populationSize; i++){
-			
 			Chromosome oneChromosome = new Chromosome(chromosomeLength);
 			chromosomes.add(oneChromosome);
-			
 		}
-		
 	}
 	
 	/**
@@ -37,9 +34,9 @@ public class Population {
 		chromosomes = new ArrayList<Chromosome>();
 	}
 	
-	/*public ArrayList<Chromosome> getPopulation(){
+	public List<Chromosome> getPopulation(){
 		return chromosomes;
-	}*/
+	}
 	
 	public int getPopulationSize(){
 		return chromosomes.size();
@@ -50,19 +47,15 @@ public class Population {
 	 * @return Chromosome
 	 */
 	public Chromosome getFittest(){
-		
 		int maxFit = 0;
 		int index = 0;
-		
 		for(int i = 0; i < chromosomes.size(); i++){
 			if(chromosomes.get(i).getFitness() > maxFit){
 				maxFit = chromosomes.get(i).getFitness();
 				index = i;
 			}
 		}
-		
 		return chromosomes.get(index);
-		
 	}
 	
 	public void sort() {
@@ -87,5 +80,17 @@ public class Population {
 		return rand.nextInt(chromosomes.size() + 1);
 	}
 	
-
+	public Population evolve(Problem problem) {
+		Population p = (Population) this.clone();
+		return p;
+	}
+	
+	@Override
+	public Object clone() {
+		Population p = new Population();
+		for (int i = 0; i < this.chromosomes.size(); i++) {
+			p.chromosomes.add((Chromosome) this.chromosomes.get(i).clone());
+		}
+		return p;
+	}
 }

@@ -25,27 +25,14 @@ public class Algorithm {
 	}
 
 	/**
-	 * Create a new population with
+	 * Create the next generation of the population
 	 * 
 	 * @param oldPopulation
 	 * @return Population
 	 */
-	/*private Population evolve(Population oldPopulation) {
-
-		Chromosome fittest;
-
-		if (elitism)
-			fittest = oldPopulation.getFittest();
-		else
-			fittest = oldPopulation.getRandom();
-
-		Population newPopulation = new Population();
-
-		newPopulation.populate(fittest);
-
-		return newPopulation;
-
-	}*/
+	private Population evolve(Population oldPopulation) {
+		return oldPopulation.evolve(this.problem);
+	}
 
 	/**
 	 * Crosover of two chromosomes

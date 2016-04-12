@@ -4,7 +4,7 @@ import java.util.Random;
 
 import optimizer.Problem;
 
-public class Chromosome implements Comparable {
+public class Chromosome implements Comparable<Chromosome>, Cloneable {
 	private boolean[] genes;
 	private int fitness;
 
@@ -42,8 +42,14 @@ public class Chromosome implements Comparable {
 	}
 
 	@Override
-	public int compareTo(Object arg0) {
-		Chromosome c = (Chromosome)arg0;
+	public int compareTo(Chromosome c) {
 		return this.fitness - c.fitness;
+	}
+	
+	@Override
+	public Object clone() {
+		boolean[] newGenes = this.genes.clone();
+		Chromosome c = new Chromosome(newGenes);
+		return c;
 	}
 }
