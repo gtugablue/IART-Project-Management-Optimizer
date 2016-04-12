@@ -6,8 +6,9 @@ import java.util.List;
 import java.util.Random;
 
 import optimizer.Problem;
+import optimizer.Solution;
 
-public class Population implements Cloneable{
+public class Population extends Solution implements Cloneable{
 	
 	private List<Chromosome> chromosomes;
 	private int totalFitness;
