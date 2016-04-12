@@ -1,8 +1,6 @@
 package solver.genetic_algorithm;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 
 import optimizer.Problem;
@@ -12,11 +10,17 @@ public class Algorithm {
 	private double mutationRate;
 	private int elitism;
 	private static Random random = new Random();
-	public Algorithm(Problem problem, int populationSize, double mutationRate, int elitism) {
+	private int numBitsTaskID;
+	public Algorithm(Problem problem, double mutationRate, int elitism) {
 		this.problem = problem;
 		this.mutationRate = mutationRate;
 		this.elitism = elitism;
-		//this.population = new Population(populationSize, (int) Math.floor(Math.log(problem.getTasks().size() - 1)/Math.log(2) + 1));
+		this.numBitsTaskID = minNumBits(problem.getTasks().size());
+	}
+	
+	public Population randomStartingPopulation(int size) {
+		System.out.println(numBitsTaskID);
+		return new Population(size, calculateChromosomeSize());
 	}
 
 	public double getMutationRate() {
@@ -107,5 +111,13 @@ public class Algorithm {
 			}
 		}
 	}
-
+	
+	private int calculateChromosomeSize() {
+		return problem.getTasks().size() * (numBitsTaskID + problem.getElements().size());
+	}
+	
+	private int minNumBits(int size) {
+		if (size <= 1) return size;
+		return (int) Math.floor(Math.log(problem.getTasks().size() - 1)/Math.log(2) + 1);
+	}
 }

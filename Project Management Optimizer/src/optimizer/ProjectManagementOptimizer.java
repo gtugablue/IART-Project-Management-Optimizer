@@ -11,11 +11,24 @@ import solver.genetic_algorithm.Population;
 public class ProjectManagementOptimizer {
 	public static void main(String[] args) {
 		ArrayList<Task> tasks = new ArrayList<Task>();
+		tasks.add(new Task("Fazer o relatorio", 100));
+		tasks.add(new Task("Fazer o relatorio", 100));
+		tasks.add(new Task("Fazer o relatorio", 100));
+		tasks.add(new Task("Fazer o relatorio", 100));
+		tasks.add(new Task("Fazer o relatorio", 100));
+		tasks.add(new Task("Fazer o relatorio", 100));
+		tasks.add(new Task("Fazer o relatorio", 100));
+		tasks.add(new Task("Fazer o relatorio", 100));
+		tasks.add(new Task("Fazer o relatorio", 100));
+		tasks.add(new Task("Fazer o relatorio", 100));
+		tasks.add(new Task("Fazer o relatorio", 100));
+		tasks.add(new Task("Fazer o relatorio", 100));
+		
 		ArrayList<Element> elements = new ArrayList<Element>();
 		ArrayList<Skill> skills = new ArrayList<Skill>();
 		Problem problem = new Problem(tasks, elements, skills);
-		Algorithm algorithm = new Algorithm(problem, 50, 0.0001, 3);
-		Population population = new Population(50, 30);
+		Algorithm algorithm = new Algorithm(problem, 0.01, 30);
+		Population population = algorithm.randomStartingPopulation(50);
 		population.evaluate(problem);
 		for (int i = 0; i < 1000; i++) {
 			System.out.print("Max fitness: " + population.getFittest().getFitness() + "\t Total fitness: " + population.getTotalFitness() + " - ");
