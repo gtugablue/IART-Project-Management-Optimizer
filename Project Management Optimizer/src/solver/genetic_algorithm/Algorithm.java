@@ -1,6 +1,8 @@
 package solver.genetic_algorithm;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 import optimizer.Problem;
@@ -33,30 +35,40 @@ public class Algorithm {
 	public Population evolve(Population population) {
 		Population p = (Population) population.clone();
 		p.evaluate(problem);
-		
+
 		selection(p);
 		// TODO Crossover
 		mutation(p);
-		
+
 		return p;
 	}
-	
-	
-	
+
+
+
 	private void selection(Population population) {
-		for (int i = this.elitism; i < population.getSize(); i++) {
-			population.setChromosome(i, rouletteWheelSelection(population));
+		Chromosome[] selected = rouletteWheelSelection(population);
+		for (int i = 0; i < population.getSize() - this.elitism; i++) {
+			population.setChromosome(i, selected[i]);
 		}
 	}
-	
-	private Chromosome rouletteWheelSelection(Population population) {
-		double d = Algorithm.random.nextDouble() * population.getTotalFitness();	
-		for(int i = 0; i < population.getSize(); i++) {		
-			d -= population.getChromosome(i).getFitness();		
-			if (d <= 0)
-				return population.getChromosome(i);
+
+	private Chromosome[] rouletteWheelSelection(Population population) {
+		int amountToSelect = population.getSize() - this.elitism;
+		Chromosome[] selected = new Chromosome[amountToSelect];
+		for (int i = 0; i < amountToSelect; i++) {
+			double d = random.nextDouble() * population.getTotalFitness();	
+			for(int j = 0; j < population.getSize(); j++) {		
+				d -= population.getChromosome(j).getFitness();		
+				if (d <= 0)
+				{
+					selected[i] = population.getChromosome(j);
+					break;
+				}
+			}
+			if (selected[i] == null)
+				selected[i] = population.getChromosome(population.getSize() - 1); // in case of rounding errors
 		}
-		return population.getChromosome(population.getSize() - 1); // in case of rounding errors
+		return selected;
 	}
 
 	/**
@@ -83,7 +95,7 @@ public class Algorithm {
 		return chromosomes;
 
 	}
-	
+
 	private void mutation(Population population) {
 		int chromosomeSize = population.getChromosomeSize();
 		int totalBits = population.getSize() * chromosomeSize;
