@@ -11,18 +11,15 @@ public class Algorithm {
 	private double crossoverRate;
 	private int elitism;
 	private static Random random = new Random();
-	private int numBitsTaskID;
 	public Algorithm(Problem problem, double mutationRate, double crossoverRate, int elitism) {
 		this.problem = problem;
 		this.mutationRate = mutationRate;
 		this.crossoverRate = crossoverRate;
 		this.elitism = elitism;
-		this.numBitsTaskID = minNumBits(problem.getTasks().size());
 	}
-	
+
 	public Population randomStartingPopulation(int size) {
-		System.out.println(numBitsTaskID);
-		return new Population(size, calculateChromosomeSize());
+		return new Population(size, problem);
 	}
 
 	public double getMutationRate() {
@@ -112,14 +109,5 @@ public class Algorithm {
 				population.getChromosome(i / chromosomeSize).flipGene(i % chromosomeSize);
 			}
 		}
-	}
-	
-	private int calculateChromosomeSize() {
-		return problem.getTasks().size() * (numBitsTaskID + problem.getElements().size());
-	}
-	
-	private int minNumBits(int size) {
-		if (size <= 1) return size;
-		return (int) Math.floor(Math.log(problem.getTasks().size() - 1)/Math.log(2) + 1);
 	}
 }

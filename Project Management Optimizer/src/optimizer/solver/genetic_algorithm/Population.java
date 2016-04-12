@@ -8,11 +8,10 @@ import java.util.Random;
 import optimizer.Problem;
 import optimizer.Solution;
 
-public class Population extends Solution implements Cloneable{
+public class Population implements Cloneable{
 	
 	private List<Chromosome> chromosomes;
 	private int totalFitness;
-	
 	Random random = new Random();
 	
 	/**
@@ -21,10 +20,10 @@ public class Population extends Solution implements Cloneable{
 	 * @param populationSize
 	 * @param chromosomeLength
 	 */
-	public Population(int populationSize, int chromosomeLength){
+	public Population(int populationSize, Problem problem){
 		chromosomes = new ArrayList<Chromosome>();
 		for(int i = 0; i < populationSize; i++){
-			Chromosome oneChromosome = new Chromosome(chromosomeLength);
+			Chromosome oneChromosome = new Chromosome(problem);
 			chromosomes.add(oneChromosome);
 		}
 	}
@@ -87,7 +86,7 @@ public class Population extends Solution implements Cloneable{
 	
 	public void evaluate(Problem problem) {
 		for (int i = 0; i < this.chromosomes.size(); i++) {
-			this.chromosomes.get(i).evaluate(problem);
+			this.chromosomes.get(i).evaluate();
 		}
 		this.totalFitness = 0;
 		for (int i = 0; i < this.chromosomes.size(); i++) {
