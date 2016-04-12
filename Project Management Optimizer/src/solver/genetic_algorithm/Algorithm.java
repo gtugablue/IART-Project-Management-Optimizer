@@ -35,8 +35,8 @@ public class Algorithm {
 		p.evaluate(problem);
 		
 		selection(p);
-		// Crossover
-		// Mutation
+		// TODO Crossover
+		mutation(p);
 		
 		return p;
 	}
@@ -83,21 +83,15 @@ public class Algorithm {
 		return chromosomes;
 
 	}
-
-	/**
-	 * Mutate chromosome in the desired distance
-	 * 
-	 * @param initialCh
-	 * @param initialBit
-	 * @param finalBit
-	 * @return Chromosome
-	 */
-	private Chromosome mutation(Chromosome initialCh, int mutationBit) {
-
-		initialCh.flipGene(mutationBit + 1);
-
-		return initialCh;
-
+	
+	private void mutation(Population population) {
+		for (int i = 0; i < population.getSize() * population.getChromossomeSize(); i++)
+		{
+			double d = random.nextDouble();
+			if (d < mutationRate) {
+				population.getChromosome(i / population.getChromossomeSize()).flipGene(i % population.getChromossomeSize());
+			}
+		}
 	}
 
 }

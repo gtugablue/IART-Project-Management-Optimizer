@@ -26,8 +26,12 @@ public class Chromosome implements Comparable<Chromosome>, Cloneable {
 	}
 
 	public int evaluate(Problem problem) {
-		// TODO
-		return 0;
+		int sum = 0;
+		for (int i = 0; i < genes.length; i++)
+			if (genes[i])
+				sum++;
+		this.fitness = sum;
+		return this.fitness;
 	}
 
 	private void randomizeGenes() {
@@ -39,6 +43,10 @@ public class Chromosome implements Comparable<Chromosome>, Cloneable {
 
 	public int getFitness() {
 		return this.fitness;
+	}
+	
+	public int getSize() {
+		return this.genes.length;
 	}
 
 	@Override

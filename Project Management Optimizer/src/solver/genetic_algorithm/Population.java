@@ -45,6 +45,10 @@ public class Population implements Cloneable{
 		return chromosomes.size();
 	}
 	
+	public int getChromossomeSize() {
+		return chromosomes.get(0).getSize();
+	}
+	
 	/**
 	 * Method to find the population's chromosome with the highest fitness
 	 * @return Chromosome
