@@ -45,7 +45,8 @@ public class Population implements Cloneable{
 		return chromosomes.size();
 	}
 	
-	public int getChromossomeSize() {
+	public int getChromosomeSize() {
+		if (chromosomes.size() == 0) return 0;
 		return chromosomes.get(0).getSize();
 	}
 	

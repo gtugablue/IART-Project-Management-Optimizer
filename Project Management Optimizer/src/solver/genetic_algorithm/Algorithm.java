@@ -85,11 +85,13 @@ public class Algorithm {
 	}
 	
 	private void mutation(Population population) {
-		for (int i = 0; i < population.getSize() * population.getChromossomeSize(); i++)
+		int chromosomeSize = population.getChromosomeSize();
+		int totalBits = population.getSize() * chromosomeSize;
+		for (int i = 0; i < totalBits; i++)
 		{
 			double d = random.nextDouble();
 			if (d < mutationRate) {
-				population.getChromosome(i / population.getChromossomeSize()).flipGene(i % population.getChromossomeSize());
+				population.getChromosome(i / chromosomeSize).flipGene(i % chromosomeSize);
 			}
 		}
 	}

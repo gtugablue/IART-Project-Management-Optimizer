@@ -16,7 +16,7 @@ public class ProjectManagementOptimizer {
 		Problem problem = new Problem(tasks, elements, skills);
 		Algorithm algorithm = new Algorithm(problem, 50, 0.01, 3);
 		Population population = new Population(50, 30);
-		for (int i = 0; i < 100000; i++) {
+		for (int i = 0; i < 10000; i++) {
 			System.out.println("Max fitness: " + population.getFittest().getFitness() + "\t Total fitness: " + population.getTotalFitness());
 			population = algorithm.evolve(population);
 		}
