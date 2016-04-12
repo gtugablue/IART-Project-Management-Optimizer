@@ -1,25 +1,25 @@
-package solver.genetic_algorithm;
+package optimizer.solver.genetic_algorithm;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 
 import optimizer.Problem;
-import optimizer.solver.genetic_algorithm.Chromosome;
-import optimizer.solver.genetic_algorithm.Population;
 
 public class Algorithm {
 	private Problem problem;
 	private double mutationRate;
+	private double crossoverRate;
 	private int elitism;
 	private static Random random = new Random();
-	
-	public Algorithm(Problem problem, int populationSize, double mutationRate, int elitism) {
+	public Algorithm(Problem problem, double mutationRate, double crossoverRate, int elitism) {
 		this.problem = problem;
 		this.mutationRate = mutationRate;
+		this.crossoverRate = crossoverRate;
 		this.elitism = elitism;
-		//this.population = new Population(populationSize, (int) Math.floor(Math.log(problem.getTasks().size() - 1)/Math.log(2) + 1));
+	}
+
+	public Population randomStartingPopulation(int size) {
+		return new Population(size, problem);
 	}
 
 	public double getMutationRate() {
@@ -45,6 +45,8 @@ public class Algorithm {
 
 		return p;
 	}
+
+
 
 	private void selection(Population population) {
 		Chromosome[] selected = rouletteWheelSelection(population);
@@ -108,5 +110,4 @@ public class Algorithm {
 			}
 		}
 	}
-
 }

@@ -19,4 +19,8 @@ public class Problem {
 	public List<Task> getTasks() {
 		return this.tasks;
 	}
+	
+	public List<Element> getElements() {
+		return this.elements;
+	}
 }
