@@ -11,7 +11,7 @@ public class Population implements Cloneable{
 	
 	private List<Chromosome> chromosomes;
 	private int totalFitness;
-
+	
 	Random random = new Random();
 	
 	/**
