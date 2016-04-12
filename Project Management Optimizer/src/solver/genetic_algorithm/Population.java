@@ -10,6 +10,9 @@ import optimizer.Problem;
 public class Population implements Cloneable{
 	
 	private List<Chromosome> chromosomes;
+	private int totalFitness;
+
+	Random random = new Random();
 	
 	/**
 	 * Population Constructor
@@ -38,7 +41,7 @@ public class Population implements Cloneable{
 		return chromosomes;
 	}
 	
-	public int getPopulationSize(){
+	public int getSize(){
 		return chromosomes.size();
 	}
 	
@@ -56,10 +59,6 @@ public class Population implements Cloneable{
 			}
 		}
 		return chromosomes.get(index);
-	}
-	
-	public void sort() {
-		Collections.sort(this.chromosomes);
 	}
 	
 	public void populate(Chromosome chromosome){
@@ -80,9 +79,27 @@ public class Population implements Cloneable{
 		return rand.nextInt(chromosomes.size() + 1);
 	}
 	
-	public Population evolve(Problem problem) {
-		Population p = (Population) this.clone();
-		return p;
+	public void evaluate(Problem problem) {
+		for (int i = 0; i < this.chromosomes.size(); i++) {
+			this.chromosomes.get(i).evaluate(problem);
+		}
+		this.totalFitness = 0;
+		for (int i = 0; i < this.chromosomes.size(); i++) {
+			this.totalFitness += this.chromosomes.get(i).getFitness();
+		}
+		Collections.sort(this.chromosomes);
+	}
+	
+	public void setChromosome(int index, Chromosome c) {
+		this.chromosomes.set(index, c);
+	}
+	
+	public Chromosome getChromosome(int index) {
+		return this.chromosomes.get(index);
+	}
+	
+	public int getTotalFitness() {
+		return totalFitness;
 	}
 	
 	@Override
