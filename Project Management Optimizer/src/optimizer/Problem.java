@@ -14,4 +14,8 @@ public class Problem {
 		this.elements = elements;
 		this.skills = skills;
 	}
+	
+	public List<Task> getTasks() {
+		return this.tasks;
+	}
 }
