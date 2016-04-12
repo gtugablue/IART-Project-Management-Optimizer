@@ -1,4 +1,4 @@
-package solver.genetic_algorithm;
+package optimizer.solver.genetic_algorithm;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -8,12 +8,14 @@ import optimizer.Problem;
 public class Algorithm {
 	private Problem problem;
 	private double mutationRate;
+	private double crossoverRate;
 	private int elitism;
 	private static Random random = new Random();
 	private int numBitsTaskID;
-	public Algorithm(Problem problem, double mutationRate, int elitism) {
+	public Algorithm(Problem problem, double mutationRate, double crossoverRate, int elitism) {
 		this.problem = problem;
 		this.mutationRate = mutationRate;
+		this.crossoverRate = crossoverRate;
 		this.elitism = elitism;
 		this.numBitsTaskID = minNumBits(problem.getTasks().size());
 	}

@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import optimizer.domain.Element;
 import optimizer.domain.Skill;
 import optimizer.domain.Task;
-import solver.genetic_algorithm.Algorithm;
-import solver.genetic_algorithm.Population;
+import optimizer.solver.genetic_algorithm.Algorithm;
+import optimizer.solver.genetic_algorithm.Population;
 
 public class ProjectManagementOptimizer {
 	public static void main(String[] args) {
@@ -27,7 +27,7 @@ public class ProjectManagementOptimizer {
 		ArrayList<Element> elements = new ArrayList<Element>();
 		ArrayList<Skill> skills = new ArrayList<Skill>();
 		Problem problem = new Problem(tasks, elements, skills);
-		Algorithm algorithm = new Algorithm(problem, 0.01, 30);
+		Algorithm algorithm = new Algorithm(problem, 0.01, 0.4, 30);
 		Population population = algorithm.randomStartingPopulation(50);
 		population.evaluate(problem);
 		for (int i = 0; i < 1000; i++) {

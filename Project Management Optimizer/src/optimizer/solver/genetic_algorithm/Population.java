@@ -1,4 +1,4 @@
-package solver.genetic_algorithm;
+package optimizer.solver.genetic_algorithm;
 
 import java.util.ArrayList;
 import java.util.Collections;
