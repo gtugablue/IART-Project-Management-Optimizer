@@ -31,7 +31,7 @@
 %	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
 %----------------------------------------------------------------------------------------
 
-\documentclass[12pt, showidx]{article}
+\documentclass[12pt]{article}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -41,10 +41,47 @@
 \usepackage{graphicx}
 \usepackage{imakeidx}
 \usepackage[document]{ragged2e}
+\usepackage{listings}
+\usepackage{xcolor}
 
 \graphicspath{ {images/} }
 
 \makeindex[title = Palavras Chave]
+
+\colorlet{punct}{red!60!black}
+\definecolor{background}{HTML}{EEEEEE}
+\definecolor{delim}{RGB}{20,105,176}
+\colorlet{numb}{magenta!60!black}
+
+
+\lstdefinelanguage{json}{
+    basicstyle=\normalfont\ttfamily,
+    numbers=left,
+    numberstyle=\scriptsize,
+    stepnumber=1,
+    numbersep=8pt,
+    showstringspaces=false,
+    breaklines=true,
+    frame=lines,
+    backgroundcolor=\color{background},
+    literate=
+     *{0}{{{\color{numb}0}}}{1}
+      {1}{{{\color{numb}1}}}{1}
+      {2}{{{\color{numb}2}}}{1}
+      {3}{{{\color{numb}3}}}{1}
+      {4}{{{\color{numb}4}}}{1}
+      {5}{{{\color{numb}5}}}{1}
+      {6}{{{\color{numb}6}}}{1}
+      {7}{{{\color{numb}7}}}{1}
+      {8}{{{\color{numb}8}}}{1}
+      {9}{{{\color{numb}9}}}{1}
+      {:}{{{\color{punct}{:}}}}{1}
+      {,}{{{\color{punct}{,}}}}{1}
+      {\{}{{{\color{delim}{\{}}}}{1}
+      {\}}{{{\color{delim}{\}}}}}{1}
+      {[}{{{\color{delim}{[}}}}{1}
+      {]}{{{\color{delim}{]}}}}{1},
+}
 
 \begin{document}
 
@@ -77,13 +114,13 @@
 
 
 % If you don't want a supervisor, uncomment the two lines below and remove the section above
-\Large \emph{Authors:}\\
+\Large \emph{Authors:}\\[0.3cm] \normalsize
 Duarte \textsc{Pinto}\\[0cm] - up201304777 
 - up201304777@fe.up.pt\\[0cm]
 Filipa \textsc{Ramos}\\[0cm] - up201305378
 - up201305378@fe.up.pt\\[0cm] 
 Gustavo \textsc{Silva}\\[0cm] - up201304143
-- up201304143@fe.up.pt\\[1cm] % Your name
+- up201304143@fe.up.pt\\[2.5cm] % Your name
 
 %----------------------------------------------------------------------------------------
 %	DATE SECTION
@@ -130,14 +167,63 @@ Um projeto em análise caracteriza-se por um conjunto de tarefas (\index{Task} T
 \justify\normalsize
 O projeto foi dividido em três "packages" principais que representam os três níveis mais importantes. Um dos packages diz respeito às classes que guardam informação sobre as tarefas, os elementos e as competências. Os outros dois dizem respeito à implementação do algoritmo genético ou do arrefecimento simulado.
 
-A arquitetura pensada para o projeto passa pela implementação de três classes principais que interagem entre si próprias. A classe "Task" representa uma tarefa e guarda a sua duração. Um elemento é representado pela classe "Element" que mantém a identificação do mesmo. A classe "Skill" corresponde a uma competência. Estas ligam-se entre si por forma a que um elemento tenha vários skills e um skill tenha várias tarefas tal como é visível na figura \ref{fig:uml}.
+A arquitetura pensada para o projeto passa pela implementação de três classes principais que interagem entre si próprias. A classe "Task" representa uma tarefa e guarda a sua duração. Um elemento é representado pela classe "Element" que mantém a identificação do mesmo. A classe "Skill" corresponde a uma competência. Estas ligam-se entre si por forma a que um elemento tenha vários skills e um skill tenha várias tarefas tal como é visível na figura \ref{uml}. A relação que se pretende obter será a que liga os elementos a tarefas.
 
-\begin{figure}[h]
+\begin{figure}[t]
   \centering
     \includegraphics[width=10cm, height = 10cm]{uml.jpg}
   \caption{Diagrama de classes UML}
-  \label{fig:uml}
+  \label{uml}
 \end{figure}
+
+\newpage
+
+\subsection{Formato do input}
+
+O input será colhido de um ficheiro de formato \textit{json} e será estrutrurado conforme está representado no exemplo apresentado a seguir. Espera-se receber:
+
+\begin{itemize}
+ 	\item uma lista de \textit{skills}
+	\item uma lista de \textit{tasks} sendo que cada uma tem um \textbf{nome} e uma \textbf{competência}
+	\item uma lista de \textit{elements} sendo que cada um tem um \textbf{nome} e um array de \textbf{competências} com as respetivas \textbf{capacidades}
+\end{itemize}
+
+\newpage
+\begin{lstlisting}[language=json,firstnumber=1]
+{{
+  "skills": [
+    "Z",
+    "Y",
+    "Z"
+  ], "tasks": [
+    {
+      "name": "A",
+      "skill": 0
+    },
+    {
+      "name": "B",
+      "skill": 1
+    }],
+      "elements": [
+     {
+      "name": "Duarte Pinto",
+      "skills": [
+        [0, 0.5],
+        [2, 0.1]
+       ]},
+    {
+      "name": "Filipa Ramos",
+      "skills": [
+        [0,1]
+       ]},
+    {
+      "name": "Gustavo Silva",
+      "skills": [
+        [1, 0.5],
+        [2, 0.1]
+      ]}]}
+}
+\end{lstlisting}
 
 \subsection{Fases}
 \justify\normalsize 
