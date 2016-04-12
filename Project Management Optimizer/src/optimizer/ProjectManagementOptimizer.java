@@ -25,6 +25,10 @@ public class ProjectManagementOptimizer {
 		tasks.add(new Task("Fazer o relatorio", 100));
 		
 		ArrayList<Element> elements = new ArrayList<Element>();
+		elements.add(new Element("Duarte Pinto"));
+		elements.add(new Element("Filipa Ramos"));
+		elements.add(new Element("Gustavo Silva"));
+		
 		ArrayList<Skill> skills = new ArrayList<Skill>();
 		Problem problem = new Problem(tasks, elements, skills);
 		Algorithm algorithm = new Algorithm(problem, 0.01, 0.4, 30);
