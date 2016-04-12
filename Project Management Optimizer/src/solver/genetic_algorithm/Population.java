@@ -1,11 +1,13 @@
 package solver.genetic_algorithm;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 public class Population {
 	
-	private ArrayList<Chromosome> chromosomes;
+	private List<Chromosome> chromosomes;
 	
 	/**
 	 * Population Constructor
@@ -35,9 +37,9 @@ public class Population {
 		chromosomes = new ArrayList<Chromosome>();
 	}
 	
-	public ArrayList<Chromosome> getPopulation(){
+	/*public ArrayList<Chromosome> getPopulation(){
 		return chromosomes;
-	}
+	}*/
 	
 	public int getPopulationSize(){
 		return chromosomes.size();
@@ -61,6 +63,10 @@ public class Population {
 		
 		return chromosomes.get(index);
 		
+	}
+	
+	public void sort() {
+		Collections.sort(this.chromosomes);
 	}
 	
 	public void populate(Chromosome chromosome){

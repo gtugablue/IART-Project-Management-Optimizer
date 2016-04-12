@@ -2,21 +2,25 @@ package solver.genetic_algorithm;
 
 import java.util.ArrayList;
 
+import optimizer.Problem;
+
 public class Algorithm {
-
+	private Problem problem;
 	private double mutationRate;
-	private boolean elitism;
-
-	public Algorithm(double mutationRate, boolean elitism) {
+	private int elitism;
+	private Population population;
+	public Algorithm(Problem problem, int populationSize, double mutationRate, int elitism) {
+		this.problem = problem;
 		this.mutationRate = mutationRate;
 		this.elitism = elitism;
+		this.population = new Population(populationSize, (int) Math.floor(Math.log(problem.getTasks().size() - 1)/Math.log(2) + 1));
 	}
 
 	public double getMutationRate() {
 		return mutationRate;
 	}
 
-	public boolean getElitism() {
+	public int getElitism() {
 		return elitism;
 	}
 
@@ -26,7 +30,7 @@ public class Algorithm {
 	 * @param oldPopulation
 	 * @return Population
 	 */
-	private Population evolution(Population oldPopulation) {
+	/*private Population evolve(Population oldPopulation) {
 
 		Chromosome fittest;
 
@@ -41,7 +45,7 @@ public class Algorithm {
 
 		return newPopulation;
 
-	}
+	}*/
 
 	/**
 	 * Crosover of two chromosomes
