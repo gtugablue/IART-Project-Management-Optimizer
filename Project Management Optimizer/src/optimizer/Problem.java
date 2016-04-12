@@ -9,6 +9,7 @@ public class Problem {
 	private List<Task> tasks;
 	private List<Element> elements;
 	private List<Skill> skills;
+	
 	public Problem(List<Task> tasks, List<Element> elements, List<Skill> skills) {
 		this.tasks = tasks;
 		this.elements = elements;

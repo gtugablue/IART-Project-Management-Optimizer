@@ -12,6 +12,7 @@ public class Algorithm {
 	private double mutationRate;
 	private int elitism;
 	private static Random random = new Random();
+	
 	public Algorithm(Problem problem, int populationSize, double mutationRate, int elitism) {
 		this.problem = problem;
 		this.mutationRate = mutationRate;
@@ -42,8 +43,6 @@ public class Algorithm {
 
 		return p;
 	}
-
-
 
 	private void selection(Population population) {
 		Chromosome[] selected = rouletteWheelSelection(population);
