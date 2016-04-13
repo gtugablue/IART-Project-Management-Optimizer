@@ -55,7 +55,7 @@ public class Population implements Cloneable{
 	 * @return Chromosome
 	 */
 	public Chromosome getFittest(){
-		int maxFit = 0;
+		int maxFit = Integer.MIN_VALUE;
 		int index = 0;
 		for(int i = 0; i < chromosomes.size(); i++){
 			if(chromosomes.get(i).getFitness() > maxFit){
