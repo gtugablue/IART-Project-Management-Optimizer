@@ -15,21 +15,24 @@ public class ProjectManagementOptimizer {
 		skills.add(new Skill("Fazer algoritmos"));
 		
 		ArrayList<Task> tasks = new ArrayList<Task>();
-		tasks.add(new Task("Fazer o relatorio", 100, skills.get(0), new ArrayList<Task>()));
-		tasks.add(new Task("Resolver o problema com algoritmos geneticos", 100, skills.get(1), new ArrayList<Task>()));
-		tasks.add(new Task("Resolver o problema com arrefecimento simulado", 100, skills.get(1), new ArrayList<Task>()));
+		tasks.add(new Task("Fazer o relatorio", 70, skills.get(0), new ArrayList<Task>()));
+		tasks.add(new Task("Resolver o problema com algoritmos geneticos", 80, skills.get(1), new ArrayList<Task>()));
+		tasks.add(new Task("Resolver o problema com arrefecimento simulado", 90, skills.get(1), new ArrayList<Task>()));
 		
 		ArrayList<Element> elements = new ArrayList<Element>();
 		elements.add(new Element("Duarte Pinto"));
 		elements.add(new Element("Filipa Ramos"));
 		elements.add(new Element("Gustavo Silva"));
 		
-		elements.get(0).addSkill(skills.get(1), 1);
+		elements.get(0).addSkill(skills.get(0), 0.5f);
+		elements.get(0).addSkill(skills.get(1), 0.7f);
+		
 		elements.get(1).addSkill(skills.get(0), 1);
+		
 		elements.get(2).addSkill(skills.get(1), 1);
 		
 		Problem problem = new Problem(tasks, elements, skills);
-		Algorithm algorithm = new Algorithm(problem, 0.01, 0.4, 30);
+		Algorithm algorithm = new Algorithm(problem, 0.01, 0.4, 3);
 		Population population = algorithm.randomStartingPopulation(50);
 		population.evaluate(problem);
 		for (int i = 0; i < 10; i++) {

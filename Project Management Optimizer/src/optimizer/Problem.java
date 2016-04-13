@@ -23,4 +23,11 @@ public class Problem {
 	public List<Element> getElements() {
 		return this.elements;
 	}
+	
+	public int scoreLimit() {
+		int sum = 0;
+		for (Task task : tasks)
+			sum += task.getDuration();
+		return sum;
+	}
 }
