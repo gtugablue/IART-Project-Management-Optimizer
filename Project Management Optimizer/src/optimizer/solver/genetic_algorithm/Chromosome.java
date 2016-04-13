@@ -57,6 +57,8 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 			taskOrder.add(taskID);
 			taskElements.add(readElements(offset));
 		}
+		
+		// Add missing tasks ordered by ID
 		for (int i = 0; i < tasks.size(); i++) {
 			if (!taskOrder.contains(i)) {
 				taskOrder.add(i);
