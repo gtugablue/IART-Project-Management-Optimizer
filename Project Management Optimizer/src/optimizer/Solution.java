@@ -1,5 +1,6 @@
 package optimizer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -31,10 +32,31 @@ public class Solution {
 				if (!precedencesReady(task, currTime, taskCompletionTimes)) continue; // Precedences not ready, try a different task
 				int taskStartTime = calculateTaskStartTime(task, taskCompletionTimes, elementReadyTimes);
 				currTime = taskStartTime;
+				allocateElementsToTask(task, taskElements.get(i), currTime, taskCompletionTimes, elementReadyTimes);
 				break;
 			}
 		}
 		return score;
+	}
+	
+	private void allocateElementsToTask(Task task, List<Integer> taskElements, int currTime, HashMap<Task, Integer> taskCompletionTimes, HashMap<Element, Integer> elementReadyTimes) {
+		float totalPerformance = 0;
+		ArrayList<Element> assignedElements = new ArrayList<Element>();
+		for (int id : taskElements) {
+			if (currTime < elementReadyTimes.get(id))
+				break; // Element not ready, don't assign to task
+			float performance = problem.getElements().get(id).getSkillPerfomance(task.getSkill());
+			if (performance == 0)
+				break; // Element hasn't got the skill to do the task, don't assign
+			totalPerformance += performance;
+			assignedElements.add(problem.getElements().get(id));
+		}
+		int duration = (int)(totalPerformance * task.getDuration());
+		int endTime = currTime + duration;
+		taskCompletionTimes.put(task, endTime);
+		for (Element element : assignedElements) {
+			elementReadyTimes.put(element, endTime);
+		}
 	}
 	
 	private int calculateTaskStartTime(Task task, HashMap<Task, Integer> taskCompletionTimes, HashMap<Element, Integer> elementReadyTimes) {
