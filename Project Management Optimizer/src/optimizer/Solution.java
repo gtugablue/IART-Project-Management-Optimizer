@@ -37,7 +37,7 @@ public class Solution {
 			}
 		}
 		
-		score = findMaxTaskCompletionTime(taskCompletionTimes);
+		score = - findMaxTaskCompletionTime(taskCompletionTimes);
 		return score;
 	}
 	
@@ -60,17 +60,32 @@ public class Solution {
 			if (currTime < elementReadyTimes.get(problem.getElements().get(id)))
 				break; // Element not ready, don't assign to task
 			float performance = problem.getElements().get(id).getSkillPerfomance(task.getSkill());
-			if (performance == 0)
+			if (performance <= 0)
 				break; // Element hasn't got the skill to do the task, don't assign
 			totalPerformance += performance;
 			assignedElements.add(problem.getElements().get(id));
 		}
+		if (totalPerformance <= 0) { // Can happen if the algorithm doesn't generate an element with the skill to realize the task. If so, find any available element to be assigned to the task.
+			float performance = findFreeElementID(task, elementReadyTimes).getSkillPerfomance(task.getSkill());
+			totalPerformance += performance;
+		}
 		int duration = (int)(totalPerformance * task.getDuration());
+		duration = task.getDuration();
 		int endTime = currTime + duration;
 		taskCompletionTimes.put(task, endTime);
 		for (Element element : assignedElements) {
 			elementReadyTimes.put(element, endTime);
 		}
+	}
+	
+	private Element findFreeElementID(Task task, HashMap<Element, Integer> elementReadyTimes) {
+		Iterator<Entry<Element, Integer>> it = elementReadyTimes.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<Element, Integer> pair = (Map.Entry<Element, Integer>)it.next();
+			if (pair.getKey().getSkillPerfomance(task.getSkill()) > 0)
+				return pair.getKey();
+		}
+		return null;
 	}
 	
 	private int calculateTaskStartTime(Task task, HashMap<Task, Integer> taskCompletionTimes, HashMap<Element, Integer> elementReadyTimes) {
