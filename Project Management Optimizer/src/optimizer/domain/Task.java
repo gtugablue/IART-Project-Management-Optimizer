@@ -6,39 +6,27 @@ import java.util.List;
 public class Task {
 	private String name;
 	private int duration;
-	private List<Skill> skills;
+	private Skill skill;
 	private List<Task> precedences;
 	public Task(String name, int duration) {
 		this.name = name;
 		this.duration = duration;
-		this.skills = new ArrayList<Skill>();
+		this.skill = null;
 		this.precedences = new ArrayList<Task>();
 	}
 	
-	public Task(String name, int duration, List<Skill> skills, List<Task> precedences) {
+	public Task(String name, int duration, Skill skill, List<Task> precedences) {
 		this.name = name;
 		this.duration = duration;
-		this.skills = skills;
+		this.skill = skill;
 		this.precedences = precedences;
 	}
 	
-	public void addSkill(Skill skill) {
-		this.skills.add(skill);
+	public Skill getSkill() {
+		return this.skill;
 	}
 	
-	public boolean hasSkill(Skill skill) {
-		return this.skills.contains(skill);
-	}
-	
-	public List<Skill> getSkills() {
-		return this.skills;
-	}
-	
-	public void setSkills(List<Skill> skills) {
-		this.skills = skills;
-	}
-	
-	public List<Task> getPrecedencies() {
+	public List<Task> getPrecedences() {
 		return this.precedences;
 	}
 	

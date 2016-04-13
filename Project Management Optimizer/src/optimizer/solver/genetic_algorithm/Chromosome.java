@@ -44,8 +44,8 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 
 	@Override
 	public int evaluate() {
-		ArrayList<Task> taskOrder = new ArrayList<Task>();
-		ArrayList<List<Element>> taskElements = new ArrayList<List<Element>>();
+		taskOrder = new ArrayList<Task>();
+		taskElements = new ArrayList<List<Element>>();
 		List<Task> tasks = problem.getTasks();
 		int bitsPerTask = this.numBitsTaskID + problem.getElements().size();
 		for (int i = 0; i < tasks.size(); i++) {
@@ -55,7 +55,7 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 			if (taskID >= problem.getTasks().size()) continue; // Ignore, because ID is invalid
 			taskOrder.add(problem.getTasks().get(taskID));
 			ArrayList<Element> elements = new ArrayList<Element>();
-			for (int j = 0; j < elements.size(); j++) {
+			for (int j = 0; j < problem.getElements().size(); j++) {
 				if (this.genes[offset + this.numBitsTaskID + j])
 					elements.add(problem.getElements().get(j));
 			}

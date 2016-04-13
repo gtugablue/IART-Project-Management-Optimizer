@@ -10,26 +10,21 @@ import optimizer.solver.genetic_algorithm.Population;
 
 public class ProjectManagementOptimizer {
 	public static void main(String[] args) {
+		ArrayList<Skill> skills = new ArrayList<Skill>();
+		skills.add(new Skill("Escrever relatorios"));
+		
 		ArrayList<Task> tasks = new ArrayList<Task>();
-		tasks.add(new Task("Fazer o relatorio", 100));
-		tasks.add(new Task("Fazer o relatorio", 100));
-		tasks.add(new Task("Fazer o relatorio", 100));
-		tasks.add(new Task("Fazer o relatorio", 100));
-		tasks.add(new Task("Fazer o relatorio", 100));
-		tasks.add(new Task("Fazer o relatorio", 100));
-		tasks.add(new Task("Fazer o relatorio", 100));
-		tasks.add(new Task("Fazer o relatorio", 100));
-		tasks.add(new Task("Fazer o relatorio", 100));
-		tasks.add(new Task("Fazer o relatorio", 100));
-		tasks.add(new Task("Fazer o relatorio", 100));
-		tasks.add(new Task("Fazer o relatorio", 100));
+		tasks.add(new Task("Fazer o relatorio", 100, skills.get(0), new ArrayList<Task>()));
+		tasks.add(new Task("Fazer o relatorio", 100, skills.get(0), new ArrayList<Task>()));
+		tasks.add(new Task("Fazer o relatorio", 100, skills.get(0), new ArrayList<Task>()));
 		
 		ArrayList<Element> elements = new ArrayList<Element>();
 		elements.add(new Element("Duarte Pinto"));
 		elements.add(new Element("Filipa Ramos"));
 		elements.add(new Element("Gustavo Silva"));
 		
-		ArrayList<Skill> skills = new ArrayList<Skill>();
+		elements.get(0).addSkill(skills.get(0), 1);
+		
 		Problem problem = new Problem(tasks, elements, skills);
 		Algorithm algorithm = new Algorithm(problem, 0.01, 0.4, 30);
 		Population population = algorithm.randomStartingPopulation(50);
