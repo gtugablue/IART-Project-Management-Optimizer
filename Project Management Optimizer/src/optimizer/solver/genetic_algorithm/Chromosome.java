@@ -44,8 +44,8 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 
 	@Override
 	public int evaluate() {
-		taskOrder = new ArrayList<Task>();
-		taskElements = new ArrayList<List<Element>>();
+		taskOrder = new ArrayList<Integer>();
+		taskElements = new ArrayList<List<Integer>>();
 		List<Task> tasks = problem.getTasks();
 		int bitsPerTask = this.numBitsTaskID + problem.getElements().size();
 		for (int i = 0; i < tasks.size(); i++) {
@@ -53,15 +53,26 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 			boolean[] bTaskID = Arrays.copyOfRange(this.genes, offset, offset + this.numBitsTaskID);
 			int taskID = booleanArrToInt(bTaskID);
 			if (taskID >= problem.getTasks().size()) continue; // Ignore, because ID is invalid
-			taskOrder.add(problem.getTasks().get(taskID));
-			ArrayList<Element> elements = new ArrayList<Element>();
-			for (int j = 0; j < problem.getElements().size(); j++) {
-				if (this.genes[offset + this.numBitsTaskID + j])
-					elements.add(problem.getElements().get(j));
+			if (taskOrder.contains(taskID)) continue; // Ignore, because the task is already in the list
+			taskOrder.add(taskID);
+			taskElements.add(readElements(offset));
+		}
+		for (int i = 0; i < tasks.size(); i++) {
+			if (!taskOrder.contains(i)) {
+				taskOrder.add(i);
+				taskElements.add(readElements(i * bitsPerTask));
 			}
-			taskElements.add(elements);
 		}
 		return super.evaluate();
+	}
+	
+	private List<Integer> readElements(int offset) {
+		ArrayList<Integer> elements = new ArrayList<Integer>();
+		for (int j = 0; j < problem.getElements().size(); j++) {
+			if (this.genes[offset + this.numBitsTaskID + j])
+				elements.add(j);
+		}
+		return elements;
 	}
 
 	private int booleanArrToInt(boolean[] booleans) {
