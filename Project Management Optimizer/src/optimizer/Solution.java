@@ -28,7 +28,7 @@ public class Solution {
 		while (!allTasksDone(taskCompletionTimes)) {
 			for (int i = 0; i < taskOrder.size(); i++) {
 				Task task = problem.getTasks().get(i);
-				if (taskCompletionTimes.get(task).equals(Integer.MAX_VALUE)) continue; // Task already done, skip it
+				if (!taskCompletionTimes.get(task).equals(Integer.MAX_VALUE)) continue; // Task already done, skip it
 				if (!precedencesReady(task, currTime, taskCompletionTimes)) continue; // Precedences not ready, try a different task
 				int taskStartTime = calculateTaskStartTime(task, taskCompletionTimes, elementReadyTimes);
 				currTime = taskStartTime;
@@ -43,7 +43,7 @@ public class Solution {
 		float totalPerformance = 0;
 		ArrayList<Element> assignedElements = new ArrayList<Element>();
 		for (int id : taskElements) {
-			if (currTime < elementReadyTimes.get(id))
+			if (currTime < elementReadyTimes.get(problem.getElements().get(id)))
 				break; // Element not ready, don't assign to task
 			float performance = problem.getElements().get(id).getSkillPerfomance(task.getSkill());
 			if (performance == 0)
