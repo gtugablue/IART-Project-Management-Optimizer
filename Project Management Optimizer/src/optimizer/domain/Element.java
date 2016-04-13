@@ -5,24 +5,24 @@ import java.util.Map;
 
 public class Element {
 	private String name;
-	private Map<Skill, Integer> skills;
+	private Map<Skill, Float> skills;
 	
 	public Element(String name) {
 		this.name = name;
-		this.skills = new HashMap<Skill, Integer>();
+		this.skills = new HashMap<Skill, Float>();
 	}
 	
-	public Element(String name, Map<Skill, Integer> skills) {
+	public Element(String name, Map<Skill, Float> skills) {
 		this.name = name;
 		this.skills = skills;
 	}
 	
-	public void addSkill(Skill skill, int performance) {
+	public void addSkill(Skill skill, float performance) {
 		this.skills.put(skill, performance);
 	}
 	
-	public int getSkillPerfomance(Skill skill) {
-		Integer performance = this.skills.get(skill);
+	public float getSkillPerfomance(Skill skill) {
+		Float performance = this.skills.get(skill);
 		if (performance == null) return -1;
 		return performance;
 	}

@@ -29,7 +29,7 @@ public class ProjectManagementOptimizer {
 		Algorithm algorithm = new Algorithm(problem, 0.01, 0.4, 30);
 		Population population = algorithm.randomStartingPopulation(50);
 		population.evaluate(problem);
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 1000; i++) {
 			System.out.print("#" + i + "\t Max fitness: " + population.getFittest().getFitness() + "\t Total fitness: " + population.getTotalFitness() + " - ");
 			for (int j = 0; j < population.getSize(); j++) {
 				System.out.print(population.getChromosome(j).getFitness() + " ");

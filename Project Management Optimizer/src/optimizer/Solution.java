@@ -36,7 +36,21 @@ public class Solution {
 				break;
 			}
 		}
+		
+		score = findMaxTaskCompletionTime(taskCompletionTimes);
 		return score;
+	}
+	
+	private int findMaxTaskCompletionTime(HashMap<Task, Integer> taskCompletionTimes) {
+		int max = 0;
+		Iterator<Entry<Task, Integer>> it = taskCompletionTimes.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<Task, Integer> pair = (Map.Entry<Task, Integer>)it.next();
+			int value = pair.getValue();
+			if (value > max)
+				max = value;
+		}
+		return max;
 	}
 	
 	private void allocateElementsToTask(Task task, List<Integer> taskElements, int currTime, HashMap<Task, Integer> taskCompletionTimes, HashMap<Element, Integer> elementReadyTimes) {
