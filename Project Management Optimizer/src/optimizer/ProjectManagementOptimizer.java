@@ -9,6 +9,7 @@ import optimizer.solver.genetic_algorithm.Algorithm;
 import optimizer.solver.genetic_algorithm.Population;
 
 public class ProjectManagementOptimizer {
+	
 	public static void main(String[] args) {
 		ArrayList<Skill> skills = new ArrayList<Skill>();
 		skills.add(new Skill("Escrever relatorios"));
@@ -43,5 +44,9 @@ public class ProjectManagementOptimizer {
 			System.out.println();
 			population = algorithm.evolve(population);
 		}
+		
+		jsonParser parser = new jsonParser("inputExample.json");
+		parser.parser();
+		
 	}
 }
