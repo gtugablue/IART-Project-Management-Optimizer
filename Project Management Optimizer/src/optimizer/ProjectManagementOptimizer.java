@@ -20,7 +20,7 @@ public class ProjectManagementOptimizer {
 
 		Problem problem = new Problem(tasks, elements, skills);
 		Algorithm algorithm = new Algorithm(problem, 0.02, 0.4, 3);
-		Population population = algorithm.randomStartingPopulation(10);
+		Population population = algorithm.randomStartingPopulation(30);
 		population.evaluate(problem);
 		for (int i = 0; i < 100; i++) {
 			System.out.print("#" + (i + 1) + "\t Best fitness: " + population.getFittest().getFitness() + "/" + problem.scoreLimit() + "\t Avg. fitness: " + population.getTotalFitness() / population.getSize() + " - ");
@@ -51,7 +51,7 @@ public class ProjectManagementOptimizer {
 		precedences.add(tasks.get(0));
 		tasks.add(new Task("Resolver o problema com algoritmos geneticos", 80, skills.get(1), precedences));
 		tasks.add(new Task("Resolver o problema com arrefecimento simulado", 90, skills.get(1), new ArrayList<Task>()));*/
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 100; i++) {
 			ArrayList<Task> precedences = new ArrayList<Task>();
 			if (tasks.size() > 3) {
 				for (int j = 0; j < r.nextInt(3); j++) {
