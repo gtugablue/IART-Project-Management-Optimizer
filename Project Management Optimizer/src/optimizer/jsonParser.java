@@ -16,14 +16,17 @@ import optimizer.domain.Task;
 public class jsonParser {
 
 	String filepath;
+	ProjectManagementOptimizer otimizer;
 
 	/**
 	 * json parser constructor
 	 * 
 	 * @param filepath
+	 * @param otimizer
 	 */
-	public jsonParser(String filepath) {
+	public jsonParser(String filepath, ProjectManagementOptimizer otimizer) {
 		this.filepath = filepath;
+		this.otimizer = otimizer;
 	}
 
 	/**
@@ -44,6 +47,7 @@ public class jsonParser {
 			Iterator<String> skillsIterator = skillsArray.iterator();
 			while (skillsIterator.hasNext()) {
 				Skill oneSkill = new Skill(skillsIterator.next());
+				otimizer.skills.add(oneSkill);
 				System.out.println("Skill: " + oneSkill.getName());
 			}
 
@@ -60,8 +64,7 @@ public class jsonParser {
 				Skill oneSkill = new Skill(String.valueOf(skill));
 
 				Task newTask = new Task(name, 0, oneSkill, null);
-
-				System.out.println(newTask.getName() + " - " + newTask.getSkill().getName());
+				otimizer.tasks.add(newTask);
 
 			}
 
@@ -73,23 +76,25 @@ public class jsonParser {
 
 				String element = (String) oneElement.get("name");
 				System.out.println(element);
-				
+
 				Element el = new Element(element);
-				
+
 				JSONArray Elskills = (JSONArray) oneElement.get("skills");
-				
-				for(int j = 0; j < Elskills.size(); j++){
+
+				for (int j = 0; j < Elskills.size(); j++) {
 					JSONArray oneSkill = (JSONArray) Elskills.get(j);
-					
+
 					long elementSkill = (long) oneSkill.get(0);
 					System.out.println(elementSkill);
 					Skill elSkill = new Skill(String.valueOf(elementSkill));
 					double performance = (double) oneSkill.get(1);
 					System.out.println(performance);
-					
-					el.addSkill(elSkill, (float)performance);
-					
+
+					el.addSkill(elSkill, (float) performance);
+
 				}
+				
+				otimizer.elements.add(el);
 
 			}
 
