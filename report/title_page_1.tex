@@ -43,7 +43,6 @@
 \usepackage[document]{ragged2e}
 \usepackage{listings}
 \usepackage{xcolor}
-\usepackage[margin=0.8in]{geometry}
 \usepackage{amsmath}
 
 \graphicspath{ {images/} }
@@ -85,7 +84,31 @@
       {]}{{{\color{delim}{]}}}}{1},
 }
 
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
 \begin{document}
+
+
+
 
 \begin{titlepage}
 
@@ -100,15 +123,15 @@
 \includegraphics{feup.jpg}
 
 \textsc{\large Inteligência Artificial}\\[0.5cm] % Major heading such as course name
-\textsc{\large 3º ano do Mestrado Integrado em Engenharia Informática e Computação}\\[0.8cm] % Minor heading such as course title
+\textsc{\large 3º ano do Mestrado Integrado em Engenharia Informática e Computação}\\[0.5cm] % Minor heading such as course title
 
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION
 %----------------------------------------------------------------------------------------
 
 \HRule \\[0.4cm]
-{ \huge \bfseries Otimização da gestão de projetos}\\[0.6cm] % Title of your document
-\HRule \\[2cm]
+{ \huge \bfseries Otimização da gestão de projetos}\\[0.2cm] % Title of your document
+\HRule \\[1cm]
  
 %----------------------------------------------------------------------------------------
 %	AUTHOR SECTION
@@ -116,13 +139,13 @@
 
 
 % If you don't want a supervisor, uncomment the two lines below and remove the section above
-\Large \emph{Authors:}\\[0.5cm] \normalsize
+\Large \emph{Authors:}\\[0.3cm] \normalsize
 Duarte \textsc{Pinto}\\[0cm] - up201304777 
 - up201304777@fe.up.pt\\[0cm]
 Filipa \textsc{Ramos}\\[0cm] - up201305378
 - up201305378@fe.up.pt\\[0cm] 
 Gustavo \textsc{Silva}\\[0cm] - up201304143
-- up201304143@fe.up.pt\\[5cm] % Your name
+- up201304143@fe.up.pt\\[2.5cm] % Your name
 
 %----------------------------------------------------------------------------------------
 %	DATE SECTION
@@ -163,7 +186,7 @@ Espera-se que surjam dificuldades na implementação prática dos algoritmos est
 \justify\normalsize
 O sistema tem por objetivo otimizar a atribuição de membros por tarefas num dado projeto. Os dados do mesmo são introduzidos por input através de um ficheiro.
 
-Um projeto em análise caracteriza-se por um conjunto de tarefas (\index{Task} Task) a cumprir, tendo estas um nome (plor motivos de identificação) e uma duração. Existe ainda um conjunto de elementos (\index{Element} Element) que podem ser atribuídos a essas mesmas tarefas. Um elemento é identificado por um nome e tem uma lista de competências (\index{Skill} Skill) avaliadas em função da sua capacidade. Por exemplo, o elemento "joão" tem competências na área da informática a um nível 6 e na área da economia com nível 10.
+Um projeto em análise caracteriza-se por um conjunto de tarefas (\index{Task} Task) a cumprir, tendo estas um nome (por motivos de identificação) e uma duração. Existe ainda um conjunto de elementos (\index{Element} Element) que podem ser atribuídos a essas mesmas tarefas. Um elemento é identificado por um nome e tem uma lista de competências (\index{Skill} Skill) avaliadas em função da sua capacidade. Por exemplo, o elemento "joão" tem competências na área da informática a um nível 6 e na área da economia com nível 10.
 
 \subsection{Aquitetura}
 \justify\normalsize
@@ -171,9 +194,9 @@ O projeto foi dividido em três "packages" principais que representam os três n
 
 A arquitetura pensada para o projeto passa pela implementação de três classes principais que interagem entre si próprias. A classe "Task" representa uma tarefa e guarda a sua duração. Um elemento é representado pela classe "Element" que mantém a identificação do mesmo. A classe "Skill" corresponde a uma competência. Estas ligam-se entre si por forma a que um elemento tenha vários skills e um skill tenha várias tarefas tal como é visível na figura \ref{uml}. A relação que se pretende obter será a que liga os elementos a tarefas.
 
-\begin{figure}[h!]
+\begin{figure}[t]
   \centering
-    \includegraphics[width=10.5cm, height = 9cm]{uml.jpg}
+    \includegraphics[width=10cm, height = 10cm]{uml.jpg}
   \caption{Diagrama de classes UML}
   \label{uml}
 \end{figure}
@@ -190,18 +213,40 @@ O input será colhido de um ficheiro de formato \textit{json} e será estrutrura
 	\item uma lista de \textit{elements} sendo que cada um tem um \textbf{nome} e um array de \textbf{competências} com as respetivas \textbf{capacidades}
 \end{itemize}
 
+\newpage
 \begin{lstlisting}[language=json,firstnumber=1]
-{ 
-  "skills": 
-      [ "Z", "Y" ], 
-   "tasks": [
-     { "name": "A", "skill": 0},
-     { "name": "B",  "skill": 1}],
-   "elements": [
-      { "name": "Duarte Pinto", "skills": [ [0, 0.5], [2, 0.1] ]},
-      { "name": "Filipa Ramos", "skills": [ [0,1.0]]},
-      { "name": "Gustavo Silva", "skills": [ [1, 0.5],  [2, 0.1] ]}
-     ]
+{{
+  "skills": [
+    "Z",
+    "Y",
+    "Z"
+  ], "tasks": [
+    {
+      "name": "A",
+      "skill": 0
+    },
+    {
+      "name": "B",
+      "skill": 1
+    }],
+      "elements": [
+     {
+      "name": "Duarte Pinto",
+      "skills": [
+        [0, 0.5],
+        [2, 0.1]
+       ]},
+    {
+      "name": "Filipa Ramos",
+      "skills": [
+        [0,1]
+       ]},
+    {
+      "name": "Gustavo Silva",
+      "skills": [
+        [1, 0.5],
+        [2, 0.1]
+      ]}]}
 }
 \end{lstlisting}
 
@@ -220,7 +265,47 @@ Explicar o algoritmo usado:
 
 \subsection{Arrefecimento Simulado}
 \justify\normalsize
-Explicar o algoritmo usado.
+
+Quando adaptado de maneira eficiente o algorítmo de Arrefecimento Simulado é característico pela facilidade de implementação e pela rapidez de convergência do resultado.
+
+Para este projecto optamos por representar a nossa solução através de uma lista de tasks.
+
+\subsubsection{Representação}
+A representação da solução é importante pois tem que permitir a geração rápida do próximo estado e rápido calculo do 	$\Delta$E.
+
+Para tal colocamos as tarefas numa lista ordenada de tasks onde cada task aparece numa posição depois de todos os seus antecessores e antes dos seus sucessores e onde as tasks mais pequenas têm prioridade(aparecem primeiro na lista) sobre as tasks mais pesadas.
+
+\subsubsection{Atribuição dos tempos iniciais}
+Para atribuir os tempos iniciais de cada tarefa executamos um ciclo onde cada iteração representa a passagem de um \textit{sprint}, de duração é varíavel. Começamos com \textit{i} = 0, percorremos a lista e tentamos atribuir o tempo inicial à task \textit{j}. Se as tasks antecessoras de \textit{j} já tiverem terminado e houverem pessoas com as \textit{skills} para executar a tarefa, então o \textit{j}$_{start\_time}$ = \textit{i}. Caso contrário, incrementamos \textit{i} e voltamos a verificar se é possível fazer a atribuição de tempo inicial à task. Nenhuma task pode ter o seu tempo inicial atribuído que a task anterior na lista ordenada também tenha o tempo inicial atribuído. Ao atribuir o tempo inicial a uma task é automaticamente calculado quando é que esta irá terminar, com base no número de pessoas com as skills necessárias para completar a task disponíveis. Essas pessoas ficam então alocadas à task e não podem ser utilizadas noutras tasks enquanto a task não tiver terminado.
+
+\begin{lstlisting}[frame=single, language=java,numbers=left,numberfirstline=true]  
+int i = 0;
+for(Task j : tasks){
+	while(true){
+		if(j.assigned)
+			break;
+		if(j.predecessorsFinished() && workers.hasAvailableResources(j)){
+			workers.assign(j,i);		//Assigns resources(people) to the task j from i until the end of the task
+			j.assignStartTime(i);
+		}else{
+			i++;
+		}
+	}
+	
+}
+\end{lstlisting}
+
+\subsubsection{Geração do próximo Estado}
+
+O próximo estado é gerado através de uma lista ordenada víavel da seguinta maneira:
+\begin{enumerate}
+\item É escolhido uma task aleatória e são calculadas as posições da task antecessora mais recente e da task sucessora mais próxima.
+\item É atribuída à task uma posição aleatória no intervalo das duas posições anteriormente calculadas.
+\item Se a atribuição da nova posição for válida, é efectuado um deslocamento de todas as tasks que se encontram entre a antiga e a nova posição.
+\end{enumerate}
+
+Depois de efectuados estes passos obtém-se a uma lista que representará o próximo estado. 
+
 
 \section{Trabalho Realizado}
 \justify\normalsize
@@ -228,7 +313,7 @@ Incluir trechos do código já implementado.
 
 \section{Testes}
 \justify\normalsize
-Por forma a garantir a integridade do sistema e tendo em vista a obtenção da melhor solução possível pretende-se aplicar testes intensivos e promenorizados forçando situações complexas para visionar a resposta do programa. Espera-se criar projetos com 30, 60 e 120 tarefas e, sobre estes, será feita a análise comparativa para observar o comportamento do sistema em situações de diferente complexidade. Outras opções analisadas serão projetos com mais tarefas do que membros e vice-versa. Isto permite uma melhor apreensão da extensão da solução criada. Para além disto, o sistema será observado em situações de projetos com membros com listas de competências iguais ou diferentes. Finalmente, serão esmiuçadas situações com projetos apenas com tarefas sem precedências ou simplesmente tarefas com precedências.
+Explicar os testes planeados.
 
 \section{Conclusões}
 \justify\normalsize
