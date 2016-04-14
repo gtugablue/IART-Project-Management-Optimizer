@@ -43,8 +43,8 @@
 \usepackage[document]{ragged2e}
 \usepackage{listings}
 \usepackage{xcolor}
-\usepackage[margin=0.8in]{geometry}
 \usepackage{amsmath}
+\usepackage[margin=0.8in]{geometry}
 
 \graphicspath{ {images/} }
 
@@ -85,7 +85,31 @@
       {]}{{{\color{delim}{]}}}}{1},
 }
 
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
 \begin{document}
+
+
+
 
 \begin{titlepage}
 
@@ -100,15 +124,15 @@
 \includegraphics{feup.jpg}
 
 \textsc{\large Inteligência Artificial}\\[0.5cm] % Major heading such as course name
-\textsc{\large 3º ano do Mestrado Integrado em Engenharia Informática e Computação}\\[0.8cm] % Minor heading such as course title
+\textsc{\large 3º ano do Mestrado Integrado em Engenharia Informática e Computação}\\[0.5cm] % Minor heading such as course title
 
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION
 %----------------------------------------------------------------------------------------
 
 \HRule \\[0.4cm]
-{ \huge \bfseries Otimização da gestão de projetos}\\[0.6cm] % Title of your document
-\HRule \\[2cm]
+{ \huge \bfseries Otimização da gestão de projetos}\\[0.2cm] % Title of your document
+\HRule \\[1cm]
  
 %----------------------------------------------------------------------------------------
 %	AUTHOR SECTION
@@ -116,13 +140,13 @@
 
 
 % If you don't want a supervisor, uncomment the two lines below and remove the section above
-\Large \emph{Authors:}\\[0.5cm] \normalsize
+\Large \emph{Authors:}\\[0.3cm] \normalsize
 Duarte \textsc{Pinto}\\[0cm] - up201304777 
 - up201304777@fe.up.pt\\[0cm]
 Filipa \textsc{Ramos}\\[0cm] - up201305378
 - up201305378@fe.up.pt\\[0cm] 
 Gustavo \textsc{Silva}\\[0cm] - up201304143
-- up201304143@fe.up.pt\\[5cm] % Your name
+- up201304143@fe.up.pt\\[2.5cm] % Your name
 
 %----------------------------------------------------------------------------------------
 %	DATE SECTION
@@ -208,7 +232,6 @@ O input será colhido de um ficheiro de formato \textit{json} e será estrutrura
 \subsection{Fases}
 \justify\normalsize 
 O projeto será dividido em fases de trabalho. A inicial passa pelo desenvolvimento da arquitetura supracitada. Seguidamente, proceder-se-á implementação dos \index{Algortimos Genéticos} algoritmos genéticos. Finalmente, será desenvolvido o arrefecimento simulado. As fases abordadas até ao presente relatório foram as duas primeiras. A arquitetura explicitada pelo diagrama de classes uml já foi implementada e a obtenção de solução por algoritmos genéticos encontra-se numa fase avançada.
-
 \subsection{Algoritmos Genéticos}
 \justify\normalsize
 Explicar o algoritmo usado:
@@ -220,7 +243,38 @@ Explicar o algoritmo usado:
 
 \subsection{Arrefecimento Simulado}
 \justify\normalsize
-Explicar o algoritmo usado.
+
+Quando adaptado de maneira eficiente o algorítmo de Arrefecimento Simulado é característico pela facilidade de implementação e pela rapidez de convergência do resultado.
+
+Para este projecto optamos por representar a nossa solução através de uma lista de tasks.
+
+\subsubsection{Representação}
+A representação da solução é importante pois tem que permitir a geração rápida do próximo estado e rápido calculo do 	$\Delta$E.
+
+Para tal colocamos as tarefas numa lista ordenada de tasks onde cada task aparece numa posição depois de todos os seus antecessores e antes dos seus sucessores e onde as tasks mais pequenas têm prioridade(aparecem primeiro na lista) sobre as tasks mais pesadas.
+
+\subsubsection{Atribuição dos tempos iniciais}
+Para atribuir os tempos iniciais de cada tarefa executamos um ciclo onde cada iteração representa a passagem de um \textit{sprint}, de duração é varíavel. Em cada iteração, \textit{i}, percorremos a lista e tentamos atribuir o tempo inicial à task \textit{j}. Se as tasks antecessoras de \textit{j} já tiverem terminado e houverem pessoas com as \textit{skills} para executar a tarefa, então o \textit{j}$_{start\_time}$ = \textit{i}. Caso contrário, não atribui tempo inicial e continua.
+
+\begin{lstlisting}[frame=single, language=java,numbers=left,numberfirstline=true]  
+int i = 0;
+while(!allTimesAssigned){ 
+	for(Task j : tasks){
+		if(j.assigned)
+			continue;
+		if(j.predecessorsFinished() && workers.hasAvailableResources(j)){
+			j.startTime = i;
+			workers.assign(j,i);		//Assigns resources(people) to the task j from i until the end of the task
+		}else{
+			continue;
+		}
+	}
+	i++;
+}
+end;
+\end{lstlisting}
+
+
 
 \section{Trabalho Realizado}
 \justify\normalsize
