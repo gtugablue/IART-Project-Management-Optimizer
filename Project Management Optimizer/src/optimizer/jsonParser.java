@@ -1,13 +1,10 @@
 package optimizer;
 
 import java.io.FileReader;
-import java.util.Iterator;
-import java.util.Scanner;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.*;
 
 import optimizer.domain.Element;
 import optimizer.domain.Skill;
@@ -44,9 +41,9 @@ public class jsonParser {
 
 			JSONArray skillsArray = (JSONArray) jsonObject.get("skills");
 
-			Iterator<String> skillsIterator = skillsArray.iterator();
-			while (skillsIterator.hasNext()) {
-				Skill oneSkill = new Skill(skillsIterator.next());
+			for (int l = 0; l < skillsArray.size(); l++) {
+				String skillName = (String) skillsArray.get(l);
+				Skill oneSkill = new Skill(skillName);
 				otimizer.skills.add(oneSkill);
 				System.out.println("Skill: " + oneSkill.getName());
 			}
