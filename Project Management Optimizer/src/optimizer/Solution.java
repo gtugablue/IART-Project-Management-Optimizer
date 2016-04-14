@@ -24,13 +24,13 @@ public class Solution {
 		HashMap<Element, Integer> elementReadyTimes = new HashMap<Element, Integer>();
 		createTimes(taskCompletionTimes, elementReadyTimes);
 		int currTime = 0;
-
 		while (!allTasksDone(taskCompletionTimes)) {
 			for (int i = 0; i < taskOrder.size(); i++) {
 				Task task = problem.getTasks().get(i);
 				if (!taskCompletionTimes.get(task).equals(Integer.MAX_VALUE)) continue; // Task already done, skip it
-				if (!precedencesReady(task, currTime, taskCompletionTimes)) continue; // Precedences not ready, try a different task
+				//if (!precedencesReady(task, currTime, taskCompletionTimes)) continue; // Precedences not ready, try a different task
 				int taskStartTime = calculateTaskStartTime(task, taskCompletionTimes, elementReadyTimes);
+				if (taskStartTime == Integer.MAX_VALUE) continue;
 				currTime = taskStartTime;
 				allocateElementsToTask(task, taskElements.get(i), currTime, taskCompletionTimes, elementReadyTimes);
 				break;
@@ -92,7 +92,6 @@ public class Solution {
 		int precedencesReadyTime = 0;
 		if (task.getPrecedences().size() >= 1)
 		{
-			precedencesReadyTime = Integer.MAX_VALUE;
 			for (Task precedence : task.getPrecedences()) {
 				int time = taskCompletionTimes.get(precedence);
 				if (time > precedencesReadyTime)
@@ -137,8 +136,9 @@ public class Solution {
 	private boolean precedencesReady(Task task, int currTime, HashMap<Task, Integer> taskCompletionTimes) {
 		List<Task> precedences = task.getPrecedences();
 		for (Task precedence : precedences) {
-			if (currTime < taskCompletionTimes.get(precedence))
+			if (currTime < taskCompletionTimes.get(precedence)) {
 				return false;
+			}
 		}
 		return true;
 	}

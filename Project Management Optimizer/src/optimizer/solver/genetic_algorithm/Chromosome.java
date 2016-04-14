@@ -22,6 +22,7 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 
 	public Chromosome(Problem problem, boolean[] genes) {
 		super(problem);
+		this.numBitsTaskID = minNumBits(problem.getTasks().size());
 		this.genes = genes;
 	}
 
