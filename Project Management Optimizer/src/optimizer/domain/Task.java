@@ -23,6 +23,17 @@ public class Task {
 		this.precedences = precedences;
 	}
 	
+	public Task(String name, int duration, Skill skill){
+		this.name = name;
+		this.duration = duration;
+		this.skill = skill;
+		this.precedences = new ArrayList<Task>();
+	}
+	
+	public void addPrecedence(Task task){
+		precedences.add(task);
+	}
+	
 	public Skill getSkill() {
 		return this.skill;
 	}

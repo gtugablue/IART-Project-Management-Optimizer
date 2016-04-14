@@ -39,7 +39,6 @@
 \usepackage{parselines}
 \usepackage[portuguese]{babel}
 \usepackage{graphicx}
-\usepackage{imakeidx}
 \usepackage[document]{ragged2e}
 \usepackage{listings}
 \usepackage{xcolor}
@@ -47,8 +46,6 @@
 \usepackage{amsmath}
 
 \graphicspath{ {images/} }
-
-\makeindex[title = Palavras Chave]
 
 \colorlet{punct}{red!60!black}
 \definecolor{background}{HTML}{EEEEEE}
@@ -187,7 +184,7 @@ Espera-se que surjam dificuldades na implementação prática dos algoritmos est
 \justify\normalsize
 O sistema tem por objetivo otimizar a atribuição de membros por tarefas num dado projeto. Os dados do mesmo são introduzidos por input através de um ficheiro.
 
-Um projeto em análise caracteriza-se por um conjunto de tarefas (\index{Task} Task) a cumprir, tendo estas um nome (plor motivos de identificação) e uma duração. Existe ainda um conjunto de elementos (\index{Element} Element) que podem ser atribuídos a essas mesmas tarefas. Um elemento é identificado por um nome e tem uma lista de competências (\index{Skill} Skill) avaliadas em função da sua capacidade. Por exemplo, o elemento "joão" tem competências na área da informática a um nível 6 e na área da economia com nível 10.
+Um projeto em análise caracteriza-se por um conjunto de tarefas (Task) a cumprir, tendo estas um nome (plor motivos de identificação) e uma duração. Existe ainda um conjunto de elementos (Element) que podem ser atribuídos a essas mesmas tarefas. Um elemento é identificado por um nome e tem uma lista de competências (Skill) avaliadas em função da sua capacidade. Por exemplo, o elemento "joão" tem competências na área da informática a um nível 6 e na área da economia com nível 10.
 
 \subsection{Aquitetura}
 \justify\normalsize
@@ -214,25 +211,24 @@ O input será colhido de um ficheiro de formato \textit{json} e será estrutrura
 	\item uma lista de \textit{elements} sendo que cada um tem um \textbf{nome} e um array de \textbf{competências} com as respetivas \textbf{capacidades}
 \end{itemize}
 
-\newpage
 \begin{lstlisting}[language=json,firstnumber=1]
-{
-   "skills":
-       [ "Z", "Y" ], 
-    "tasks": [	
-      { "name": "A", "skill": 0},
-      { "name": "B",  "skill": 1}],
-    "elements": [
-       { "name": "Duarte Pinto", "skills": [ [0, 0.5], [2, 0.1] ]},
-       { "name": "Filipa Ramos", "skills": [ [0,1.0]]},
-       { "name": "Gustavo Silva", "skills": [ [1, 0.5],  [2, 0.1] ]}
-      ]
+{ 
+  "skills": 
+      [ "Z", "Y" ], 
+   "tasks": [
+     { "name": "A", "skill": 0},
+     { "name": "B",  "skill": 1}],
+   "elements": [
+      { "name": "Duarte Pinto", "skills": [ [0, 0.5], [2, 0.1] ]},
+      { "name": "Filipa Ramos", "skills": [ [0,1.0]]},
+      { "name": "Gustavo Silva", "skills": [ [1, 0.5],  [2, 0.1] ]}
+     ]
 }
 \end{lstlisting}
 
 \subsection{Fases}
 \justify\normalsize 
-O projeto será dividido em fases de trabalho. A inicial passa pelo desenvolvimento da arquitetura supracitada. Seguidamente, proceder-se-á implementação dos \index{Algortimos Genéticos} algoritmos genéticos. Finalmente, será desenvolvido o arrefecimento simulado. As fases abordadas até ao presente relatório foram as duas primeiras. A arquitetura explicitada pelo diagrama de classes uml já foi implementada e a obtenção de solução por algoritmos genéticos encontra-se numa fase avançada.
+O projeto será dividido em fases de trabalho. A inicial passa pelo desenvolvimento da arquitetura supracitada. Seguidamente, proceder-se-á implementação dos algoritmos genéticos. Finalmente, será desenvolvido o arrefecimento simulado. As fases abordadas até ao presente relatório foram as duas primeiras. A arquitetura explicitada pelo diagrama de classes uml já foi implementada e a obtenção de solução por algoritmos genéticos encontra-se numa fase avançada.
 
 \subsection{Algoritmos Genéticos}
 \justify\normalsize
@@ -270,8 +266,7 @@ for(Task j : tasks){
 		}else{
 			i++;
 		}
-	}
-	
+	}	
 }
 \end{lstlisting}
 
@@ -295,11 +290,10 @@ Incluir trechos do código já implementado.
 \justify\normalsize
 Por forma a garantir a integridade do sistema e tendo em vista a obtenção da melhor solução possível pretende-se aplicar testes intensivos e promenorizados forçando situações complexas para visionar a resposta do programa. Espera-se criar projetos com 30, 60 e 120 tarefas e, sobre estes, será feita a análise comparativa para observar o comportamento do sistema em situações de diferente complexidade. Outras opções analisadas serão projetos com mais tarefas do que membros e vice-versa. Isto permite uma melhor apreensão da extensão da solução criada. Para além disto, o sistema será observado em situações de projetos com membros com listas de competências iguais ou diferentes. Finalmente, serão esmiuçadas situações com projetos apenas com tarefas sem precedências ou simplesmente tarefas com precedências.
 
+
 \section{Conclusões}
 \justify\normalsize
 Conclusões retiradas.
-
-\printindex
 
 \end{titlepage}
 \end{document}

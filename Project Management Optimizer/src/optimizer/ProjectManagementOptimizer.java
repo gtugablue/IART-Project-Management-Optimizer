@@ -27,6 +27,7 @@ public class ProjectManagementOptimizer {
 		Algorithm algorithm = new Algorithm(problem, 0.01, 0.4, 3);
 		Population population = algorithm.randomStartingPopulation(50);
 		population.evaluate(problem);
+		
 		for (int i = 0; i < 100; i++) {
 			System.out.print("#" + (i + 1) + "\t Best fitness: " + population.getFittest().getFitness() + "/" + problem.scoreLimit() + "\t Avg. fitness: " + population.getTotalFitness() / population.getSize() + " - ");
 			for (int j = 0; j < population.getSize(); j++) {

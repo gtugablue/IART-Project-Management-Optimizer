@@ -1,21 +1,30 @@
 {
   "skills": [
-    "Escrever relatórios",
-    "Y",
-    "Z"
+    "S1",
+    "S2",
+    "S3"
   ],
   "tasks": [
     {
-      "name": "A",
-      "skill": 0
+      "name": "T1",
+      "duration": 12,
+      "skill": 0,
+      "precedences": []
     },
     {
-      "name": "B",
-      "skill": 1
+      "name": "T2",
+      "duration": 5,
+      "skill": 1,
+      "precedences": [
+        0,
+        2
+      ]
     },
     {
-      "name": "C",
-      "skill": 2
+      "name": "T3",
+      "duration": 7,
+      "skill": 2,
+      "precedences": []
     }
   ],
   "elements": [
