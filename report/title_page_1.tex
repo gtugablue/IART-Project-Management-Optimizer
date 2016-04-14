@@ -44,6 +44,7 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{amsmath}
+\usepackage[margin=0.8in]{geometry}
 
 \graphicspath{ {images/} }
 
@@ -186,7 +187,7 @@ Espera-se que surjam dificuldades na implementação prática dos algoritmos est
 \justify\normalsize
 O sistema tem por objetivo otimizar a atribuição de membros por tarefas num dado projeto. Os dados do mesmo são introduzidos por input através de um ficheiro.
 
-Um projeto em análise caracteriza-se por um conjunto de tarefas (\index{Task} Task) a cumprir, tendo estas um nome (por motivos de identificação) e uma duração. Existe ainda um conjunto de elementos (\index{Element} Element) que podem ser atribuídos a essas mesmas tarefas. Um elemento é identificado por um nome e tem uma lista de competências (\index{Skill} Skill) avaliadas em função da sua capacidade. Por exemplo, o elemento "joão" tem competências na área da informática a um nível 6 e na área da economia com nível 10.
+Um projeto em análise caracteriza-se por um conjunto de tarefas (\index{Task} Task) a cumprir, tendo estas um nome (plor motivos de identificação) e uma duração. Existe ainda um conjunto de elementos (\index{Element} Element) que podem ser atribuídos a essas mesmas tarefas. Um elemento é identificado por um nome e tem uma lista de competências (\index{Skill} Skill) avaliadas em função da sua capacidade. Por exemplo, o elemento "joão" tem competências na área da informática a um nível 6 e na área da economia com nível 10.
 
 \subsection{Aquitetura}
 \justify\normalsize
@@ -194,9 +195,9 @@ O projeto foi dividido em três "packages" principais que representam os três n
 
 A arquitetura pensada para o projeto passa pela implementação de três classes principais que interagem entre si próprias. A classe "Task" representa uma tarefa e guarda a sua duração. Um elemento é representado pela classe "Element" que mantém a identificação do mesmo. A classe "Skill" corresponde a uma competência. Estas ligam-se entre si por forma a que um elemento tenha vários skills e um skill tenha várias tarefas tal como é visível na figura \ref{uml}. A relação que se pretende obter será a que liga os elementos a tarefas.
 
-\begin{figure}[t]
+\begin{figure}[h!]
   \centering
-    \includegraphics[width=10cm, height = 10cm]{uml.jpg}
+    \includegraphics[width=10.5cm, height = 9cm]{uml.jpg}
   \caption{Diagrama de classes UML}
   \label{uml}
 \end{figure}
@@ -213,47 +214,24 @@ O input será colhido de um ficheiro de formato \textit{json} e será estrutrura
 	\item uma lista de \textit{elements} sendo que cada um tem um \textbf{nome} e um array de \textbf{competências} com as respetivas \textbf{capacidades}
 \end{itemize}
 
-\newpage
 \begin{lstlisting}[language=json,firstnumber=1]
-{{
-  "skills": [
-    "Z",
-    "Y",
-    "Z"
-  ], "tasks": [
-    {
-      "name": "A",
-      "skill": 0
-    },
-    {
-      "name": "B",
-      "skill": 1
-    }],
-      "elements": [
-     {
-      "name": "Duarte Pinto",
-      "skills": [
-        [0, 0.5],
-        [2, 0.1]
-       ]},
-    {
-      "name": "Filipa Ramos",
-      "skills": [
-        [0,1]
-       ]},
-    {
-      "name": "Gustavo Silva",
-      "skills": [
-        [1, 0.5],
-        [2, 0.1]
-      ]}]}
+{ 
+{ "skills": 
+      [ "Z", "Y" ], 
+   "tasks": [
+     { "name": "A", "skill": 0},
+     { "name": "B",  "skill": 1}],
+   "elements": [
+      { "name": "Duarte Pinto", "skills": [ [0, 0.5], [2, 0.1] ]},
+      { "name": "Filipa Ramos", "skills": [ [0,1]]},
+      { "name": "Gustavo Silva", "skills": [ [1, 0.5],  [2, 0.1] ]}
+     ]}
 }
 \end{lstlisting}
 
 \subsection{Fases}
 \justify\normalsize 
 O projeto será dividido em fases de trabalho. A inicial passa pelo desenvolvimento da arquitetura supracitada. Seguidamente, proceder-se-á implementação dos \index{Algortimos Genéticos} algoritmos genéticos. Finalmente, será desenvolvido o arrefecimento simulado. As fases abordadas até ao presente relatório foram as duas primeiras. A arquitetura explicitada pelo diagrama de classes uml já foi implementada e a obtenção de solução por algoritmos genéticos encontra-se numa fase avançada.
-
 \subsection{Algoritmos Genéticos}
 \justify\normalsize
 Explicar o algoritmo usado:
