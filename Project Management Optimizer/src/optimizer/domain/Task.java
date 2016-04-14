@@ -8,6 +8,7 @@ public class Task {
 	private int duration;
 	private Skill skill;
 	private List<Task> precedences;
+	
 	public Task(String name, int duration) {
 		this.name = name;
 		this.duration = duration;

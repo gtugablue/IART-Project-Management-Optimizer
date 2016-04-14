@@ -12,15 +12,20 @@ import optimizer.solver.genetic_algorithm.Population;
 
 public class ProjectManagementOptimizer {
 	public static Random r = new Random(1);
-	public static void main(String[] args) {
-		ArrayList<Skill> skills = createSkills();
-		ArrayList<Task> tasks = createTasks(skills);
-		ArrayList<Element> elements = createElements();
-		giveSkillsToElements(skills, elements);
-
-		Problem problem = new Problem(tasks, elements, skills);
-		Algorithm algorithm = new Algorithm(problem, 0.02, 0.4, 3);
-		Population population = algorithm.randomStartingPopulation(30);
+	ArrayList<Skill> skills = new ArrayList<Skill>();
+	ArrayList<Task> tasks = new ArrayList<Task>();
+	ArrayList<Element> elements = new ArrayList<Element>();
+	
+	public ProjectManagementOptimizer(){}
+	public static void main(String[] args) {		
+		ProjectManagementOptimizer project = new ProjectManagementOptimizer();
+		
+		jsonParser parser = new jsonParser(args[0], project);
+		parser.parser();
+		
+		Problem problem = new Problem(project.tasks, project.elements, project.skills);
+		Algorithm algorithm = new Algorithm(problem, 0.01, 0.4, 3);
+		Population population = algorithm.randomStartingPopulation(50);
 		population.evaluate(problem);
 		for (int i = 0; i < 100; i++) {
 			System.out.print("#" + (i + 1) + "\t Best fitness: " + population.getFittest().getFitness() + "/" + problem.scoreLimit() + "\t Avg. fitness: " + population.getTotalFitness() / population.getSize() + " - ");
@@ -30,6 +35,7 @@ public class ProjectManagementOptimizer {
 			System.out.println();
 			population = algorithm.evolve(population);
 		}
+		
 	}
 
 	private static ArrayList<Skill> createSkills() {

@@ -43,6 +43,8 @@
 \usepackage[document]{ragged2e}
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage[margin=0.8in]{geometry}
+\usepackage{amsmath}
 
 \graphicspath{ {images/} }
 
@@ -98,15 +100,15 @@
 \includegraphics{feup.jpg}
 
 \textsc{\large Inteligência Artificial}\\[0.5cm] % Major heading such as course name
-\textsc{\large 3º ano do Mestrado Integrado em Engenharia Informática e Computação}\\[0.5cm] % Minor heading such as course title
+\textsc{\large 3º ano do Mestrado Integrado em Engenharia Informática e Computação}\\[0.8cm] % Minor heading such as course title
 
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION
 %----------------------------------------------------------------------------------------
 
 \HRule \\[0.4cm]
-{ \huge \bfseries Otimização da gestão de projetos}\\[0.2cm] % Title of your document
-\HRule \\[1cm]
+{ \huge \bfseries Otimização da gestão de projetos}\\[0.6cm] % Title of your document
+\HRule \\[2cm]
  
 %----------------------------------------------------------------------------------------
 %	AUTHOR SECTION
@@ -114,13 +116,13 @@
 
 
 % If you don't want a supervisor, uncomment the two lines below and remove the section above
-\Large \emph{Authors:}\\[0.3cm] \normalsize
+\Large \emph{Authors:}\\[0.5cm] \normalsize
 Duarte \textsc{Pinto}\\[0cm] - up201304777 
 - up201304777@fe.up.pt\\[0cm]
 Filipa \textsc{Ramos}\\[0cm] - up201305378
 - up201305378@fe.up.pt\\[0cm] 
 Gustavo \textsc{Silva}\\[0cm] - up201304143
-- up201304143@fe.up.pt\\[2.5cm] % Your name
+- up201304143@fe.up.pt\\[5cm] % Your name
 
 %----------------------------------------------------------------------------------------
 %	DATE SECTION
@@ -161,7 +163,7 @@ Espera-se que surjam dificuldades na implementação prática dos algoritmos est
 \justify\normalsize
 O sistema tem por objetivo otimizar a atribuição de membros por tarefas num dado projeto. Os dados do mesmo são introduzidos por input através de um ficheiro.
 
-Um projeto em análise caracteriza-se por um conjunto de tarefas (\index{Task} Task) a cumprir, tendo estas um nome (por motivos de identificação) e uma duração. Existe ainda um conjunto de elementos (\index{Element} Element) que podem ser atribuídos a essas mesmas tarefas. Um elemento é identificado por um nome e tem uma lista de competências (\index{Skill} Skill) avaliadas em função da sua capacidade. Por exemplo, o elemento "joão" tem competências na área da informática a um nível 6 e na área da economia com nível 10.
+Um projeto em análise caracteriza-se por um conjunto de tarefas (\index{Task} Task) a cumprir, tendo estas um nome (plor motivos de identificação) e uma duração. Existe ainda um conjunto de elementos (\index{Element} Element) que podem ser atribuídos a essas mesmas tarefas. Um elemento é identificado por um nome e tem uma lista de competências (\index{Skill} Skill) avaliadas em função da sua capacidade. Por exemplo, o elemento "joão" tem competências na área da informática a um nível 6 e na área da economia com nível 10.
 
 \subsection{Aquitetura}
 \justify\normalsize
@@ -169,9 +171,9 @@ O projeto foi dividido em três "packages" principais que representam os três n
 
 A arquitetura pensada para o projeto passa pela implementação de três classes principais que interagem entre si próprias. A classe "Task" representa uma tarefa e guarda a sua duração. Um elemento é representado pela classe "Element" que mantém a identificação do mesmo. A classe "Skill" corresponde a uma competência. Estas ligam-se entre si por forma a que um elemento tenha vários skills e um skill tenha várias tarefas tal como é visível na figura \ref{uml}. A relação que se pretende obter será a que liga os elementos a tarefas.
 
-\begin{figure}[t]
+\begin{figure}[h!]
   \centering
-    \includegraphics[width=10cm, height = 10cm]{uml.jpg}
+    \includegraphics[width=10.5cm, height = 9cm]{uml.jpg}
   \caption{Diagrama de classes UML}
   \label{uml}
 \end{figure}
@@ -188,40 +190,18 @@ O input será colhido de um ficheiro de formato \textit{json} e será estrutrura
 	\item uma lista de \textit{elements} sendo que cada um tem um \textbf{nome} e um array de \textbf{competências} com as respetivas \textbf{capacidades}
 \end{itemize}
 
-\newpage
 \begin{lstlisting}[language=json,firstnumber=1]
-{{
-  "skills": [
-    "Z",
-    "Y",
-    "Z"
-  ], "tasks": [
-    {
-      "name": "A",
-      "skill": 0
-    },
-    {
-      "name": "B",
-      "skill": 1
-    }],
-      "elements": [
-     {
-      "name": "Duarte Pinto",
-      "skills": [
-        [0, 0.5],
-        [2, 0.1]
-       ]},
-    {
-      "name": "Filipa Ramos",
-      "skills": [
-        [0,1]
-       ]},
-    {
-      "name": "Gustavo Silva",
-      "skills": [
-        [1, 0.5],
-        [2, 0.1]
-      ]}]}
+{ 
+  "skills": 
+      [ "Z", "Y" ], 
+   "tasks": [
+     { "name": "A", "skill": 0},
+     { "name": "B",  "skill": 1}],
+   "elements": [
+      { "name": "Duarte Pinto", "skills": [ [0, 0.5], [2, 0.1] ]},
+      { "name": "Filipa Ramos", "skills": [ [0,1.0]]},
+      { "name": "Gustavo Silva", "skills": [ [1, 0.5],  [2, 0.1] ]}
+     ]
 }
 \end{lstlisting}
 
@@ -248,7 +228,7 @@ Incluir trechos do código já implementado.
 
 \section{Testes}
 \justify\normalsize
-Explicar os testes planeados.
+Por forma a garantir a integridade do sistema e tendo em vista a obtenção da melhor solução possível pretende-se aplicar testes intensivos e promenorizados forçando situações complexas para visionar a resposta do programa. Espera-se criar projetos com 30, 60 e 120 tarefas e, sobre estes, será feita a análise comparativa para observar o comportamento do sistema em situações de diferente complexidade. Outras opções analisadas serão projetos com mais tarefas do que membros e vice-versa. Isto permite uma melhor apreensão da extensão da solução criada. Para além disto, o sistema será observado em situações de projetos com membros com listas de competências iguais ou diferentes. Finalmente, serão esmiuçadas situações com projetos apenas com tarefas sem precedências ou simplesmente tarefas com precedências.
 
 \section{Conclusões}
 \justify\normalsize
