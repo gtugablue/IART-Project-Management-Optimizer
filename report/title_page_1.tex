@@ -240,8 +240,37 @@ A construção dos cromossomas segue a ordem das precedências de tarefas. Assim
 \begin{equation} \label{equação 1}
 \lfloor (\dfrac{\log_{10}(size-1)}{log_{10}(2)+1} \rfloor
 \end{equation}
-\caption{Fórmula para calcular o número de bits máximo para representar com id todas as tarefas (size equivale ao número de tarefas).}
+\caption{Fórmula para calcular o número de bits máximo para representar com um id binário todas as tarefas (size equivale ao número de tarefas).}
 \end{figure}
+
+\subsubsection{Função de Avaliação}
+
+A função de avaliação implementada procura avaliar os cromossomas da população tendo por base o tempo total de compleção das tarefas todas do projeto. Assim, um cromossoma com menor valor de \textit{fitness} será mais apto visto que terminou as tarefas em menor tempo. Esta função trata variadas situações extraordinárias. No caso de haverem duas tarefas sem precedências entre si, é procurada a primeira tarefa que possa ser executada. Para além disto, se houverem tarefas sem qualquer precedência, estas serão tratadas no fim das que implicam precedências.
+
+\subsubsection{Seleção}
+
+A seleção é feita por uma roleta aleatória que gera valores como representado a seguir. Estes valores implicam um valor aleatório multiplicado pelo \textit{fitness} total da população. A este valor calculado é subtraído o valor do \textit{fitness} individual de cromossoma. Os selecionados são os que têm menor valor.  A seleção elitista pode implicar um cromossoma ou mais, sendo este valor escolhido conforme o que se pretende testar.
+
+\begin{lstlisting}[frame=single, language=java,numbers=left,numberfirstline=true]  
+for (int i = 0; i < amountToSelect; i++) {
+	double d = random.nextDouble() * population.getTotalFitness();	
+	for(int j = 0; j < population.getSize(); j++) {		
+		d -= population.getChromosome(j).getFitness();		
+		if (d <= 0){
+			selected[i] = population.getChromosome(j);
+			break;
+		}
+	}
+	if (selected[i] == null)
+		selected[i] = population.getChromosome(population.getSize() - 1); // in case of rounding errors
+}
+\end{lstlisting}
+
+\subsubsection{Cruzamento}
+
+\subsubsection{Mutações}
+
+A mutação ocorre a uma taxa variável, sendo esta selecionada conforme os testes pretendidos. A mutação exclui os cromossomas elitistas, tendo por base o princípio de que um cromossoma elitista tem a melhor seleção de genes e, após uma mutação, essa combinação pode ser alterada para uma pior. São gerados valores aleatórios para cada cromossoma numa roleta e, se este for menor que o valor da taxa de mutação, é trocado o bit que resulta do resto da divisão da posição do mesmo no cromossoma pelo comprimento total do cromossoma.
 
 \subsection{Arrefecimento Simulado}
 \justify\normalsize
@@ -293,7 +322,7 @@ Depois de efectuados estes passos obtém-se a uma lista que representará o pró
 
 \section{Trabalho Realizado}
 \justify\normalsize
-Incluir trechos do código já implementado.
+A primeira e segunda fases foram implementadas praticamente na totalidade. O grupo encontra-se a testar a eficiência do algoritmo genético implementado.
 
 \section{Testes}
 \justify\normalsize
