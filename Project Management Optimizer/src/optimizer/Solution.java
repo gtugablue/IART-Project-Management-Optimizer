@@ -3,6 +3,7 @@ package optimizer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -21,8 +22,8 @@ public class Solution implements Cloneable {
 	}
 
 	public int evaluate() {
-		HashMap<Task, Integer> taskCompletionTimes = new HashMap<Task, Integer>();
-		HashMap<Element, Integer> elementReadyTimes = new HashMap<Element, Integer>();
+		HashMap<Task, Integer> taskCompletionTimes = new LinkedHashMap<Task, Integer>();
+		HashMap<Element, Integer> elementReadyTimes = new LinkedHashMap<Element, Integer>();
 		createTimes(taskCompletionTimes, elementReadyTimes);
 		int currTime = 0;
 		while (!allTasksDone(taskCompletionTimes)) {
@@ -102,11 +103,9 @@ public class Solution implements Cloneable {
 			return precedencesReadyTime; // If the task's precedences haven't been met, there's not need to check if there are elements available
 
 		int elementReadyTime = Integer.MAX_VALUE;
-		Iterator<Entry<Element, Integer>> it = elementReadyTimes.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry<Element, Integer> pair = (Map.Entry<Element, Integer>)it.next();
-			if (pair.getKey().getSkillPerfomance(task.getSkill()) > 0) {
-				int time = pair.getValue();
+		for (Entry<Element, Integer> entry : elementReadyTimes.entrySet()) {
+			if (entry.getKey().getSkillPerfomance(task.getSkill()) > 0) {
+				int time = entry.getValue();
 				elementReadyTime = Math.min(elementReadyTime, time);
 			}
 		}
