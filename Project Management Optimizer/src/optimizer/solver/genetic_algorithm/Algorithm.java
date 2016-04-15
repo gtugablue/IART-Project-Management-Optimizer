@@ -103,26 +103,12 @@ public class Algorithm {
 	private void mutation(Population population) {
 		int chromosomeSize = population.getChromosomeSize();
 		int totalBits = (population.getSize() - this.elitism) * chromosomeSize;
-		/*for (int j = 0; j < population.getSize(); j++) {
-			System.out.print(population.getChromosome(j) + "-" + population.getChromosome(j).getFitness() + " ");
-		}
-		System.out.println("START");*/
 		for (int i = 0; i < totalBits; i++)
 		{
 			float f = random.nextFloat();
 			if (f < mutationRate) {
 				population.getChromosome(i / chromosomeSize).flipGene(i % chromosomeSize);
-				//population.evaluate(problem);
-				/*for (int j = 0; j < population.getSize(); j++) {
-					System.out.print(population.getChromosome(j).getFitness() + " ");
-				}
-				System.out.println((i / chromosomeSize) + " - " + (i % chromosomeSize));*/
 			}
 		}
-		/*for (int j = 0; j < population.getSize(); j++) {
-			population.getChromosome(j).evaluate();
-			System.out.print(population.getChromosome(j).getFitness() + " ");
-		}
-		System.out.println("END");*/
 	}
 }

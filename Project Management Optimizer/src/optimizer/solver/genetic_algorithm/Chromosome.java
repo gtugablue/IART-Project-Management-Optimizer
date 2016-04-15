@@ -73,9 +73,11 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 	
 	private List<Integer> readElements(int offset) {
 		ArrayList<Integer> elements = new ArrayList<Integer>();
-		for (int j = 0; j < problem.getElements().size(); j++) {
-			if (this.genes[offset + this.numBitsTaskID + j])
-				elements.add(j);
+		int fullOffset = offset + this.numBitsTaskID;
+		int limit = fullOffset + problem.getElements().size();
+		for (int j = fullOffset; j < limit; j++) {
+			if (this.genes[j])
+				elements.add(j - fullOffset);
 		}
 		return elements;
 	}
