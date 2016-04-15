@@ -18,12 +18,14 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 		this.numBitsTaskID = minNumBits(problem.getTasks().size());
 		this.genes = new boolean[calculateChromosomeSize()];
 		randomizeGenes();
+		evaluate();
 	}
 
 	public Chromosome(Problem problem, boolean[] genes) {
 		super(problem);
 		this.numBitsTaskID = minNumBits(problem.getTasks().size());
 		this.genes = genes;
+		evaluate();
 	}
 
 	private static int minNumBits(int size) {
@@ -93,7 +95,7 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 	}
 
 	public int getFitness() {
-		return this.score;
+		return super.score;
 	}
 
 	public int getSize() {
@@ -102,13 +104,18 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 
 	@Override
 	public int compareTo(Chromosome c) {
-		return this.score - c.score;
+		return c.score - this.score;
 	}
 
+	public Chromosome(Chromosome c) {
+		super(c);
+		boolean[] newGenes = c.genes.clone();
+		problem = c.problem;
+		genes = newGenes;
+	}
+	
 	@Override
-	public Object clone() {
-		boolean[] newGenes = this.genes.clone();
-		Chromosome c = new Chromosome(problem, newGenes);
-		return c;
+	public Chromosome clone() {
+		return new Chromosome(this);
 	}
 }

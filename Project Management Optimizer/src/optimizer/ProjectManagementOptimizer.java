@@ -23,13 +23,18 @@ public class ProjectManagementOptimizer {
 		jsonParser parser = new jsonParser(args[0], project);
 		parser.parser();
 		
+		project.skills = createSkills();
+		project.tasks = createTasks(project.skills);
+		project.elements = createElements();
+		giveSkillsToElements(project.skills, project.elements);
+		
 		Problem problem = new Problem(project.tasks, project.elements, project.skills);
-		Algorithm algorithm = new Algorithm(problem, 0.01, 0.4, 3);
-		Population population = algorithm.randomStartingPopulation(20);
+		Algorithm algorithm = new Algorithm(problem, 0.1, 0.4, 3);
+		Population population = algorithm.randomStartingPopulation(5);
 		population.evaluate(problem);
 		
-		for (int i = 0; i < 100; i++) {
-			System.out.print("#" + (i + 1) + "\t Best fitness: " + population.getFittest().getFitness() + "/" + problem.scoreLimit() + "\t Avg. fitness: " + population.getTotalFitness() / population.getSize() + " - ");
+		for (int i = 0; i < 10; i++) {
+			System.out.print("#" + (i + 1) + "\t Best fitness: " + population.getFittest().getFitness() + "\t Avg. fitness: " + population.getTotalFitness() / population.getSize() + " - ");
 			for (int j = 0; j < population.getSize(); j++) {
 				System.out.print(population.getChromosome(j).getFitness() + " ");
 			}
@@ -93,7 +98,7 @@ public class ProjectManagementOptimizer {
 		elements.get(2).addSkill(skills.get(1), 1);*/
 		for (int i = 0; i < skills.size(); i++) {
 			for (int j = 0; j < elements.size(); j++) {
-				elements.get(r.nextInt(skills.size())).addSkill(skills.get(i), (float)Math.random() * 0.99f + 0.01f);
+				elements.get(r.nextInt(skills.size())).addSkill(skills.get(i), (float)Math.random());
 			}
 		}
 	}

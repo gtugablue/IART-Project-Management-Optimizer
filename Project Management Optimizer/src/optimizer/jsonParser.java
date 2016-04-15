@@ -46,7 +46,6 @@ public class jsonParser {
 				String skillName = (String) skillsArray.get(l);
 				Skill oneSkill = new Skill(skillName);
 				otimizer.skills.add(oneSkill);
-				System.out.println("Skill: " + oneSkill.getName());
 			}
 
 			JSONArray tasksArray = (JSONArray) jsonObject.get("tasks");
@@ -59,11 +58,8 @@ public class jsonParser {
 				ArrayList<Integer> prec = new ArrayList<Integer>();
 
 				String name = (String) oneTask.get("name");
-				System.out.println(name);
 				long duration = (long) oneTask.get("duration");
-				System.out.println(duration);
 				long skill = (long) oneTask.get("skill");
-				System.out.println(skill);
 				Skill theSkill = otimizer.skills.get((int) skill);
 
 				JSONArray precedences = (JSONArray) oneTask.get("precedences");
@@ -93,7 +89,6 @@ public class jsonParser {
 				JSONObject oneElement = (JSONObject) elementsArray.get(k);
 
 				String element = (String) oneElement.get("name");
-				System.out.println(element);
 
 				Element el = new Element(element);
 
@@ -104,9 +99,7 @@ public class jsonParser {
 
 					long elementSkill = (long) oneSkill.get(0);
 					Skill elSkill = otimizer.skills.get((int) elementSkill);
-					System.out.println(elSkill.getName());
 					double performance = (double) oneSkill.get(1);
-					System.out.println(performance);
 
 					el.addSkill(elSkill, (float) performance);
 

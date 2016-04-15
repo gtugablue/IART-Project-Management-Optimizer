@@ -1,6 +1,7 @@
 package optimizer.solver.genetic_algorithm;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 import optimizer.Problem;
@@ -50,8 +51,8 @@ public class Algorithm {
 
 	private void selection(Population population) {
 		Chromosome[] selected = rouletteWheelSelection(population);
-		for (int i = 0; i < population.getSize() - this.elitism; i++) {
-			population.setChromosome(i, selected[i]);
+		for (int i = 0; i < selected.length; i++) {
+			population.setChromosome(i, selected[i].clone());
 		}
 	}
 
@@ -101,13 +102,27 @@ public class Algorithm {
 
 	private void mutation(Population population) {
 		int chromosomeSize = population.getChromosomeSize();
-		int totalBits = population.getSize() * chromosomeSize;
+		int totalBits = (population.getSize() - this.elitism) * chromosomeSize;
+		/*for (int j = 0; j < population.getSize(); j++) {
+			System.out.print(population.getChromosome(j) + "-" + population.getChromosome(j).getFitness() + " ");
+		}
+		System.out.println("START");*/
 		for (int i = 0; i < totalBits; i++)
 		{
-			double d = random.nextDouble();
-			if (d < mutationRate) {
+			float f = random.nextFloat();
+			if (f < mutationRate) {
 				population.getChromosome(i / chromosomeSize).flipGene(i % chromosomeSize);
+				//population.evaluate(problem);
+				/*for (int j = 0; j < population.getSize(); j++) {
+					System.out.print(population.getChromosome(j).getFitness() + " ");
+				}
+				System.out.println((i / chromosomeSize) + " - " + (i % chromosomeSize));*/
 			}
 		}
+		/*for (int j = 0; j < population.getSize(); j++) {
+			population.getChromosome(j).evaluate();
+			System.out.print(population.getChromosome(j).getFitness() + " ");
+		}
+		System.out.println("END");*/
 	}
 }

@@ -10,11 +10,12 @@ import java.util.Map.Entry;
 import optimizer.domain.Element;
 import optimizer.domain.Task;
 
-public class Solution {
+public class Solution implements Cloneable {
 	protected Problem problem;
 	protected List<Integer> taskOrder;
 	protected List<List<Integer>> taskElements;
 	protected int score;
+
 	public Solution(Problem problem) {
 		this.problem = problem;
 	}
@@ -35,11 +36,11 @@ public class Solution {
 				break;
 			}
 		}
-		
-		score = - findMaxTaskCompletionTime(taskCompletionTimes);
+
+		score = findMaxTaskCompletionTime(taskCompletionTimes);
 		return score;
 	}
-	
+
 	private int findMaxTaskCompletionTime(HashMap<Task, Integer> taskCompletionTimes) {
 		int max = 0;
 		Iterator<Entry<Task, Integer>> it = taskCompletionTimes.entrySet().iterator();
@@ -51,7 +52,7 @@ public class Solution {
 		}
 		return max;
 	}
-	
+
 	private void allocateElementsToTask(Task task, List<Integer> taskElements, int currTime, HashMap<Task, Integer> taskCompletionTimes, HashMap<Element, Integer> elementReadyTimes) {
 		float totalPerformance = 0;
 		ArrayList<Element> assignedElements = new ArrayList<Element>();
@@ -76,7 +77,7 @@ public class Solution {
 			elementReadyTimes.put(element, endTime);
 		}
 	}
-	
+
 	private Element findFreeElementID(Task task, HashMap<Element, Integer> elementReadyTimes) {
 		Iterator<Entry<Element, Integer>> it = elementReadyTimes.entrySet().iterator();
 		while (it.hasNext()) {
@@ -86,7 +87,7 @@ public class Solution {
 		}
 		return null;
 	}
-	
+
 	private int calculateTaskStartTime(Task task, HashMap<Task, Integer> taskCompletionTimes, HashMap<Element, Integer> elementReadyTimes) {
 		int precedencesReadyTime = 0;
 		if (task.getPrecedences().size() >= 1)
@@ -99,7 +100,7 @@ public class Solution {
 		}
 		if (precedencesReadyTime == Integer.MAX_VALUE)
 			return precedencesReadyTime; // If the task's precedences haven't been met, there's not need to check if there are elements available
-		
+
 		int elementReadyTime = Integer.MAX_VALUE;
 		Iterator<Entry<Element, Integer>> it = elementReadyTimes.entrySet().iterator();
 		while (it.hasNext()) {
@@ -109,7 +110,6 @@ public class Solution {
 				elementReadyTime = Math.min(elementReadyTime, time);
 			}
 		}
-		
 		return Math.max(precedencesReadyTime, elementReadyTime);
 	}
 
@@ -140,5 +140,25 @@ public class Solution {
 			}
 		}
 		return true;
+	}
+
+	public Solution(Solution s) {
+		problem = s.problem;
+		taskOrder = new ArrayList<Integer>();
+		taskElements = new ArrayList<List<Integer>>();
+		for (int i = 0; i < s.taskOrder.size(); i++) {
+			taskOrder.add(s.taskOrder.get(i));
+			List<Integer> l = new ArrayList<Integer>();
+			for (int j = 0; j < s.taskElements.get(i).size(); j++) {
+				l.add(s.taskElements.get(i).get(j));
+			}
+			taskElements.add(l);
+		}
+		score = s.score;
+	}
+
+	@Override
+	public Solution clone() {
+		return new Solution(this);
 	}
 }

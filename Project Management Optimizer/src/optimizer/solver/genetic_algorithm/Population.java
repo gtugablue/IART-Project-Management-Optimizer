@@ -55,10 +55,10 @@ public class Population implements Cloneable{
 	 * @return Chromosome
 	 */
 	public Chromosome getFittest(){
-		int maxFit = Integer.MIN_VALUE;
+		int maxFit = Integer.MAX_VALUE;
 		int index = 0;
 		for(int i = 0; i < chromosomes.size(); i++){
-			if(chromosomes.get(i).getFitness() > maxFit){
+			if(chromosomes.get(i).getFitness() < maxFit){
 				maxFit = chromosomes.get(i).getFitness();
 				index = i;
 			}
@@ -108,10 +108,10 @@ public class Population implements Cloneable{
 	}
 	
 	@Override
-	public Object clone() {
+	public Population clone() {
 		Population p = new Population();
 		for (int i = 0; i < this.chromosomes.size(); i++) {
-			p.chromosomes.add((Chromosome) this.chromosomes.get(i).clone());
+			p.chromosomes.add(this.chromosomes.get(i).clone());
 		}
 		return p;
 	}
