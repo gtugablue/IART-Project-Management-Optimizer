@@ -28,16 +28,15 @@ public class Solution {
 			for (int i = 0; i < taskOrder.size(); i++) {
 				Task task = problem.getTasks().get(i);
 				if (!taskCompletionTimes.get(task).equals(Integer.MAX_VALUE)) continue; // Task already done, skip it
-				//if (!precedencesReady(task, currTime, taskCompletionTimes)) continue; // Precedences not ready, try a different task
 				int taskStartTime = calculateTaskStartTime(task, taskCompletionTimes, elementReadyTimes);
-				if (taskStartTime == Integer.MAX_VALUE) continue;
+				if (taskStartTime == Integer.MAX_VALUE) continue; // Precedences not ready, try a different task
 				currTime = taskStartTime;
 				allocateElementsToTask(task, taskElements.get(i), currTime, taskCompletionTimes, elementReadyTimes);
 				break;
 			}
 		}
 		
-		score = problem.scoreLimit() - findMaxTaskCompletionTime(taskCompletionTimes);
+		score = - findMaxTaskCompletionTime(taskCompletionTimes);
 		return score;
 	}
 	
@@ -70,7 +69,7 @@ public class Solution {
 			totalPerformance += performance;
 		}
 		int duration = (int)(totalPerformance * task.getDuration());
-		duration = task.getDuration();
+		duration = (int)(task.getDuration() / totalPerformance);
 		int endTime = currTime + duration;
 		taskCompletionTimes.put(task, endTime);
 		for (Element element : assignedElements) {

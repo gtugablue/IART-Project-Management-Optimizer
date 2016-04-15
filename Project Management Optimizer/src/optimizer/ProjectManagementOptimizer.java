@@ -25,7 +25,7 @@ public class ProjectManagementOptimizer {
 		
 		Problem problem = new Problem(project.tasks, project.elements, project.skills);
 		Algorithm algorithm = new Algorithm(problem, 0.01, 0.4, 3);
-		Population population = algorithm.randomStartingPopulation(50);
+		Population population = algorithm.randomStartingPopulation(20);
 		population.evaluate(problem);
 		
 		for (int i = 0; i < 100; i++) {
