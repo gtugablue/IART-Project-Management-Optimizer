@@ -9,7 +9,17 @@ public class Task {
 	private Skill skill;
 	private List<Task> precedences = new ArrayList<Task>();
 	private List<Task> successors = new ArrayList<Task>();
-	
+
+    private Integer position = null; //Needed for SA
+
+    protected Task(Task task){
+        this.name = task.getName();
+        this.duration = task.getDuration();
+        this.skill = getSkill();
+        this.precedences = getPrecedences();
+        this.successors = getSuccessors();
+    }
+
 	public Task(String name, int duration) {
 		this.name = name;
 		this.duration = duration;
@@ -43,7 +53,7 @@ public class Task {
 		return this.precedences;
 	}
 	
-	public void setPrecedencies(List<Task> precedences) {
+	public void setPrecedences(List<Task> precedences) {
 		this.precedences = precedences;
 	}
 	
@@ -73,5 +83,53 @@ public class Task {
 
     public void addSuccessor(Task task){
         this.successors.add(task);
+    }
+
+    public Integer getPosition() {
+        return position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (obj == this) return true;
+        if (!(obj instanceof Task))return false;
+
+        Task task = (Task) obj;
+
+        return this.getName().equals(task.getName())
+                && this.getDuration() == task.getDuration()
+                && this.getSkill().equals(task.getSkill())
+                ;
+    }
+
+    public int getLastPrecedence(){
+        int best = 0;
+        for(Task task : precedences){
+            if(task.getPosition() >= best)
+                best = task.getPosition();
+        }
+        return best;
+    }
+
+    public int getFirstSuccessor(){
+        int best = 9999999;
+        for(Task task : precedences){
+            if(task.getPosition() <= best)
+                best = task.getPosition();
+        }
+        return best;
+    }
+
+    public int getFirstSuccessor(int size){
+        int bestSize = getFirstSuccessor();
+        if(bestSize >= 999999)
+            return size;
+        else
+            return bestSize;
     }
 }
