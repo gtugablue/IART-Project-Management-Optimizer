@@ -44,6 +44,8 @@
 \usepackage{xcolor}
 \usepackage[margin=0.8in]{geometry}		
 \usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{url}
 
 \graphicspath{ {images/} }
 
@@ -105,9 +107,6 @@
 
 \begin{document}
 
-
-
-
 \begin{titlepage}
 
 \newcommand{\HRule}{\rule{\linewidth}{1mm}} % Defines a new command for the horizontal lines, change thickness here
@@ -120,16 +119,16 @@
 
 \includegraphics{feup.jpg}
 
-\textsc{\large Inteligência Artificial}\\[0.5cm] % Major heading such as course name
+\textsc{\large Inteligência Artificial}\\[0.8cm] % Major heading such as course name
 \textsc{\large 3º ano do Mestrado Integrado em Engenharia Informática e Computação}\\[0.8cm] % Minor heading such as course title
 
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION
 %----------------------------------------------------------------------------------------
 
-\HRule \\[0.4cm]
+\HRule \\[1.2cm]
 { \huge \bfseries Otimização da gestão de projetos}\\[0.6cm] % Title of your document
-\HRule \\[2cm]
+\HRule \\[3cm]
  
 %----------------------------------------------------------------------------------------
 %	AUTHOR SECTION
@@ -138,12 +137,12 @@
 
 % If you don't want a supervisor, uncomment the two lines below and remove the section above
 \Large \emph{Authors:}\\[0.5cm] \normalsize
-Duarte \textsc{Pinto}\\[0cm] - up201304777 
-- up201304777@fe.up.pt\\[0cm]
-Filipa \textsc{Ramos}\\[0cm] - up201305378
-- up201305378@fe.up.pt\\[0cm] 
-Gustavo \textsc{Silva}\\[0cm] - up201304143
-- up201304143@fe.up.pt\\[5cm] % Your name
+Duarte \textsc{Pinto}\\[0.1cm] - up201304777 
+- up201304777@fe.up.pt\\[0.1cm]
+Filipa \textsc{Ramos}\\[0.1cm] - up201305378
+- up201305378@fe.up.pt\\[0.1cm] 
+Gustavo \textsc{Silva}\\[0.1cm] - up201304143
+- up201304143@fe.up.pt\\[3cm] % Your name
 
 %----------------------------------------------------------------------------------------
 %	DATE SECTION
@@ -164,9 +163,9 @@ Gustavo \textsc{Silva}\\[0cm] - up201304143
 \section{Introdução} 
 
 \justify\normalsize
-No âmbito da unidade curricular de Inteligência Artificial pretende-se desenvolver um programa que, com base em algoritmos genéticos e arrefecimento simulado, faça a gestão de um projeto balançando os elementos participantes e as tarefas a realizar do mesmo. O sistema é composto por um conjunto de tarefas que pertencem ao projeto em análise. Cada tarefa tem uma competência indispensável ao seu cumprimento e uma duração. Cada elemento tem um conjunto de competências sendo que o mesmo tem um nível de capacidade para cumprir cada uma. A gestão a ser realizada tem em vista minimizar o tempo ocupado para satisfazer todas as tarefas do projeto usando a melhor combinação de elementos para cada tarefa. Será feita uma análise comparativa entre o desempenho das solução encontradas com algoritmos genéticos e arrefecimento simulado. 
+No âmbito da unidade curricular de Inteligência Artificial pretende-se desenvolver um programa que, com base em algoritmos genéticos e arrefecimento simulado, faça a gestão de um projeto balançando os elementos participantes e as tarefas a realizar do mesmo. O sistema é composto por um conjunto de tarefas que pertencem ao projeto em análise e um conjunto de elementos que as podem realizar. A gestão a ser realizada tem em vista minimizar o tempo ocupado para satisfazer todas as tarefas do projeto usando a melhor combinação de elementos para cada tarefa. Será feita uma análise comparativa entre o desempenho das solução encontradas com algoritmos genéticos e arrefecimento simulado. 
 
-Os objetivos principais do projeto passam pela exploração da implementação prática dos algoritmos genéticos e do algoritmo de arrefecimento simulado. Através dos dados obtidos, visa-se também realizar uma comparação da solução encontrada com ambos os algoritmos. Este processo irá fomentar o conhecimento adquirido, evidenciando as vantagens principais de cada algoritmo e as suas dicotomias principais.  
+Os objetivos principais do projeto passam pela exploração da implementação prática dos algoritmos genéticos e do algoritmo de arrefecimento simulado. O processo de análise comparativa irá fomentar o conhecimento adquirido, evidenciando as vantagens principais de cada algoritmo e as suas dicotomias fundamentais.  
 
 Espera-se que surjam dificuldades na implementação prática dos algoritmos estudados teoricamente, principalmente na construção dos cromossomas pois existem dúvidas em relação à sua influência na eficiência da solução encontrada. Para além disto, a melhor adaptação da função de avaliação ao problema por forma a obter os melhores resultados revela-se um processo tumultuoso. Os membros decidiram optar por otimizar o tempo utilizado a concluir todas as tarefas do projeto em estudo. Desta forma, a melhor solução será a que implicará um menor tempo de conclusão do projeto em questão.
 
@@ -215,26 +214,23 @@ O input será colhido de um ficheiro de formato \textit{json} e será estrutrura
    "elements": [
       { "name": "Duarte Pinto", "skills": [ [0, 0.5], [2, 0.1] ]},
       { "name": "Filipa Ramos", "skills": [ [0,1.0]]},
-      { "name": "Gustavo Silva", "skills": [ [1, 0.5],  [2, 0.1] ]}
-     ]
+      { "name": "Gustavo Silva", "skills": [ [1, 0.5],  [2, 0.1] ]}]
 }
 \end{lstlisting}
 
 \subsection{Fases}
 \justify\normalsize 
-O projeto será dividido em fases de trabalho. A inicial passa pelo desenvolvimento da arquitetura supracitada. Seguidamente, proceder-se-á implementação dos algoritmos genéticos. Finalmente, será desenvolvido o arrefecimento simulado. As fases abordadas até ao presente relatório foram as duas primeiras. A arquitetura explicitada pelo diagrama de classes uml já foi implementada e a obtenção de solução por algoritmos genéticos encontra-se numa fase avançada.
+O projeto será dividido em fases de trabalho. A inicial passa pelo desenvolvimento da arquitetura supracitada. Seguidamente, proceder-se-á implementação dos algoritmos genéticos. Finalmente, será desenvolvido o arrefecimento simulado. Após terem sido terminados ambos os algoritmos será realizada a análise comparativa entre os dois, sendo esta a fase final do projeto.
+
+%----------------------------------------------------------------------------------------
+%	ALGORITMOS GENÉTICOS
+%----------------------------------------------------------------------------------------
 
 \subsection{Algoritmos Genéticos}
-\justify\normalsize
-Explicar o algoritmo usado:
-	- função de avaliação
-	- seleção
-	- cruzamento
-	- mutações
 
 \subsubsection{Estrutura do Cromossoma}
 \justify\normalsize
-A construção dos cromossomas segue a ordem das precedências de tarefas. Assim, o mesmo é composto pelo id da tarefa seguido de 0 ou 1 para cada elemento, sendo que 1 significa que o membro trabalhou na tarefa e 0 significa que o elemento não trabalhou na tarefa. O cromossoma final sera composto por x blocos, sendo que x é o número de tarefas existentes. Cada bloco terá tamanho variável conforme o número de elementos do projeto e conforme o número de bits necessários para representar a tarefa. A fórmula utilizada para cálculo do número de bits é a apresentada na equação \ref{equação 1}.
+A construção dos cromossomas segue a ordem das precedências de tarefas. Assim, o mesmo é composto pelo id da tarefa seguido de 0 ou 1 para cada elemento, sendo que 1 significa que o membro trabalhou na tarefa e 0 significa que o elemento não trabalhou na tarefa. Desta forma, o cromossoma final será composto por x blocos, sendo que x é o número de tarefas existentes. Cada bloco terá tamanho variável dependente do projeto em análise - conforme o número de elementos total e o número de bits necessários para representar a tarefa com um identificador. A fórmula utilizada para cálculo do número de bits máximo do identificador é a apresentada na equação \ref{equação 1}.
 
 \begin{figure}[!ht]
 \begin{equation} \label{equação 1}
@@ -243,13 +239,22 @@ A construção dos cromossomas segue a ordem das precedências de tarefas. Assim
 \caption{Fórmula para calcular o número de bits máximo para representar com um id binário todas as tarefas (size equivale ao número de tarefas).}
 \end{figure}
 
+Por exemplo, se o projeto em análise tiver duas tarefas e dois membros um dos cromossomas da população poderá ser o representado na figura \ref{cromossoma}. Neste caso teríamos os membros 1 e 3 alocados na primeira tarefa e, na segunda, apenas o membro 2. A tarefa com id 0 teria precedência à tarefa com id 1 ou seriam concorrentes.
+
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=6cm, height = 1.8cm]{cromossoma.png}
+  \caption{Cromossoma exemplificativo}
+  \label{cromossoma}
+\end{figure}
+
 \subsubsection{Função de Avaliação}
 
-A função de avaliação implementada procura avaliar os cromossomas da população tendo por base o tempo total de compleção das tarefas todas do projeto. Assim, um cromossoma com menor valor de \textit{fitness} será mais apto visto que terminou as tarefas em menor tempo. Esta função trata variadas situações extraordinárias. No caso de haverem duas tarefas sem precedências entre si, é procurada a primeira tarefa que possa ser executada. Para além disto, se houverem tarefas sem qualquer precedência, estas serão tratadas no fim das que implicam precedências.
+A função de avaliação implementada procura avaliar os cromossomas da população tendo por base o tempo total de compleção das tarefas todas do projeto. Assim, um cromossoma com menor valor de \textit{fitness} será mais apto visto que terminou as tarefas em menor tempo. Esta função trata variadas situações extraordinárias. No caso de haverem duas tarefas sem precedências entre si, é procurada a primeira tarefa que possa ser executada. Para além disto, se houverem tarefas sem qualquer precedência, estas serão tratadas depois das que implicam precedências.
 
 \subsubsection{Seleção}
 
-A seleção é feita por uma roleta aleatória que gera valores como representado a seguir. Estes valores implicam um valor aleatório multiplicado pelo \textit{fitness} total da população. A este valor calculado é subtraído o valor do \textit{fitness} individual de cromossoma. Os selecionados são os que têm menor valor.  A seleção elitista pode implicar um cromossoma ou mais, sendo este valor escolhido conforme o que se pretende testar.
+A seleção é feita por uma roleta aleatória que gera valores como está representado no código a seguir. Estes valores implicam um valor aleatório multiplicado pelo \textit{fitness} total da população. A este valor é subtraído o do \textit{fitness} individual de cada cromossoma. Os selecionados são os que têm menor valor final.  A seleção elitista pode implicar um cromossoma ou mais, sendo este valor escolhido conforme o que se pretende testar.
 
 \begin{lstlisting}[frame=single, language=java,numbers=left,numberfirstline=true]  
 for (int i = 0; i < amountToSelect; i++) {
@@ -272,7 +277,11 @@ for (int i = 0; i < amountToSelect; i++) {
 
 A mutação ocorre a uma taxa variável, sendo esta selecionada conforme os testes pretendidos. A mutação exclui os cromossomas elitistas, tendo por base o princípio de que um cromossoma elitista tem a melhor seleção de genes e, após uma mutação, essa combinação pode ser alterada para uma pior. São gerados valores aleatórios para cada cromossoma numa roleta e, se este for menor que o valor da taxa de mutação, é trocado o bit que resulta do resto da divisão da posição do mesmo no cromossoma pelo comprimento total do cromossoma.
 
-\subsection{Arrefecimento Simulado}
+%----------------------------------------------------------------------------------------
+%	ARREFECIMENTO SIMULADO
+%----------------------------------------------------------------------------------------
+
+\subsection{Arrefecimento Simulado} \cite{Arrefecimento}
 \justify\normalsize
 
 Quando adaptado de maneira eficiente o algorítmo de Arrefecimento Simulado é característico pela facilidade de implementação e pela rapidez de convergência do resultado.
@@ -322,7 +331,7 @@ Depois de efectuados estes passos obtém-se a uma lista que representará o pró
 
 \section{Trabalho Realizado}
 \justify\normalsize
-A primeira e segunda fases foram implementadas praticamente na totalidade. O grupo encontra-se a testar a eficiência do algoritmo genético implementado.
+ As fases abordadas até ao presente relatório foram as duas primeiras. A arquitetura explicitada pelo diagrama de classes uml já foi implementada e a obtenção de solução por algoritmos genéticos encontra-se numa fase avançada. De facto, o grupo encontra-se a afinar o algoritmo genético implementado através de testes por forma a maximizar a sua eficiência.
 
 \section{Testes}
 \justify\normalsize
@@ -331,7 +340,12 @@ Por forma a garantir a integridade do sistema e tendo em vista a obtenção da m
 
 \section{Conclusões}
 \justify\normalsize
-Conclusões retiradas.
+Em suma, verifica-se que o projeto se encontra a ser desenvolvido a um ritmo coeso e coerente, o que indica uma progressão saudável do mesmo. As fases encontram-se claramente delineadas o que permite uma maior eficácia na distribuição de tarefas entre os membros do grupo e, ao que tudo indica, levará à construção de um projeto bem documentado e estruturado.
+
+O projeto escolhido despoletou a curiosidade de todos os membros. Apesar de por vezes serem encontradas dificuldades, são estas que dão alento ao estudo mais aprofundado das matérias abordadas e permitem um avanço sólido do mesmo. Espera-se que o trabalho a realizar no futuro se encontre dentro dos paradigmas do que já se encontra feito.
+
+\bibliography{title_page_1}
+\bibliographystyle{plain}
 
 \end{titlepage}
 \end{document}
