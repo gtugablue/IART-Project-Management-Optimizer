@@ -254,7 +254,7 @@ A função de avaliação implementada procura avaliar os cromossomas da popula�
 
 \subsubsection{Seleção}
 
-A seleção é feita por uma roleta aleatória que gera valores como está representado no código a seguir. Estes valores implicam um valor aleatório multiplicado pelo \textit{fitness} total da população. A este valor é subtraído o do \textit{fitness} individual de cada cromossoma. Os selecionados são os que têm menor valor final.  A seleção elitista pode implicar um cromossoma ou mais, sendo este valor escolhido conforme o que se pretende testar.
+A seleção é feita por uma roleta aleatória que gera valores como está representado no excerto de código a seguir. Estes valores implicam um valor aleatório multiplicado pelo \textit{fitness} total da população. A este valor é subtraído o do \textit{fitness} individual de cada cromossoma. Os selecionados são os que têm menor valor final.  A seleção elitista pode implicar um cromossoma ou mais, sendo este valor escolhido conforme o que se pretende testar.
 
 \begin{lstlisting}[frame=single, language=java,numbers=left,numberfirstline=true]  
 for (int i = 0; i < amountToSelect; i++) {
@@ -263,31 +263,28 @@ for (int i = 0; i < amountToSelect; i++) {
 		d -= population.getChromosome(j).getFitness();		
 		if (d <= 0){
 			selected[i] = population.getChromosome(j);
-			break;
-		}
+			break;}
 	}
-	if (selected[i] == null)
-		selected[i] = population.getChromosome(population.getSize() - 1); // in case of rounding errors
 }
 \end{lstlisting}
 
 \subsubsection{Cruzamento}
 
-O cruzamento será aplicado de três maneiras distintas por forma a testar a melhor combinação. Assim, espera-se testar os seguintes tipos de cruzamentos:
+O cruzamento será aplicado de três maneiras distintas, sendo feita uma análise da eficiência de cada um dos métodos por forma a obter o mais eficaz. Assim, espera-se testar os seguintes tipos de cruzamentos:
 
 \begin{enumerate}
-	\item Cruzmento entre tarefas
-		\begin{enumerate}
+	\item Cruzamento entre tarefas
+		\begin{description}
 			\item Troca de tarefas entre cromossomas incluindo o id e os elementos.
-		\end{enumerate}
+		\end{description}
 	\item Cruzamento dos elementos entre tarefas
-		\begin{enumerate}
+		\begin{description}
 			\item Troca dos elementos de uma tarefa com os elementos de outra tarefa noutro cromossoma.
-		\end{enumerate}
+		\end{description}
 	\item Cruzamento de elementos da mesma tarefa
-		\begin{enumerate}
+		\begin{description}
 			\item Troca de elementos de uma tarefa com os elementos da mesma tarefa de outro cromossoma.
-		\end{enumerate}
+		\end{description}
 \end{enumerate}
 
 \subsubsection{Mutações}
@@ -298,7 +295,7 @@ A mutação ocorre a uma taxa variável, sendo esta selecionada conforme os test
 %	ARREFECIMENTO SIMULADO
 %----------------------------------------------------------------------------------------
 
-\subsection{Arrefecimento Simulado} \cite{Arrefecimento}
+\subsection{Arrefecimento Simulado}
 \justify\normalsize
 
 Quando adaptado de maneira eficiente o algorítmo de Arrefecimento Simulado é característico pela facilidade de implementação e pela rapidez de convergência do resultado.
@@ -321,10 +318,8 @@ for(Task j : tasks){
 			break;
 		if(j.predecessorsFinished() && workers.hasAvailableResources(j)){
 			workers.assign(j,i);		//Assigns resources(people) to the task j from i until the end of the task
-			j.assignStartTime(i);
-		}else{
-			i++;
-		}
+			j.assignStartTime(i);} 
+		else {i++;}
 	}	
 }
 \end{lstlisting}
@@ -340,7 +335,7 @@ O próximo estado é gerado através de uma lista ordenada víavel da seguinta m
 
 Depois de efectuados estes passos obtém-se a uma lista que representará o próximo estado. 
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
   \includegraphics[scale=0.8]{sa.png}
   \caption{Representação de uma lista e processo de geração de um novo estado. (A) Representação de uma lista ordenada de tasks. (B) Exemplo de um planeamento viável com base na lista de tasks. (C) Geração aleatório de uma nova posição para a task 3. (D) Nova lista após o deslocamento. (E) Representação gráfica do Estado Inicial. (F) Representação gráfica do Novo Estado.}
   \label{Simulated Annealing}
