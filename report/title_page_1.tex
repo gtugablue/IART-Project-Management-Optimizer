@@ -273,6 +273,23 @@ for (int i = 0; i < amountToSelect; i++) {
 
 \subsubsection{Cruzamento}
 
+O cruzamento será aplicado de três maneiras distintas por forma a testar a melhor combinação. Assim, espera-se testar os seguintes tipos de cruzamentos:
+
+\begin{enumerate}
+	\item Cruzmento entre tarefas
+		\begin{enumerate}
+			\item Troca de tarefas entre cromossomas incluindo o id e os elementos.
+		\end{enumerate}
+	\item Cruzamento dos elementos entre tarefas
+		\begin{enumerate}
+			\item Troca dos elementos de uma tarefa com os elementos de outra tarefa noutro cromossoma.
+		\end{enumerate}
+	\item Cruzamento de elementos da mesma tarefa
+		\begin{enumerate}
+			\item Troca de elementos de uma tarefa com os elementos da mesma tarefa de outro cromossoma.
+		\end{enumerate}
+\end{enumerate}
+
 \subsubsection{Mutações}
 
 A mutação ocorre a uma taxa variável, sendo esta selecionada conforme os testes pretendidos. A mutação exclui os cromossomas elitistas, tendo por base o princípio de que um cromossoma elitista tem a melhor seleção de genes e, após uma mutação, essa combinação pode ser alterada para uma pior. São gerados valores aleatórios para cada cromossoma numa roleta e, se este for menor que o valor da taxa de mutação, é trocado o bit que resulta do resto da divisão da posição do mesmo no cromossoma pelo comprimento total do cromossoma.
