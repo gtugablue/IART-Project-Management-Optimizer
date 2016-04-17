@@ -209,8 +209,8 @@ O input será colhido de um ficheiro de formato \textit{json} e será estrutrura
   "skills": 
       [ "Z", "Y" ], 
    "tasks": [
-     { "name": "A", "skill": 0},
-     { "name": "B",  "skill": 1}],
+     { "name": "A", "duration": 5, "skill": 0, "precedences": []},
+     { "name": "B", "duration": 3, "skill": 1, "precedences": [0]}],
    "elements": [
       { "name": "Duarte Pinto", "skills": [ [0, 0.5], [2, 0.1] ]},
       { "name": "Filipa Ramos", "skills": [ [0,1.0]]},
@@ -226,7 +226,7 @@ O projeto será dividido em fases de trabalho. A inicial passa pelo desenvolvime
 %	ALGORITMOS GENÉTICOS
 %----------------------------------------------------------------------------------------
 
-\subsection{Algoritmos Genéticos}
+\subsection{Algoritmos Genéticos} 
 
 \subsubsection{Estrutura do Cromossoma}
 \justify\normalsize
@@ -250,7 +250,7 @@ Por exemplo, se o projeto em análise tiver duas tarefas e dois membros um dos c
 
 \subsubsection{Função de Avaliação}
 
-A função de avaliação implementada procura avaliar os cromossomas da população tendo por base o tempo total de compleção das tarefas todas do projeto. Assim, um cromossoma com menor valor de \textit{fitness} será mais apto visto que terminou as tarefas em menor tempo. Esta função trata variadas situações extraordinárias. No caso de haverem duas tarefas sem precedências entre si, é procurada a primeira tarefa que possa ser executada. Para além disto, se houverem tarefas sem qualquer precedência, estas serão tratadas depois das que implicam precedências.
+A função de avaliação implementada procura avaliar os cromossomas da população tendo por base o tempo total de compleção das tarefas todas do projeto. Assim, um cromossoma com menor valor de \textit{fitness} será mais apto visto que terminou as tarefas em menor tempo. Esta função trata variadas situações extraordinárias. No caso de haverem duas tarefas sem precedências entre si, é procurada a primeira tarefa que possa ser executada de acordo com a ordem de prioridades definida no cromossoma. Para além disto, se houver tarefas repetidas, apenas é considerada a sua primeira aparição no cromossoma. Se houver tarefas que não apareçam no cromossoma considera-se que elas estão no fim da lista de prioridades do cromossoma.
 
 \subsubsection{Seleção}
 
@@ -263,14 +263,13 @@ for (int i = 0; i < amountToSelect; i++) {
 		d -= population.getChromosome(j).getFitness();		
 		if (d <= 0){
 			selected[i] = population.getChromosome(j);
-			break;}
-	}
+			break;}}
 }
 \end{lstlisting}
 
 \subsubsection{Cruzamento}
 
-O cruzamento será aplicado de três maneiras distintas, sendo feita uma análise da eficiência de cada um dos métodos por forma a obter o mais eficaz. Assim, espera-se testar os seguintes tipos de cruzamentos:
+O cruzamento será aplicado de três maneiras distintas, sendo feita uma análise da eficiência de cada um dos métodos por forma a obter o mais eficaz. Assim, espera-se testar os seguintes métodos:
 
 \begin{enumerate}
 	\item Cruzamento entre tarefas
@@ -356,6 +355,7 @@ Em suma, verifica-se que o projeto se encontra a ser desenvolvido a um ritmo coe
 
 O projeto escolhido despoletou a curiosidade de todos os membros. Apesar de por vezes serem encontradas dificuldades, são estas que dão alento ao estudo mais aprofundado das matérias abordadas e permitem um avanço sólido do mesmo. Espera-se que o trabalho a realizar no futuro se encontre dentro dos paradigmas do que já se encontra feito.
 
+\nocite{*}
 \bibliography{title_page_1}
 \bibliographystyle{plain}
 
