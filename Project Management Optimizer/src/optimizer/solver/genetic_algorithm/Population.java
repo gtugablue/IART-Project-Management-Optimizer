@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Random;
 
 import optimizer.Problem;
-import optimizer.Solution;
 
 public class Population implements Cloneable{
 	

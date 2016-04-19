@@ -11,7 +11,6 @@ import java.util.Random;
 import java.util.Stack;
 
 import optimizer.Problem;
-import optimizer.Solution;
 import optimizer.domain.Element;
 import optimizer.domain.Task;
 
@@ -146,14 +145,6 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 		}
 
 		return result;
-	}
-	
-	private Integer taskToID(Task task) {
-		for (int i = 0; i < problem.getTasks().size(); i++) {
-			if (problem.getTasks().get(i).equals(task))
-				return i;
-		}
-		return null;
 	}
 
 	public int getFitness() {
