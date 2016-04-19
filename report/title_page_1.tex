@@ -203,13 +203,7 @@ A arquitetura pensada para o projeto passa pela implementação de três classes
 
 \subsection{Formato do input}
 
-O input será colhido de um ficheiro de formato \textit{json} e será estrutrurado conforme está representado no exemplo apresentado a seguir. Espera-se receber:
-
-\begin{itemize}
- 	\item uma lista de \textit{skills}
-	\item uma lista de \textit{tasks} sendo que cada uma tem um \textbf{nome} e uma \textbf{competência}
-	\item uma lista de \textit{elements} sendo que cada um tem um \textbf{nome} e um array de \textbf{competências} com as respetivas \textbf{capacidades}
-\end{itemize}
+O input será colhido de um ficheiro de formato \textit{json} e será estrutrurado conforme está representado no exemplo apresentado a seguir. 
 
 \begin{lstlisting}[language=json,firstnumber=1]
 { 
@@ -233,11 +227,21 @@ O projeto será dividido em fases de trabalho. A inicial passa pelo desenvolvime
 \subsection{Algoritmos Genéticos}
 \justify\normalsize
 Explicar o algoritmo usado:
-	- estrutura do cromossoma
 	- função de avaliação
 	- seleção
 	- cruzamento
 	- mutações
+
+\subsubsection{Estrutura do Cromossoma}
+\justify\normalsize
+A construção dos cromossomas segue a ordem das precedências de tarefas. Assim, o mesmo é composto pelo id da tarefa seguido de 0 ou 1 para cada elemento, sendo que 1 significa que o membro trabalhou na tarefa e 0 significa que o elemento não trabalhou na tarefa. O cromossoma final sera composto por x blocos, sendo que x é o número de tarefas existentes. Cada bloco terá tamanho variável conforme o número de elementos do projeto e conforme o número de bits necessários para representar a tarefa. A fórmula utilizada para cálculo do número de bits é a apresentada na equação \ref{equação 1}.
+
+\begin{figure}[!ht]
+\begin{equation} \label{equação 1}
+\lfloor (\dfrac{\log_{10}(size-1)}{log_{10}(2)+1} \rfloor
+\end{equation}
+\caption{Fórmula para calcular o número de bits máximo para representar com id todas as tarefas (size equivale ao número de tarefas).}
+\end{figure}
 
 \subsection{Arrefecimento Simulado}
 \justify\normalsize
@@ -281,6 +285,11 @@ O próximo estado é gerado através de uma lista ordenada víavel da seguinta m
 
 Depois de efectuados estes passos obtém-se a uma lista que representará o próximo estado. 
 
+\begin{figure}[h!]
+  \includegraphics[scale=0.8]{sa.png}
+  \caption{Representação de uma lista e processo de geração de um novo estado. (A) Representação de uma lista ordenada de tasks. (B) Exemplo de um planeamento viável com base na lista de tasks. (C) Geração aleatório de uma nova posição para a task 3. (D) Nova lista após o deslocamento. (E) Representação gráfica do Estado Inicial. (F) Representação gráfica do Novo Estado.}
+  \label{Simulated Annealing}
+\end{figure}
 
 \section{Trabalho Realizado}
 \justify\normalsize
