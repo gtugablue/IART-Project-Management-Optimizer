@@ -1,21 +1,24 @@
 package optimizer.solver.simulated_annealing;
 
+import optimizer.domain.Element;
 import optimizer.domain.Task;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by duarte on 15-04-2016.
  */
 public class Schedule {
-    private List<Task> orderedTasks = new ArrayList<>();
-    private List<Integer> startTimes = new ArrayList<>();
-    private List<Integer> finishTimes = new ArrayList<>();
+    protected List<Task> orderedTasks = new ArrayList<>();
+    protected List<Integer> startTimes = new ArrayList<>();
+    protected List<Integer> finishTimes = new ArrayList<>();
+    protected List<Element> resources = new ArrayList<>();
 
-    Schedule(List<Task> tasks){
+    Schedule(List<Task> tasks, List<Element> resources){
         orderedTasks.addAll(tasks);
+
+        this.resources.addAll(resources);
+
         startTimes.addAll(Collections.nCopies(tasks.size(), null));
         finishTimes.addAll(Collections.nCopies(tasks.size(), null));
     }
@@ -40,12 +43,18 @@ public class Schedule {
         task.setPosition(i);
     }
 
-    // TODO: 15-04-2016 Finish
+    // TODO: 19-04-2016  
     private int insertTask(List<Task> list, Task task){
         boolean inserted = false;
         int position=-1;
-        do {
 
+        Random random = new Random();
+        int min = task.getLastPrecedence();
+        int max = task.getFirstSuccessor(list.size());
+
+        do {
+            position = random.nextInt(max - min + 1) + min;
+//            if()
         }while(!inserted);
 
 

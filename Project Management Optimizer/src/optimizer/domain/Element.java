@@ -1,12 +1,13 @@
 package optimizer.domain;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Element {
 	private String name;
 	private Map<Skill, Float> skills;
-	
+	protected Map<Integer,Task> assignementTimes= new HashMap<>();
+
+
 	public Element(String name) {
 		this.name = name;
 		this.skills = new HashMap<Skill, Float>();
@@ -59,4 +60,30 @@ public class Element {
 			return false;
 		return true;
 	}
+
+	public boolean canAssign(int start, int end){
+		Set<Integer> keys = assignementTimes.keySet();
+
+		for(Integer key : keys){
+			int t_end = assignementTimes.get(key).getWeight()+start;
+
+			if((start > key && start < t_end)
+					|| (key > start && key < end)){
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public boolean assign(int start, Task task){
+		int end = task.getWeight() + start;
+		if(canAssign(start, end)){
+			assignementTimes.put(start,task);
+			return true;
+		}else{
+			return false;
+		}
+
+	}
 }
+

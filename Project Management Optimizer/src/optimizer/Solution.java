@@ -69,8 +69,8 @@ public class Solution implements Cloneable {
 			float performance = findFreeElementID(task, elementReadyTimes).getSkillPerfomance(task.getSkill());
 			totalPerformance += performance;
 		}
-		int duration = (int)(totalPerformance * task.getDuration());
-		duration = (int)(task.getDuration() / totalPerformance);
+		int duration = (int)(totalPerformance * task.getWeight());
+		duration = (int)(task.getWeight() / totalPerformance);
 		int endTime = currTime + duration;
 		taskCompletionTimes.put(task, endTime);
 		for (Element element : assignedElements) {

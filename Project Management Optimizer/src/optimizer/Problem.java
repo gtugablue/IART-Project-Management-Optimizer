@@ -27,7 +27,7 @@ public class Problem {
 	public int scoreLimit() {
 		int sum = 0;
 		for (Task task : tasks)
-			sum += task.getDuration();
+			sum += task.getWeight();
 		return sum;
 	}
 }

@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Task {
 	private String name;
-	private int duration;
+	private int weight;
 	private Skill skill;
 	private List<Task> precedences = new ArrayList<Task>();
 	private List<Task> successors = new ArrayList<Task>();
@@ -14,29 +14,29 @@ public class Task {
 
     protected Task(Task task){
         this.name = task.getName();
-        this.duration = task.getDuration();
+        this.weight = task.getWeight();
         this.skill = getSkill();
         this.precedences = getPrecedences();
         this.successors = getSuccessors();
     }
 
-	public Task(String name, int duration) {
+	public Task(String name, int weight) {
 		this.name = name;
-		this.duration = duration;
+		this.weight = weight;
 		this.skill = null;
 	}
 	
-	public Task(String name, int duration, Skill skill, List<Task> precedences) {
+	public Task(String name, int weight, Skill skill, List<Task> precedences) {
 		this.name = name;
-		this.duration = duration;
+		this.weight = weight;
 		this.skill = skill;
         precedences = new ArrayList<>();
         precedences.forEach(this::addPrecedence);
     }
 	
-	public Task(String name, int duration, Skill skill){
+	public Task(String name, int weight, Skill skill){
 		this.name = name;
-		this.duration = duration;
+		this.weight = weight;
 		this.skill = skill;
 	}
 	
@@ -57,12 +57,12 @@ public class Task {
 		this.precedences = precedences;
 	}
 	
-	public void setDuration(int duration) {
-		this.duration = duration;
+	public void setWeight(int weight) {
+		this.weight = weight;
 	}
 	
-	public int getDuration() {
-		return this.duration;
+	public int getWeight() {
+		return this.weight;
 	}
 	
 	public void setName(String name) {
@@ -102,7 +102,7 @@ public class Task {
         Task task = (Task) obj;
 
         return this.getName().equals(task.getName())
-                && this.getDuration() == task.getDuration()
+                && this.getWeight() == task.getWeight()
                 && this.getSkill().equals(task.getSkill())
                 ;
     }
