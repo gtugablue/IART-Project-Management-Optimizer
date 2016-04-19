@@ -26,6 +26,7 @@ public class Solution implements Cloneable {
 		HashMap<Element, Integer> elementReadyTimes = new LinkedHashMap<Element, Integer>();
 		createTimes(taskCompletionTimes, elementReadyTimes);
 		int currTime = 0;
+		
 		while (!allTasksDone(taskCompletionTimes)) {
 			for (int i = 0; i < taskOrder.size(); i++) {
 				Task task = problem.getTasks().get(i);

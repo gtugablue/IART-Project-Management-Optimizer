@@ -47,8 +47,6 @@ public class Algorithm {
 		return p;
 	}
 
-
-
 	private void selection(Population population) {
 		Chromosome[] selected = rouletteWheelSelection(population);
 		for (int i = 0; i < selected.length; i++) {
