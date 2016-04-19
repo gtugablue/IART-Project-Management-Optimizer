@@ -12,6 +12,7 @@ public class Algorithm {
 	private double crossoverRate;
 	private int elitism;
 	private static Random random = new Random();
+	
 	public Algorithm(Problem problem, double mutationRate, double crossoverRate, int elitism) {
 		this.problem = problem;
 		this.mutationRate = mutationRate;
@@ -72,30 +73,34 @@ public class Algorithm {
 		}
 		return selected;
 	}
-
+	
 	/**
-	 * Crossover of two chromosomes
-	 * 
+	 * Crossover between a chromosome's member in a certain task
 	 * @param firstCh
 	 * @param secondCh
-	 * @param initialBit
-	 * @param finalBit
+	 * @param task
+	 * @param member
 	 * @return ArrayList<Chromosome>
 	 */
-	private ArrayList<Chromosome> crossover(Chromosome firstCh, Chromosome secondCh, int initialBit, int finalBit) {
-
-		ArrayList<Chromosome> chromosomes = new ArrayList<Chromosome>();
-
-		for (int i = initialBit; i < finalBit; i++) {
-			firstCh.getGenes()[i] = secondCh.getGenes()[i];
-			secondCh.getGenes()[i] = firstCh.getGenes()[i];
-		}
-
-		chromosomes.add(firstCh);
-		chromosomes.add(secondCh);
-
-		return chromosomes;
-
+	private ArrayList<Chromosome> crossoverElement(Chromosome firstCh, Chromosome secondCh, int task, int member){
+		
+		ArrayList<Chromosome> chromosome = new ArrayList<Chromosome>();
+		
+		int nrMembers = problem.getElements().size();
+		int block = firstCh.getNumBitsTask()*nrMembers;
+		int blockIndex = block*task;
+		int geneToFlip = blockIndex + firstCh.getNumBitsTask() + member;
+		
+		boolean gene;
+		gene = firstCh.getGenes()[geneToFlip];
+		firstCh.getGenes()[geneToFlip] = secondCh.getGenes()[geneToFlip];
+		secondCh.getGenes()[geneToFlip] = gene;
+		
+		chromosome.add(firstCh);
+		chromosome.add(secondCh);
+		
+		return chromosome;
+		
 	}
 
 	private void mutation(Population population) {

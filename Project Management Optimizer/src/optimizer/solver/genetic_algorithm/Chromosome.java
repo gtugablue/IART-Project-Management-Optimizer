@@ -24,6 +24,10 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 		randomizeGenes();
 		evaluate();
 	}
+	
+	public int getNumBitsTask(){
+		return numBitsTaskID;
+	}
 
 	public Chromosome(Problem problem, boolean[] genes) {
 		super(problem);
