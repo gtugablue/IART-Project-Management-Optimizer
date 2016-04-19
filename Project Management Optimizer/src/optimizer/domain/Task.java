@@ -20,8 +20,9 @@ public class Task {
 		this.name = name;
 		this.duration = duration;
 		this.skill = skill;
-        precedences = new ArrayList<>();
-        precedences.forEach(this::addPrecedence);
+        //precedences = new ArrayList<>();
+        //precedences.forEach(this::addPrecedence);
+		this.precedences = precedences;
     }
 	
 	public Task(String name, int duration, Skill skill){

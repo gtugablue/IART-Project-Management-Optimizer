@@ -2,8 +2,13 @@ package optimizer.solver.genetic_algorithm;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Random;
+import java.util.Stack;
 
 import optimizer.Problem;
 import optimizer.Solution;
@@ -60,7 +65,7 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 			taskOrder.add(taskID);
 			taskElements.add(readElements(offset));
 		}
-		
+
 		// Add missing tasks ordered by ID
 		for (int i = 0; i < tasks.size(); i++) {
 			if (!taskOrder.contains(i)) {
@@ -70,7 +75,7 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 		}
 		return super.evaluate();
 	}
-	
+
 	private List<Integer> readElements(int offset) {
 		ArrayList<Integer> elements = new ArrayList<Integer>();
 		int fullOffset = offset + this.numBitsTaskID;
@@ -88,12 +93,67 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 			n = (n << 1) | (b ? 1 : 0);
 		return n;
 	}
+	
+	private boolean[] intToBooleanArr(int i, int numBits) {
+		boolean[] b = new boolean[numBits];
+		for (int j = b.length - 1; j >= 0; j--) {
+	        b[j] = (j & (1 << j)) != 0;
+	    }
+		return b;
+	}
 
 	private void randomizeGenes() {
 		Random r = new Random();
-		for (int i = 0; i < genes.length; i++) {
-			genes[i] = r.nextBoolean();
+		List<Integer> topoSort = randomTopoSort();
+		int taskSize = this.numBitsTaskID + problem.getElements().size();
+		for (int i = 0; i < topoSort.size(); i++) {
+			int n = topoSort.get(i);
+			boolean[] taskID = intToBooleanArr(n, this.numBitsTaskID);
+			for (int j = 0; j < this.numBitsTaskID; j++) {
+				genes[i * taskSize + j] = taskID[j];
+			}
+			for (int j = this.numBitsTaskID; j < taskSize; j++) {
+				genes[i * taskSize + j] = r.nextBoolean();
+			}
 		}
+	}
+
+	private List<Integer> randomTopoSort() {
+		LinkedList<Integer> result = new LinkedList<Integer>();
+		List<Task> tasks = problem.getTasks();
+
+		LinkedList<Integer> sources = new LinkedList<Integer>(); 
+		for (int i = 0; i < tasks.size(); i++) {
+			if (tasks.get(i).getPrecedences().size() == 0) {
+				sources.add(i);
+			}
+		}
+		int[] inDegree = new int[tasks.size()];
+		for (int i = 0; i < tasks.size(); i++) {
+			inDegree[i] = tasks.get(i).getPrecedences().size();
+		}
+		while( !sources.isEmpty() ) {
+			Collections.shuffle(sources);
+			int n = sources.poll();
+			result.add(n);
+
+			for(int i = 0; i < tasks.size(); i++) {
+				if (!tasks.get(i).getPrecedences().contains(tasks.get(n)))
+					continue;
+				inDegree[i]--;
+				if(inDegree[i] == 0) sources.add(i);
+			}
+		}
+
+		return result;
+	}
+	
+	private Integer taskToID(Task task) {
+		for (int i = 0; i < problem.getTasks().size(); i++) {
+			if (problem.getTasks().get(i).equals(task))
+				return i;
+		}
+		return null;
 	}
 
 	public int getFitness() {
@@ -115,7 +175,7 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 		problem = c.problem;
 		genes = newGenes;
 	}
-	
+
 	@Override
 	public Chromosome clone() {
 		return new Chromosome(this);
