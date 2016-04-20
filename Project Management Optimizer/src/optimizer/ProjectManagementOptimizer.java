@@ -33,7 +33,7 @@ public class ProjectManagementOptimizer {
 		Algorithm algorithm = new Algorithm(problem, 0.05, 0.2, 3);
 		Population population = algorithm.randomStartingPopulation(50);
 		
-		for (int i = 0; i < 100000; i++) {
+		for (int i = 0; i < 100000000; i++) {
 			population.showInfo(i + 1);
 			population = algorithm.evolve(population);
 		}
