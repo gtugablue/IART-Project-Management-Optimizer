@@ -25,6 +25,7 @@ public class Population implements Cloneable{
 			Chromosome oneChromosome = new Chromosome(problem);
 			chromosomes.add(oneChromosome);
 		}
+		this.evaluate(problem);
 	}
 	
 	/**
@@ -106,9 +107,18 @@ public class Population implements Cloneable{
 		return totalFitness;
 	}
 	
+	public void showInfo(int generationNum) {
+		System.out.print("#" + generationNum + "\t Best fitness: " + getFittest().getFitness() + "\t Avg. fitness: " + getTotalFitness() / getSize() + " - ");
+		for (int j = 0; j < getSize(); j++) {
+			System.out.print(getChromosome(j).getFitness() + " ");
+		}
+		System.out.println();
+	}
+	
 	@Override
 	public Population clone() {
 		Population p = new Population();
+		p.totalFitness = this.totalFitness;
 		for (int i = 0; i < this.chromosomes.size(); i++) {
 			p.chromosomes.add(this.chromosomes.get(i).clone());
 		}

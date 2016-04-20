@@ -1,6 +1,7 @@
 package optimizer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -29,21 +30,16 @@ public class ProjectManagementOptimizer {
 		giveSkillsToElements(project.skills, project.elements);
 		
 		Problem problem = new Problem(project.tasks, project.elements, project.skills);
-		Algorithm algorithm = new Algorithm(problem, 0.1, 0.01, 3);
+		Algorithm algorithm = new Algorithm(problem, 0.02, 0.2, 3);
 		Population population = algorithm.randomStartingPopulation(50);
-		population.evaluate(problem);
 		
 		for (int i = 0; i < 100000; i++) {
-			System.out.print("#" + (i + 1) + "\t Best fitness: " + population.getFittest().getFitness() + "\t Avg. fitness: " + population.getTotalFitness() / population.getSize() + " - ");
-			for (int j = 0; j < population.getSize(); j++) {
-				System.out.print(population.getChromosome(j).getFitness() + " ");
-			}
-			System.out.println();
+			population.showInfo(i + 1);
 			population = algorithm.evolve(population);
 		}
 		
 	}
-
+	
 	private static ArrayList<Skill> createSkills() {
 		ArrayList<Skill> skills = new ArrayList<Skill>();
 		/*skills.add(new Skill("Escrever relatorios"));

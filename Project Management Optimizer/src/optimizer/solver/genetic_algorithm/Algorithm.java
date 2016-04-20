@@ -2,6 +2,8 @@ package optimizer.solver.genetic_algorithm;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 import optimizer.Problem;
@@ -39,12 +41,11 @@ public class Algorithm {
 	 */
 	public Population evolve(Population population) {
 		Population p = (Population) population.clone();
-		p.evaluate(problem);
-
 		selection(p);
 		// TODO Crossover
 		mutation(p);
-
+		
+		p.evaluate(problem);
 		return p;
 	}
 
@@ -58,10 +59,11 @@ public class Algorithm {
 	private Chromosome[] rouletteWheelSelection(Population population) {
 		int amountToSelect = population.getSize() - this.elitism;
 		Chromosome[] selected = new Chromosome[amountToSelect];
+		int maxValue = population.getChromosome(0).getFitness();
 		for (int i = 0; i < amountToSelect; i++) {
-			double d = random.nextDouble() * population.getTotalFitness();	
+			double d = random.nextDouble() * (population.getSize() * maxValue - population.getTotalFitness());
 			for(int j = 0; j < population.getSize(); j++) {		
-				d -= population.getChromosome(j).getFitness();		
+				d -= maxValue - population.getChromosome(j).getFitness();	
 				if (d <= 0)
 				{
 					selected[i] = population.getChromosome(j);
@@ -104,6 +106,10 @@ public class Algorithm {
 	}
 
 	private void mutation(Population population) {
+		classicMutation(population);
+	}
+	
+	private void classicMutation(Population population) {
 		int chromosomeSize = population.getChromosomeSize();
 		int totalBits = (population.getSize() - this.elitism) * chromosomeSize;
 		for (int i = 0; i < totalBits; i++)
@@ -111,6 +117,18 @@ public class Algorithm {
 			float f = random.nextFloat();
 			if (f < mutationRate) {
 				population.getChromosome(i / chromosomeSize).flipGene(i % chromosomeSize);
+			}
+		}
+	}
+	
+	private void swapMutation(Population population) {
+		int bitsPerTask = population.getChromosome(0).getNumBitsTask() + problem.getElements().size();
+		int numChromosomes = population.getSize() - this.elitism;
+		for (int i = 0; i < numChromosomes; i++) {
+			float f = random.nextFloat();
+			if (f < mutationRate) {
+				// TODO
+				i--;
 			}
 		}
 	}
