@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Random;
+import java.util.Set;
 import java.util.Stack;
 import java.util.Map.Entry;
 
@@ -261,11 +262,9 @@ public class Chromosome implements Comparable<Chromosome>, Cloneable {
 		}
 
 		int elementReadyTime = Integer.MAX_VALUE;
-		for (Entry<Element, Integer> entry : elementReadyTimes.entrySet()) {
-			if (entry.getKey().getSkillPerfomance(task.getSkill()) > 0) {
-				int time = entry.getValue();
-				elementReadyTime = Math.min(elementReadyTime, time);
-			}
+		Set<Element> candidateElements = task.getSkill().whoHas();
+		for (Element candidate : candidateElements) {
+			elementReadyTime = Math.min(elementReadyTime, elementReadyTimes.get(candidate));
 		}
 		return Math.max(precedencesReadyTime, elementReadyTime);
 	}

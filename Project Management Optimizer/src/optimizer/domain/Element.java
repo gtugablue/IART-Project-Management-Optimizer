@@ -19,6 +19,7 @@ public class Element {
 	
 	public void addSkill(Skill skill, float performance) {
 		this.skills.put(skill, performance);
+		skill.addCapableElement(this);
 	}
 	
 	public float getSkillPerfomance(Skill skill) {

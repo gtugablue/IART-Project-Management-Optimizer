@@ -9,7 +9,6 @@ public class Task {
 	private Skill skill;
 	private List<Task> precedences = new ArrayList<Task>();
 	private List<Task> successors = new ArrayList<Task>();
-	
 	public Task(String name, int duration) {
 		this.name = name;
 		this.duration = duration;
