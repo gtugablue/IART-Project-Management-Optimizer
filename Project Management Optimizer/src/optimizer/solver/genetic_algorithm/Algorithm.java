@@ -1,6 +1,7 @@
 package optimizer.solver.genetic_algorithm;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,7 +15,7 @@ public class Algorithm {
 	private double crossoverRate;
 	private int elitism;
 	private static Random random = new Random();
-	
+
 	public Algorithm(Problem problem, double mutationRate, double crossoverRate, int elitism) {
 		this.problem = problem;
 		this.mutationRate = mutationRate;
@@ -44,7 +45,7 @@ public class Algorithm {
 		selection(p);
 		// TODO Crossover
 		mutation(p);
-		
+
 		p.evaluate(problem);
 		return p;
 	}
@@ -75,7 +76,7 @@ public class Algorithm {
 		}
 		return selected;
 	}
-	
+
 	/**
 	 * Crossover between a chromosome's member in a certain task
 	 * @param firstCh
@@ -85,30 +86,33 @@ public class Algorithm {
 	 * @return ArrayList<Chromosome>
 	 */
 	private ArrayList<Chromosome> crossoverElement(Chromosome firstCh, Chromosome secondCh, int task, int member){
-		
+
 		ArrayList<Chromosome> chromosome = new ArrayList<Chromosome>();
-		
+
 		int nrMembers = problem.getElements().size();
-		int block = firstCh.getNumBitsTask()*nrMembers;
+		int block = firstCh.getNumBitsTaskID()*nrMembers;
 		int blockIndex = block*task;
-		int geneToFlip = blockIndex + firstCh.getNumBitsTask() + member;
-		
+		int geneToFlip = blockIndex + firstCh.getNumBitsTaskID() + member;
+
 		boolean gene;
 		gene = firstCh.getGenes()[geneToFlip];
 		firstCh.getGenes()[geneToFlip] = secondCh.getGenes()[geneToFlip];
 		secondCh.getGenes()[geneToFlip] = gene;
-		
+
 		chromosome.add(firstCh);
 		chromosome.add(secondCh);
-		
+
 		return chromosome;
-		
+
 	}
 
 	private void mutation(Population population) {
-		classicMutation(population);
+		if (random.nextBoolean())
+			classicMutation(population);
+		else
+			swapMutation(population);
 	}
-	
+
 	private void classicMutation(Population population) {
 		int chromosomeSize = population.getChromosomeSize();
 		int totalBits = (population.getSize() - this.elitism) * chromosomeSize;
@@ -120,15 +124,25 @@ public class Algorithm {
 			}
 		}
 	}
-	
+
 	private void swapMutation(Population population) {
-		int bitsPerTask = population.getChromosome(0).getNumBitsTask() + problem.getElements().size();
 		int numChromosomes = population.getSize() - this.elitism;
 		for (int i = 0; i < numChromosomes; i++) {
-			float f = random.nextFloat();
-			if (f < mutationRate) {
-				// TODO
-				i--;
+			Chromosome c = population.getChromosome(i);
+			for (int j = 0; j < problem.getTasks().size(); j++) {
+				float f = random.nextFloat();
+				if (f < mutationRate) {
+					// Temporarily store the first task
+					boolean[] temp = Arrays.copyOfRange(c.getGenes(), j * c.getNumBitsTaskBlock(), (j + 1) * c.getNumBitsTaskBlock());
+					
+					int swapWith = random.nextInt(problem.getTasks().size());
+					
+					// Copy the second task to the first one
+					System.arraycopy(c.getGenes(), swapWith * c.getNumBitsTaskBlock(), c.getGenes(), j * c.getNumBitsTaskBlock(), c.getNumBitsTaskBlock());
+					
+					// Copy the temporarily stored task back to the second one
+					System.arraycopy(temp, 0, c.getGenes(), swapWith * c.getNumBitsTaskBlock(), c.getNumBitsTaskBlock());
+				}
 			}
 		}
 	}

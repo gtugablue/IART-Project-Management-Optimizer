@@ -32,8 +32,12 @@ public class Chromosome implements Comparable<Chromosome>, Cloneable {
 		evaluate();
 	}
 	
-	public int getNumBitsTask(){
+	public int getNumBitsTaskID(){
 		return numBitsTaskID;
+	}
+	
+	public int getNumBitsTaskBlock() {
+		return numBitsTaskID + problem.getElements().size();
 	}
 
 	public Chromosome(Problem problem, boolean[] genes) {
@@ -61,6 +65,7 @@ public class Chromosome implements Comparable<Chromosome>, Cloneable {
 	}
 
 	public int evaluate() {
+		score = 0;
 		List<Integer> taskOrder = new ArrayList<Integer>();
 		List<List<Integer>> taskElements = new ArrayList<List<Integer>>();
 		List<Task> tasks = problem.getTasks();
@@ -69,8 +74,14 @@ public class Chromosome implements Comparable<Chromosome>, Cloneable {
 			int offset = i * bitsPerTask;
 			boolean[] bTaskID = Arrays.copyOfRange(this.genes, offset, offset + this.numBitsTaskID);
 			int taskID = booleanArrToInt(bTaskID);
-			if (taskID >= problem.getTasks().size()) continue; // Ignore, because ID is invalid
-			if (taskOrder.contains(taskID)) continue; // Ignore, because the task is already in the list
+			if (taskID >= problem.getTasks().size()) {
+				score += 50;
+				continue; // Ignore, because ID is invalid
+			}
+			if (taskOrder.contains(taskID)) {
+				score += 10;
+				continue; // Ignore, because the task is already in the list
+			}
 			taskOrder.add(taskID);
 			taskElements.add(readElements(offset));
 		}
@@ -100,7 +111,7 @@ public class Chromosome implements Comparable<Chromosome>, Cloneable {
 			}
 		}
 
-		score = findMaxTaskCompletionTime(taskCompletionTimes);
+		score += findMaxTaskCompletionTime(taskCompletionTimes);
 		return score;
 	}
 
@@ -245,9 +256,9 @@ public class Chromosome implements Comparable<Chromosome>, Cloneable {
 				if (time > precedencesReadyTime)
 					precedencesReadyTime = time;
 			}
+			if (precedencesReadyTime == Integer.MAX_VALUE)
+				return precedencesReadyTime; // If the task's precedences haven't been met, there's no need to check if there are elements available
 		}
-		if (precedencesReadyTime == Integer.MAX_VALUE)
-			return precedencesReadyTime; // If the task's precedences haven't been met, there's not need to check if there are elements available
 
 		int elementReadyTime = Integer.MAX_VALUE;
 		for (Entry<Element, Integer> entry : elementReadyTimes.entrySet()) {
@@ -293,6 +304,7 @@ public class Chromosome implements Comparable<Chromosome>, Cloneable {
 		problem = c.problem;
 		genes = newGenes;
 		score = c.score;
+		numBitsTaskID = c.numBitsTaskID;
 	}
 
 	@Override
