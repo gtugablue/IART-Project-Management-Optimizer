@@ -29,9 +29,13 @@ public class Chromosome implements Comparable<Chromosome>, Cloneable {
 		randomizeGenes();
 		evaluate();
 	}
-	
-	public int getNumBitsTask(){
+
+	public int getNumBitsTaskID(){
 		return numBitsTaskID;
+	}
+
+	public int getNumBitsTaskBlock() {
+		return numBitsTaskID + problem.getElements().size();
 	}
 
 	public Chromosome(Problem problem, boolean[] genes) {
@@ -59,6 +63,7 @@ public class Chromosome implements Comparable<Chromosome>, Cloneable {
 	}
 
 	public int evaluate() {
+		score = 0;
 		List<Integer> taskOrder = new ArrayList<Integer>();
 		List<List<Integer>> taskElements = new ArrayList<List<Integer>>();
 		List<Task> tasks = problem.getTasks();
@@ -67,8 +72,14 @@ public class Chromosome implements Comparable<Chromosome>, Cloneable {
 			int offset = i * bitsPerTask;
 			boolean[] bTaskID = Arrays.copyOfRange(this.genes, offset, offset + this.numBitsTaskID);
 			int taskID = booleanArrToInt(bTaskID);
-			if (taskID >= problem.getTasks().size()) continue; // Ignore, because ID is invalid
-			if (taskOrder.contains(taskID)) continue; // Ignore, because the task is already in the list
+			if (taskID >= problem.getTasks().size()) {
+				score += 50;
+				continue; // Ignore, because ID is invalid
+			}
+			if (taskOrder.contains(taskID)) {
+				score += 10;
+				continue; // Ignore, because the task is already in the list
+			}
 			taskOrder.add(taskID);
 			taskElements.add(readElements(offset));
 		}
@@ -80,17 +91,41 @@ public class Chromosome implements Comparable<Chromosome>, Cloneable {
 				taskElements.add(readElements(i * bitsPerTask));
 			}
 		}
-		
+
+		// Check for invalid elements
+		for (int i = 0; i < taskElements.size(); i++) {
+			List<Integer> ids = taskElements.get(i);
+			Task task = problem.getTasks().get(taskOrder.get(i));
+			for (int j = 0; j < ids.size(); j++) {
+				if (problem.getElements().get(ids.get(j)).getSkillPerfomance(task.getSkill()) <= 0) {
+					score += 1;
+					ids.remove(j);
+				}
+			}
+
+			// If no valid element was found add the first valid element
+			if (ids.size() == 0) {
+				score += 20;
+				for (int j = 0; j < problem.getElements().size(); j++) {
+					if (problem.getElements().get(ids.get(j)).getSkillPerfomance(task.getSkill()) > 0) {
+						ids.add(j);
+						break;
+					}
+				}
+			}
+			taskElements.set(i, ids);
+		}
+
 		HashMap<Task, Integer> taskCompletionTimes = new LinkedHashMap<Task, Integer>();
 		HashMap<Element, Integer> elementReadyTimes = new LinkedHashMap<Element, Integer>();
 		createTimes(taskCompletionTimes, elementReadyTimes);
 		int currTime = 0;
-		
+
 		while (!allTasksDone(taskCompletionTimes)) {
 			for (int i = 0; i < taskOrder.size(); i++) {
-				Task task = problem.getTasks().get(i);
+				Task task = problem.getTasks().get(taskOrder.get(i));
 				if (!taskCompletionTimes.get(task).equals(Integer.MAX_VALUE)) continue; // Task already done, skip it
-				int taskStartTime = calculateTaskStartTime(task, taskCompletionTimes, elementReadyTimes);
+				int taskStartTime = calculateTaskStartTime(task, taskElements.get(i), taskCompletionTimes, elementReadyTimes);
 				if (taskStartTime == Integer.MAX_VALUE) continue; // Precedences not ready, try a different task
 				currTime = taskStartTime;
 				allocateElementsToTask(task, taskElements.get(i), currTime, taskCompletionTimes, elementReadyTimes);
@@ -98,7 +133,7 @@ public class Chromosome implements Comparable<Chromosome>, Cloneable {
 			}
 		}
 
-		score = findMaxTaskCompletionTime(taskCompletionTimes);
+		score += findMaxTaskCompletionTime(taskCompletionTimes);
 		return score;
 	}
 
@@ -119,12 +154,12 @@ public class Chromosome implements Comparable<Chromosome>, Cloneable {
 			n = (n << 1) | (b ? 1 : 0);
 		return n;
 	}
-	
+
 	private boolean[] intToBooleanArr(int i, int numBits) {
 		boolean[] b = new boolean[numBits];
 		for (int j = b.length - 1; j >= 0; j--) {
-	        b[j] = (j & (1 << j)) != 0;
-	    }
+			b[j] = (j & (1 << j)) != 0;
+		}
 		return b;
 	}
 
@@ -234,7 +269,7 @@ public class Chromosome implements Comparable<Chromosome>, Cloneable {
 		return null;
 	}
 
-	private int calculateTaskStartTime(Task task, HashMap<Task, Integer> taskCompletionTimes, HashMap<Element, Integer> elementReadyTimes) {
+	private int calculateTaskStartTime(Task task, List<Integer> taskElements, HashMap<Task, Integer> taskCompletionTimes, HashMap<Element, Integer> elementReadyTimes) {
 		int precedencesReadyTime = 0;
 		if (task.getPrecedences().size() >= 1)
 		{
@@ -243,16 +278,15 @@ public class Chromosome implements Comparable<Chromosome>, Cloneable {
 				if (time > precedencesReadyTime)
 					precedencesReadyTime = time;
 			}
+			if (precedencesReadyTime == Integer.MAX_VALUE)
+				return precedencesReadyTime; // If the task's precedences haven't been met, there's no need to check if there are elements available
 		}
-		if (precedencesReadyTime == Integer.MAX_VALUE)
-			return precedencesReadyTime; // If the task's precedences haven't been met, there's not need to check if there are elements available
 
 		int elementReadyTime = Integer.MAX_VALUE;
-		for (Entry<Element, Integer> entry : elementReadyTimes.entrySet()) {
-			if (entry.getKey().getSkillPerfomance(task.getSkill()) > 0) {
-				int time = entry.getValue();
-				elementReadyTime = Math.min(elementReadyTime, time);
-			}
+
+		List<Element> elements = problem.getElements();
+		for (Integer id : taskElements) {
+			elementReadyTime = Math.min(elementReadyTime, elementReadyTimes.get(elements.get(id)));
 		}
 		return Math.max(precedencesReadyTime, elementReadyTime);
 	}
@@ -291,6 +325,7 @@ public class Chromosome implements Comparable<Chromosome>, Cloneable {
 		problem = c.problem;
 		genes = newGenes;
 		score = c.score;
+		numBitsTaskID = c.numBitsTaskID;
 	}
 
 	@Override

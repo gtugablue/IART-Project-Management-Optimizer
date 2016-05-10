@@ -29,10 +29,10 @@ public class ProjectManagementOptimizer {
 		giveSkillsToElements(project.skills, project.elements);
 		
 		Problem problem = new Problem(project.tasks, project.elements, project.skills);
-		Algorithm algorithm = new Algorithm(problem, 0.02, 0.2, 3);
+		Algorithm algorithm = new Algorithm(problem, 0.01, 0.2, 3);
 		Population population = algorithm.randomStartingPopulation(50);
 		
-		for (int i = 0; i < 100000; i++) {
+		for (int i = 0; i < 100000000; i++) {
 			population.showInfo(i + 1);
 			population = algorithm.evolve(population);
 		}
