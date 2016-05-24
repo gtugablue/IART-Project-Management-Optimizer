@@ -30,11 +30,13 @@ public class ProjectManagementOptimizer {
 		giveSkillsToElements(project.skills, project.elements);
 		
 		Problem problem = new Problem(project.tasks, project.elements, project.skills);
-		new GraphFrame(problem).display();
+		GraphFrame gf = new GraphFrame(problem);
 		Algorithm algorithm = new Algorithm(problem, 0.01, 0.2, 5);
 		Population population = algorithm.randomStartingPopulation(50);
-		
+		gf.update(population.getFittest());
+		gf.display();
 		for (int i = 0; i < 100000000; i++) {
+			gf.update(population.getFittest());
 			population.showInfo(i + 1);
 			population = algorithm.evolve(population);
 		}

@@ -13,17 +13,16 @@ import java.util.Random;
 import java.util.Map.Entry;
 
 import optimizer.Problem;
+import optimizer.Solution;
 import optimizer.domain.Element;
 import optimizer.domain.Task;
 
-public class Chromosome implements Comparable<Chromosome>, Cloneable {
+public class Chromosome extends Solution implements Comparable<Chromosome>, Cloneable {
 	private boolean[] genes;
 	private int numBitsTaskID;
 	private int score;
-	private Problem problem;
-	
 	public Chromosome(Problem problem) {
-		this.problem = problem;
+		super(problem);
 		this.numBitsTaskID = minNumBits(problem.getTasks().size());
 		this.genes = new boolean[calculateChromosomeSize()];
 		randomizeGenes();
@@ -39,7 +38,7 @@ public class Chromosome implements Comparable<Chromosome>, Cloneable {
 	}
 
 	public Chromosome(Problem problem, boolean[] genes) {
-		this.problem = problem;
+		super(problem);
 		this.numBitsTaskID = minNumBits(problem.getTasks().size());
 		this.genes = genes;
 		evaluate();
@@ -64,7 +63,7 @@ public class Chromosome implements Comparable<Chromosome>, Cloneable {
 
 	public int evaluate() {
 		score = 0;
-		List<Integer> taskOrder = new ArrayList<Integer>();
+		taskOrder.clear();
 		List<List<Integer>> taskElements = new ArrayList<List<Integer>>();
 		List<Task> tasks = problem.getTasks();
 		int bitsPerTask = this.numBitsTaskID + problem.getElements().size();
@@ -116,6 +115,7 @@ public class Chromosome implements Comparable<Chromosome>, Cloneable {
 			taskElements.set(i, ids);
 		}
 
+		taskStartTimes.clear();
 		HashMap<Task, Integer> taskCompletionTimes = new LinkedHashMap<Task, Integer>();
 		HashMap<Element, Integer> elementReadyTimes = new LinkedHashMap<Element, Integer>();
 		createTimes(taskCompletionTimes, elementReadyTimes);
@@ -253,7 +253,9 @@ public class Chromosome implements Comparable<Chromosome>, Cloneable {
 		int duration = (int)(totalPerformance * task.getDuration());
 		duration = (int)(task.getDuration() / totalPerformance);
 		int endTime = currTime + duration;
+		taskStartTimes.put(task, currTime);
 		taskCompletionTimes.put(task, endTime);
+		if (endTime > totalTime) totalTime = endTime; 
 		for (Element element : assignedElements) {
 			elementReadyTimes.put(element, endTime);
 		}
@@ -303,6 +305,7 @@ public class Chromosome implements Comparable<Chromosome>, Cloneable {
 
 	private void createTimes(HashMap<Task, Integer> taskCompletionTimes, HashMap<Element, Integer> elementReadyTimes) {
 		for (Task task : problem.getTasks()) {
+			taskStartTimes.put(task, Integer.MAX_VALUE);
 			taskCompletionTimes.put(task, Integer.MAX_VALUE);
 		}
 		for (Element element : problem.getElements()) {
@@ -321,6 +324,7 @@ public class Chromosome implements Comparable<Chromosome>, Cloneable {
 	}
 
 	public Chromosome(Chromosome c) {
+		super(c.problem);
 		boolean[] newGenes = c.genes.clone();
 		problem = c.problem;
 		genes = newGenes;
