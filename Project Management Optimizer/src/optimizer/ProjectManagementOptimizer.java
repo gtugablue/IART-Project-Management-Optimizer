@@ -7,6 +7,7 @@ import java.util.Random;
 import optimizer.domain.Element;
 import optimizer.domain.Skill;
 import optimizer.domain.Task;
+import optimizer.gui.GraphFrame;
 import optimizer.solver.genetic_algorithm.Algorithm;
 import optimizer.solver.genetic_algorithm.Population;
 
@@ -29,6 +30,7 @@ public class ProjectManagementOptimizer {
 		giveSkillsToElements(project.skills, project.elements);
 		
 		Problem problem = new Problem(project.tasks, project.elements, project.skills);
+		new GraphFrame(problem).display();
 		Algorithm algorithm = new Algorithm(problem, 0.01, 0.2, 5);
 		Population population = algorithm.randomStartingPopulation(50);
 		
