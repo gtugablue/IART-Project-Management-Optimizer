@@ -18,6 +18,11 @@ import optimizer.domain.Element;
 import optimizer.domain.Task;
 
 public class Chromosome extends Solution implements Comparable<Chromosome>, Cloneable {
+	private static final int TOTAL_TIME_SCORE_MULTIPLIER = 100;
+	private static final int INVALID_TASK_ID_PENALTY = 50;
+	private static final int REPEATED_TASK_PENALTY = 10;
+	private static final int UNSKILLED_ELEMENT_PENALTY = 1;
+	private static final int NO_VALID_ELEMENT_PENALTY = 20;
 	private boolean[] genes;
 	private int numBitsTaskID;
 	private int score;
@@ -72,11 +77,11 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 			boolean[] bTaskID = Arrays.copyOfRange(this.genes, offset, offset + this.numBitsTaskID);
 			int taskID = booleanArrToInt(bTaskID);
 			if (taskID >= problem.getTasks().size()) {
-				score += 50;
+				score += INVALID_TASK_ID_PENALTY;
 				continue; // Ignore, because ID is invalid
 			}
 			if (taskOrder.contains(taskID)) {
-				score += 10;
+				score += REPEATED_TASK_PENALTY;
 				continue; // Ignore, because the task is already in the list
 			}
 			taskOrder.add(taskID);
@@ -97,14 +102,14 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 			Task task = problem.getTasks().get(taskOrder.get(i));
 			for (int j = 0; j < ids.size(); j++) {
 				if (problem.getElements().get(ids.get(j)).getSkillPerfomance(task.getSkill()) <= 0) {
-					score += 1;
+					score += UNSKILLED_ELEMENT_PENALTY;
 					ids.remove(j);
 				}
 			}
 
 			// If no valid element was found add the first valid element
 			if (ids.size() == 0) {
-				score += 20;
+				score += NO_VALID_ELEMENT_PENALTY;
 				for (int j = 0; j < problem.getElements().size(); j++) {
 					if (problem.getElements().get(ids.get(j)).getSkillPerfomance(task.getSkill()) > 0) {
 						ids.add(j);
@@ -133,7 +138,7 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 			}
 		}
 
-		score += findMaxTaskCompletionTime(taskCompletionTimes);
+		score += TOTAL_TIME_SCORE_MULTIPLIER * findMaxTaskCompletionTime(taskCompletionTimes);
 		return score;
 	}
 
@@ -243,15 +248,15 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 			float performance = problem.getElements().get(id).getSkillPerfomance(task.getSkill());
 			if (performance <= 0)
 				break; // Element hasn't got the skill to do the task, don't assign
-			totalPerformance += performance;
+			totalPerformance += 1 / (performance * task.getDuration());
 			assignedElements.add(problem.getElements().get(id));
 		}
 		if (totalPerformance <= 0) { // Can happen if the algorithm doesn't generate an element with the skill to realize the task. If so, find any available element to be assigned to the task.
 			float performance = findFreeElementID(task, elementReadyTimes).getSkillPerfomance(task.getSkill());
-			totalPerformance += performance;
+			totalPerformance += 1 / (performance * task.getDuration());
 		}
-		int duration = (int)(totalPerformance * task.getDuration());
-		duration = (int)(task.getDuration() / totalPerformance);
+		int duration = (int)(1 / totalPerformance);
+		System.out.println(duration);
 		int endTime = currTime + duration;
 		taskStartTimes.put(task, currTime);
 		taskCompletionTimes.put(task, endTime);

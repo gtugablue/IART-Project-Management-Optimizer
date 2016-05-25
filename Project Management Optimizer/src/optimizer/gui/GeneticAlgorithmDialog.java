@@ -108,7 +108,7 @@ public class GeneticAlgorithmDialog {
 			Population p = population;
 			while (running) {
 				p.showInfo();
-				dataset.addValue(p.getFittest().getFitness(), "fitness", "" + p.num());
+				dataset.addValue(p.getFittest().getFitness() / 100f, "fitness/100", "" + p.num());
 				dataset.addValue(p.getFittest().getTotalTime(), "total time", "" + p.num());
 				p = algorithm.evolve(p);
 				gp.update(p.getFittest());
