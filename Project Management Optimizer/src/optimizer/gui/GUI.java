@@ -1,7 +1,5 @@
 package optimizer.gui;
 
-import java.awt.Dimension;
-
 import javax.swing.JFrame;
 
 import optimizer.Optimizer;
@@ -17,6 +15,7 @@ public class GUI {
 	}	
 	public void show() {
 		frame.getContentPane().add(new Menu(frame));
+		
         display();
     }
 	

@@ -51,7 +51,7 @@ public class Menu extends JPanel {
 	}
 	
 	private void startGeneticAlgorithmFrame(Problem problem) {
-		new GeneticAlgorithm(problem).show();
+		new GeneticAlgorithmDialog(this.frame, problem).show();
 	}
 	
 	private void startSimulatedAnnealingFrame(Problem problem) {

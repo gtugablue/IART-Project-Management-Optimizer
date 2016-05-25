@@ -12,6 +12,7 @@ import org.graphstream.ui.swingViewer.ViewPanel;
 import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.Viewer;
 import org.graphstream.ui.view.ViewerListener;
+import org.graphstream.ui.view.ViewerPipe;
 
 import optimizer.Problem;
 import optimizer.Solution;
@@ -54,6 +55,7 @@ public class GraphPanel implements ViewerListener {
 
 	public void update(Solution solution) {
 		int numTasks = problem.getTasks().size();
+		List<Task> tasks = problem.getTasks();
 		for (int i = 0; i < numTasks; i++) {
 			this.graph.getNode(i).addAttribute("xy", solution.getTaskStartTime(problem.getTasks().get(i)), 5 * i);
 		}
