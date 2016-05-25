@@ -66,7 +66,6 @@ public class GraphPanel implements ViewerListener {
 			//view.getCamera().setViewPercent(1);
 			//view.getCamera().setGraphViewport(-solution.getTotalTime() / 2, 0, problem.scoreLimit(), 5 * numTasks);
 		}
-		System.err.println(solution.getTotalTime() + " - " + problem.scoreLimit());
 	}
 	
 	public List<Color> generateColors(int n) {

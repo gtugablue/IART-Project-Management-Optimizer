@@ -1,16 +1,26 @@
 package optimizer.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.BoxLayout;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 import optimizer.Optimizer;
 import optimizer.Problem;
@@ -22,6 +32,9 @@ public class GeneticAlgorithmDialog {
 	private Problem problem;
 	private GraphPanel gp;
 	private GeneticAlgoThread algoThread;
+	private JLabel fitnessLabel;
+	private ChartPanel chartPanel;
+	private DefaultCategoryDataset dataset;
 	public GeneticAlgorithmDialog(JFrame frame, Problem problem) {
 		this.dialog = new JDialog(frame, "Genetic Algorithm");
 		this.problem = problem;
@@ -35,14 +48,32 @@ public class GeneticAlgorithmDialog {
 					algoThread.terminate();
 			}
 		});
-	}
-
-	public void show() {
-		dialog.setLayout(new FlowLayout());
+		dialog.getContentPane().setLayout(new BoxLayout(dialog.getContentPane(), BoxLayout.Y_AXIS));
+		fitnessLabel = new JLabel("");
+		dataset = new DefaultCategoryDataset();
+		JFreeChart chart = ChartFactory.createLineChart(
+				"Population fitness",
+				"population",
+				"fitness",
+				dataset,
+				PlotOrientation.VERTICAL,
+				true, true, false);
+		chartPanel = new ChartPanel(chart);
+		
+		JPanel header = new JPanel();
+		header.setLayout(new FlowLayout());
+		header.add(new JLabel("Fitness: "));
+		header.add(fitnessLabel);
+		header.add(chartPanel);
+		
+		dialog.add(header);
 		dialog.add(gp.getView());
 		dialog.setModal(false);
 		gp.getView().setPreferredSize(new Dimension(800, 600));
 		gp.getView().setSize(800, 600);
+	}
+
+	public void show() {
 		startGeneticAlgorithm(problem);
 	}
 
@@ -55,7 +86,7 @@ public class GeneticAlgorithmDialog {
 		algoThread = new GeneticAlgoThread(algorithm, population);
 		algoThread.start();
 	}
-	
+
 	public class GeneticAlgoThread extends Thread {
 		private volatile boolean running = false;
 		private Population population;
@@ -70,13 +101,15 @@ public class GeneticAlgorithmDialog {
 			Population p = population;
 			while (running) {
 				p.showInfo();
+				dataset.addValue(p.getFittest().getFitness(), "population", "" + p.num());
 				p = algorithm.evolve(p);
 				gp.update(p.getFittest());
+				fitnessLabel.setText("" + p.getFittest().getFitness());
 				dialog.repaint();
 			}
 			p.showInfo();
 		}
-		
+
 		public void terminate() {
 			running = false;
 		}
