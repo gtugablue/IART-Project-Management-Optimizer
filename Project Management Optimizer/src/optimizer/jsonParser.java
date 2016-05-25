@@ -2,6 +2,7 @@ package optimizer;
 
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -13,30 +14,20 @@ import optimizer.domain.Task;
 
 public class jsonParser {
 
-	String filepath;
-	ProjectManagementOptimizer otimizer;
-
-	/**
-	 * json parser constructor
-	 * 
-	 * @param filepath
-	 * @param otimizer
-	 */
-	public jsonParser(String filepath, ProjectManagementOptimizer otimizer) {
-		this.filepath = filepath;
-		this.otimizer = otimizer;
-	}
-
 	/**
 	 * Method to parse the input file
+	 * @param filePath input file path
 	 */
-	public void parser() {
+	public static Problem parse(String filePath) {
 
 		JSONParser parser = new JSONParser();
+		List<Task> tasks = new ArrayList<Task>();
+		List<Skill> skills = new ArrayList<Skill>();
+		List<Element> elements = new ArrayList<Element>();
 
 		try {
 
-			Object obj = parser.parse(new FileReader(filepath));
+			Object obj = parser.parse(new FileReader(filePath));
 
 			JSONObject jsonObject = (JSONObject) obj;
 
@@ -45,7 +36,7 @@ public class jsonParser {
 			for (int l = 0; l < skillsArray.size(); l++) {
 				String skillName = (String) skillsArray.get(l);
 				Skill oneSkill = new Skill(skillName);
-				otimizer.skills.add(oneSkill);
+				skills.add(oneSkill);
 			}
 
 			JSONArray tasksArray = (JSONArray) jsonObject.get("tasks");
@@ -60,7 +51,7 @@ public class jsonParser {
 				String name = (String) oneTask.get("name");
 				long duration = (long) oneTask.get("duration");
 				long skill = (long) oneTask.get("skill");
-				Skill theSkill = otimizer.skills.get((int) skill);
+				Skill theSkill = skills.get((int) skill);
 
 				JSONArray precedences = (JSONArray) oneTask.get("precedences");
 
@@ -70,7 +61,7 @@ public class jsonParser {
 				}
 
 				Task newTask = new Task(name, (int) duration, theSkill);
-				otimizer.tasks.add(newTask);
+				tasks.add(newTask);
 
 				list.add(prec);
 
@@ -78,7 +69,7 @@ public class jsonParser {
 
 			for (int h = 0; h < list.size(); h++) {
 				for (int b = 0; b < list.get(h).size(); b++) {
-					otimizer.tasks.get(h).addPrecedence(otimizer.tasks.get(list.get(h).get(b)));
+					tasks.get(h).addPrecedence(tasks.get(list.get(h).get(b)));
 				}
 			}
 
@@ -98,20 +89,20 @@ public class jsonParser {
 					JSONArray oneSkill = (JSONArray) Elskills.get(j);
 
 					long elementSkill = (long) oneSkill.get(0);
-					Skill elSkill = otimizer.skills.get((int) elementSkill);
+					Skill elSkill = skills.get((int) elementSkill);
 					double performance = (double) oneSkill.get(1);
 
 					el.addSkill(elSkill, (float) performance);
 
 				}
 
-				otimizer.elements.add(el);
+				elements.add(el);
 
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		return new Problem(tasks, elements, skills);
 	}
 }

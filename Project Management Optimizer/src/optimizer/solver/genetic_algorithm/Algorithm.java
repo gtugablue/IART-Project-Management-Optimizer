@@ -46,6 +46,7 @@ public class Algorithm {
 		mutation(p);
 
 		p.evaluate(problem);
+		p.increaseNum();
 		return p;
 	}
 

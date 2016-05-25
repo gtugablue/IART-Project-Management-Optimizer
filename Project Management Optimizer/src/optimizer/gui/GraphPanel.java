@@ -7,20 +7,22 @@ import java.util.List;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
-import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.swingViewer.DefaultView;
 import org.graphstream.ui.swingViewer.ViewPanel;
+import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.Viewer;
+import org.graphstream.ui.view.ViewerListener;
 
 import optimizer.Problem;
 import optimizer.Solution;
 import optimizer.domain.Task;
 
-public class GraphFrame {
+public class GraphPanel implements ViewerListener {
 	private Problem problem;
 	private Graph graph;
 	private Viewer viewer;
 	private List<Color> taskColors;
-	public GraphFrame(Problem problem) {
+	public GraphPanel(Problem problem) {
 		System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 		this.problem = problem;
 		this.graph = new MultiGraph("Graph");
@@ -31,7 +33,8 @@ public class GraphFrame {
 			for (Task precedence : t.getPrecedences())
 				graph.addEdge(t.getName()+"-"+precedence.getName(), t.getName(), precedence.getName(), true);
 		}
-		viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
+		viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
+		viewer.addDefaultView(false);
 		graph.addAttribute("ui.quality");
 		graph.addAttribute("ui.antialias");
 		String styleSheet = ""
@@ -43,6 +46,10 @@ public class GraphFrame {
 
 	public void display() {
 		graph.display(false);
+	}
+	
+	public ViewPanel getView() {
+		return viewer.getDefaultView();
 	}
 
 	public void update(Solution solution) {
@@ -67,5 +74,23 @@ public class GraphFrame {
 		    colors.add(color);
 		}
 		return colors;
+	}
+
+	@Override
+	public void buttonPushed(String id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void buttonReleased(String id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void viewClosed(String id) {
+		// TODO Auto-generated method stub
+		
 	}
 }
