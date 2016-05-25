@@ -256,7 +256,6 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 			totalPerformance += 1 / (performance * task.getDuration());
 		}
 		int duration = (int)(1 / totalPerformance);
-		System.out.println(duration);
 		int endTime = currTime + duration;
 		taskStartTimes.put(task, currTime);
 		taskCompletionTimes.put(task, endTime);
