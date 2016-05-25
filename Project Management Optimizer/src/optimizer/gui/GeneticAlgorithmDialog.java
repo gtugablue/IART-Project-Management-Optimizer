@@ -33,6 +33,7 @@ public class GeneticAlgorithmDialog {
 	private GraphPanel gp;
 	private GeneticAlgoThread algoThread;
 	private JLabel fitnessLabel;
+	private JLabel totalTimeLabel;
 	private ChartPanel chartPanel;
 	private DefaultCategoryDataset dataset;
 	public GeneticAlgorithmDialog(JFrame frame, Problem problem) {
@@ -50,11 +51,12 @@ public class GeneticAlgorithmDialog {
 		});
 		dialog.getContentPane().setLayout(new BoxLayout(dialog.getContentPane(), BoxLayout.Y_AXIS));
 		fitnessLabel = new JLabel("");
+		totalTimeLabel = new JLabel("");
 		dataset = new DefaultCategoryDataset();
 		JFreeChart chart = ChartFactory.createLineChart(
-				"Population fitness",
-				"population",
-				"fitness",
+				"Population fitness & Total project time",
+				"generation",
+				"value",
 				dataset,
 				PlotOrientation.VERTICAL,
 				true, true, false);
@@ -62,8 +64,13 @@ public class GeneticAlgorithmDialog {
 		
 		JPanel header = new JPanel();
 		header.setLayout(new FlowLayout());
+		
 		header.add(new JLabel("Fitness: "));
 		header.add(fitnessLabel);
+		
+		header.add(new JLabel("Total time: "));
+		header.add(totalTimeLabel);
+		
 		header.add(chartPanel);
 		
 		dialog.add(header);
@@ -101,10 +108,12 @@ public class GeneticAlgorithmDialog {
 			Population p = population;
 			while (running) {
 				p.showInfo();
-				dataset.addValue(p.getFittest().getFitness(), "population", "" + p.num());
+				dataset.addValue(p.getFittest().getFitness(), "fitness", "" + p.num());
+				dataset.addValue(p.getFittest().getTotalTime(), "total time", "" + p.num());
 				p = algorithm.evolve(p);
 				gp.update(p.getFittest());
 				fitnessLabel.setText("" + p.getFittest().getFitness());
+				totalTimeLabel.setText("" + p.getFittest().getTotalTime());
 				dialog.repaint();
 			}
 			p.showInfo();
