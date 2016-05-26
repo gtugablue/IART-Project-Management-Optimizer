@@ -1,6 +1,7 @@
 package optimizer.gui;
 
 import java.awt.Color;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,13 +17,14 @@ import org.graphstream.ui.view.ViewerPipe;
 
 import optimizer.Problem;
 import optimizer.Solution;
+import optimizer.domain.Skill;
 import optimizer.domain.Task;
 
 public class GraphPanel implements ViewerListener {
 	private Problem problem;
 	private Graph graph;
 	private Viewer viewer;
-	private List<Color> taskColors;
+	private HashMap<Skill, Color> skillColors;
 	public GraphPanel(Problem problem) {
 		System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 		this.problem = problem;
@@ -39,10 +41,13 @@ public class GraphPanel implements ViewerListener {
 		graph.addAttribute("ui.quality");
 		graph.addAttribute("ui.antialias");
 		String styleSheet = ""
-				+ "node {size: 10px;fill-color: #F00, #0F0, #0FF, #00F, #FF0;text-mode: hidden;z-index: 0;}"
+				+ "node {shape: box; size-mode:dyn-size;text-mode: hidden;z-index: 0;}"
 				+ "edge {shape: line;fill-color: #222;arrow-size: 10px, 3px;}";
-		graph.addAttribute("ui.stylesheet", styleSheet);
-		this.taskColors = generateColors(problem.getTasks().size());
+		graph.setAttribute("ui.stylesheet", styleSheet);
+		List<Color> colors = generateColors(problem.getSkills().size());
+		skillColors = new HashMap<Skill, Color>();
+		for (int i = 0; i < colors.size(); i++)
+			skillColors.put(problem.getSkills().get(i), colors.get(i));
 	}
 
 	public void display() {
@@ -57,7 +62,12 @@ public class GraphPanel implements ViewerListener {
 		int numTasks = problem.getTasks().size();
 		List<Task> tasks = problem.getTasks();
 		for (int i = 0; i < numTasks; i++) {
-			this.graph.getNode(i).addAttribute("xy", solution.getTaskStartTime(problem.getTasks().get(i)), 5 * i);
+			Node n = this.graph.getNode(i);
+			Task t = problem.getTasks().get(i);
+			int duration = solution.getTaskDuration(t);
+			n.setAttribute("xy", solution.getTaskStartTime(t) + duration / 2, i);
+			Color c = skillColors.get(t.getSkill());
+			n.setAttribute("ui.style", "size: " + duration + "gu, 1gu; fill-color: rgb(" + c.getRed() + ", " + c.getGreen() + ", " + c.getBlue() + ");");
 		}
 		ViewPanel view = viewer.getDefaultView();
 		if (view != null) {
@@ -71,7 +81,7 @@ public class GraphPanel implements ViewerListener {
 	public List<Color> generateColors(int n) {
 		List<Color> colors = new LinkedList<Color>();
 		for(int i = 0; i < 360; i += 360 / n) {
-		    Color color = Color.getHSBColor(i/360f, (float)(90 + Math.random() * 10)/360f, (float)(50 + Math.random() * 10)/360f);
+		    Color color = Color.getHSBColor(i, (float)(90 + Math.random() * 10), (float)(50 + Math.random() * 10));
 		    colors.add(color);
 		}
 		return colors;

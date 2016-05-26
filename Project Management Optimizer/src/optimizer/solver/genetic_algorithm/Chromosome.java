@@ -18,11 +18,11 @@ import optimizer.domain.Element;
 import optimizer.domain.Task;
 
 public class Chromosome extends Solution implements Comparable<Chromosome>, Cloneable {
-	private static final int TOTAL_TIME_SCORE_MULTIPLIER = 100;
-	private static final int INVALID_TASK_ID_PENALTY = 50;
-	private static final int REPEATED_TASK_PENALTY = 10;
-	private static final int UNSKILLED_ELEMENT_PENALTY = 1;
-	private static final int NO_VALID_ELEMENT_PENALTY = 20;
+	public static final int TOTAL_TIME_SCORE_MULTIPLIER = 100;
+	public static final int INVALID_TASK_ID_PENALTY = 50;
+	public static final int REPEATED_TASK_PENALTY = 10;
+	public static final int UNSKILLED_ELEMENT_PENALTY = 1;
+	public static final int NO_VALID_ELEMENT_PENALTY = 20;
 	private boolean[] genes;
 	private int numBitsTaskID;
 	private int score;
@@ -121,7 +121,7 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 		}
 
 		taskStartTimes.clear();
-		HashMap<Task, Integer> taskCompletionTimes = new LinkedHashMap<Task, Integer>();
+		taskCompletionTimes.clear();
 		HashMap<Element, Integer> elementReadyTimes = new LinkedHashMap<Element, Integer>();
 		createTimes(taskCompletionTimes, elementReadyTimes);
 		int currTime = 0;

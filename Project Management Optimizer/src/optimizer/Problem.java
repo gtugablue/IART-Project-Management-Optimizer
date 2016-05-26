@@ -24,6 +24,10 @@ public class Problem {
 		return this.elements;
 	}
 	
+	public List<Skill> getSkills() {
+		return this.skills;
+	}
+	
 	public int scoreLimit() {
 		int sum = 0;
 		for (Task task : tasks)

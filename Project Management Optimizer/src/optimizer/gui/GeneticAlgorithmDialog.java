@@ -25,6 +25,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import optimizer.Optimizer;
 import optimizer.Problem;
 import optimizer.solver.genetic_algorithm.Algorithm;
+import optimizer.solver.genetic_algorithm.Chromosome;
 import optimizer.solver.genetic_algorithm.Population;
 
 public class GeneticAlgorithmDialog {
@@ -49,7 +50,7 @@ public class GeneticAlgorithmDialog {
 					algoThread.terminate();
 			}
 		});
-		dialog.getContentPane().setLayout(new BoxLayout(dialog.getContentPane(), BoxLayout.Y_AXIS));
+		dialog.getContentPane().setLayout(new BoxLayout(dialog.getContentPane(), BoxLayout.X_AXIS));
 		fitnessLabel = new JLabel("");
 		totalTimeLabel = new JLabel("");
 		dataset = new DefaultCategoryDataset();
@@ -63,7 +64,7 @@ public class GeneticAlgorithmDialog {
 		chartPanel = new ChartPanel(chart);
 		
 		JPanel header = new JPanel();
-		header.setLayout(new FlowLayout());
+		header.setLayout(new BoxLayout(header, BoxLayout.Y_AXIS));
 		
 		header.add(new JLabel("Fitness: "));
 		header.add(fitnessLabel);
@@ -108,7 +109,7 @@ public class GeneticAlgorithmDialog {
 			Population p = population;
 			while (running) {
 				p.showInfo();
-				dataset.addValue(p.getFittest().getFitness() / 100f, "fitness/100", "" + p.num());
+				dataset.addValue((float)p.getFittest().getFitness() / Chromosome.TOTAL_TIME_SCORE_MULTIPLIER, "fitness/" + Chromosome.TOTAL_TIME_SCORE_MULTIPLIER, "" + p.num());
 				dataset.addValue(p.getFittest().getTotalTime(), "total time", "" + p.num());
 				p = algorithm.evolve(p);
 				gp.update(p.getFittest());

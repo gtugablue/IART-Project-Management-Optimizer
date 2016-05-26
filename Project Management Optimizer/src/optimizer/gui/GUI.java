@@ -1,6 +1,8 @@
 package optimizer.gui;
 
 import javax.swing.JFrame;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import optimizer.Optimizer;
 import optimizer.Problem;
@@ -12,6 +14,11 @@ public class GUI {
 	public GUI() {
 		frame = new JFrame("Project Management Optimizer");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		try {
+			UIManager.setLookAndFeel(
+			        UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+		}
 	}	
 	public void show() {
 		frame.getContentPane().add(new Menu(frame));
