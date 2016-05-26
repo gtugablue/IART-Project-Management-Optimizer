@@ -47,7 +47,7 @@ public class Optimizer {
 
 	private static ArrayList<Task> createTasks(List<Skill> skills) {
 		ArrayList<Task> tasks = new ArrayList<Task>();
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 50; i++) {
 			ArrayList<Task> precedences = new ArrayList<Task>();
 			if (tasks.size() > 3) {
 				for (int j = 0; j < r.nextInt(3); j++) {

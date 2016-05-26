@@ -1,6 +1,9 @@
 package optimizer.gui;
 
 import java.awt.Color;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -8,8 +11,10 @@ import java.util.List;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
+import org.graphstream.ui.geom.Point3;
 import org.graphstream.ui.swingViewer.DefaultView;
 import org.graphstream.ui.swingViewer.ViewPanel;
+import org.graphstream.ui.view.Camera;
 import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.Viewer;
 import org.graphstream.ui.view.ViewerListener;
@@ -20,7 +25,7 @@ import optimizer.Solution;
 import optimizer.domain.Skill;
 import optimizer.domain.Task;
 
-public class GraphPanel implements ViewerListener {
+public class GraphPanel {
 	private Problem problem;
 	private Graph graph;
 	private Viewer viewer;
@@ -36,8 +41,9 @@ public class GraphPanel implements ViewerListener {
 			for (Task precedence : t.getPrecedences())
 				graph.addEdge(t.getName()+"-"+precedence.getName(), t.getName(), precedence.getName(), true);
 		}
-		viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
-		viewer.addDefaultView(false);
+		viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
+		View view = viewer.addDefaultView(false);
+		view.addMouseListener(new GraphPanelMouseListener(view.getCamera()));
 		graph.addAttribute("ui.quality");
 		graph.addAttribute("ui.antialias");
 		String styleSheet = ""
@@ -64,7 +70,7 @@ public class GraphPanel implements ViewerListener {
 		for (int i = 0; i < numTasks; i++) {
 			Node n = this.graph.getNode(i);
 			Task t = problem.getTasks().get(i);
-			int duration = solution.getTaskDuration(t);
+			float duration = solution.getTaskDuration(t);
 			n.setAttribute("xy", solution.getTaskStartTime(t) + duration / 2, i);
 			Color c = skillColors.get(t.getSkill());
 			n.setAttribute("ui.style", "size: " + duration + "gu, 1gu; fill-color: rgb(" + c.getRed() + ", " + c.getGreen() + ", " + c.getBlue() + ");");
@@ -87,21 +93,35 @@ public class GraphPanel implements ViewerListener {
 		return colors;
 	}
 
-	@Override
-	public void buttonPushed(String id) {
-		// TODO Auto-generated method stub
-		
-	}
+	public class GraphPanelMouseListener implements MouseListener {
+		private Camera camera;
+		public GraphPanelMouseListener(Camera camera) {
+			this.camera = camera;
+		}
 
-	@Override
-	public void buttonReleased(String id) {
-		// TODO Auto-generated method stub
-		
-	}
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			Point p = e.getPoint();
+			p = e.getLocationOnScreen();
+			Point3 p3 = camera.transformPxToGu(p.getX(), p.getY());
+			System.out.println(p3.x + " " + p3.y);
+		}
 
-	@Override
-	public void viewClosed(String id) {
-		// TODO Auto-generated method stub
+		@Override
+		public void mouseEntered(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+		}
 		
 	}
 }

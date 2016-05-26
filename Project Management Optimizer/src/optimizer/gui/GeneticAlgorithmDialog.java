@@ -35,6 +35,7 @@ public class GeneticAlgorithmDialog {
 	private GeneticAlgoThread algoThread;
 	private JLabel fitnessLabel;
 	private JLabel totalTimeLabel;
+	private JFreeChart chart;
 	private ChartPanel chartPanel;
 	private DefaultCategoryDataset dataset;
 	public GeneticAlgorithmDialog(JFrame frame, Problem problem) {
@@ -54,7 +55,7 @@ public class GeneticAlgorithmDialog {
 		fitnessLabel = new JLabel("");
 		totalTimeLabel = new JLabel("");
 		dataset = new DefaultCategoryDataset();
-		JFreeChart chart = ChartFactory.createLineChart(
+		chart = ChartFactory.createLineChart(
 				"Population fitness & Total project time",
 				"generation",
 				"value",
@@ -62,23 +63,23 @@ public class GeneticAlgorithmDialog {
 				PlotOrientation.VERTICAL,
 				true, true, false);
 		chartPanel = new ChartPanel(chart);
-		
+
 		JPanel header = new JPanel();
-		header.setLayout(new BoxLayout(header, BoxLayout.Y_AXIS));
-		
+		header.setLayout(new FlowLayout());
+
 		header.add(new JLabel("Fitness: "));
 		header.add(fitnessLabel);
-		
+
 		header.add(new JLabel("Total time: "));
 		header.add(totalTimeLabel);
-		
+
 		header.add(chartPanel);
-		
+
 		dialog.add(header);
 		dialog.add(gp.getView());
 		dialog.setModal(false);
+		gp.getView().setMinimumSize(new Dimension(800, 600));
 		gp.getView().setPreferredSize(new Dimension(800, 600));
-		gp.getView().setSize(800, 600);
 	}
 
 	public void show() {
@@ -107,10 +108,15 @@ public class GeneticAlgorithmDialog {
 		public void run() {
 			running = true;
 			Population p = population;
+			int oldFitness = p.getFittest().getFitness();
 			while (running) {
 				p.showInfo();
-				dataset.addValue((float)p.getFittest().getFitness() / Chromosome.TOTAL_TIME_SCORE_MULTIPLIER, "fitness/" + Chromosome.TOTAL_TIME_SCORE_MULTIPLIER, "" + p.num());
-				dataset.addValue(p.getFittest().getTotalTime(), "total time", "" + p.num());
+				if (p.getFittest().getFitness() != oldFitness)
+				{
+					oldFitness = p.getFittest().getFitness();
+					dataset.addValue((float)p.getFittest().getFitness() / Chromosome.TOTAL_TIME_SCORE_MULTIPLIER, "fitness/" + Chromosome.TOTAL_TIME_SCORE_MULTIPLIER, "" + p.num());
+					dataset.addValue(p.getFittest().getTotalTime(), "total time", "" + p.num());
+				}
 				p = algorithm.evolve(p);
 				gp.update(p.getFittest());
 				fitnessLabel.setText("" + p.getFittest().getFitness());
