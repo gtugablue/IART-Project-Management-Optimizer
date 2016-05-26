@@ -9,15 +9,12 @@ import optimizer.domain.Task;
 
 public class Solution {
 	protected Problem problem;
-	protected List<Integer> taskOrder;
-	protected HashMap<Task, Integer> taskStartTimes;
-	protected HashMap<Task, Integer> taskCompletionTimes;
+	protected List<Integer> taskOrder = new ArrayList<>();
+	protected HashMap<Task, Integer> taskStartTimes = new LinkedHashMap<>();
+	protected HashMap<Task, Integer> taskCompletionTimes = new LinkedHashMap<>();
 	protected int totalTime;
 	public Solution(Problem problem) {
 		this.problem = problem;
-		this.taskOrder = new ArrayList<Integer>();
-		this.taskStartTimes = new LinkedHashMap<Task, Integer>();
-		this.taskCompletionTimes = new LinkedHashMap<Task, Integer>();
 	}
 	
 	public List<Integer> getTaskOrder() {

@@ -31,7 +31,7 @@ public class Problem {
 	public int scoreLimit() {
 		int sum = 0;
 		for (Task task : tasks)
-			sum += task.getWeight();
+			sum += task.getDuration();
 		return sum;
 	}
 }

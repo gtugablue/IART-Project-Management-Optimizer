@@ -1,5 +1,7 @@
 package optimizer.solver.simulated_annealing;
 
+import optimizer.Problem;
+import optimizer.Solution;
 import optimizer.domain.Element;
 import optimizer.domain.Task;
 
@@ -8,19 +10,18 @@ import java.util.*;
 /**
  * Created by duarte on 15-04-2016.
  */
-public class Schedule {
+public class Schedule extends Solution{
     protected List<Task> orderedTasks = new ArrayList<>();
-    protected List<Integer> startTimes = new ArrayList<>();
-    protected List<Integer> finishTimes = new ArrayList<>();
-    protected List<Element> resources = new ArrayList<>();
 
-    Schedule(List<Task> tasks, List<Element> resources){
-        orderedTasks.addAll(tasks);
+    Schedule(Problem problem){
+        super(problem);
 
-        this.resources.addAll(resources);
+        orderedTasks.addAll(getGeneratedOrderedList(problem.getTasks()));
 
-        startTimes.addAll(Collections.nCopies(tasks.size(), null));
-        finishTimes.addAll(Collections.nCopies(tasks.size(), null));
+        for (Task task : problem.getTasks()){
+            taskStartTimes.put(task,0);
+            taskCompletionTimes.put(task,0);
+        }
     }
 
     public List<Task> getGeneratedOrderedList(List<Task> tasks){
@@ -32,8 +33,9 @@ public class Schedule {
             for(Task precedence : j.getPrecedences()){
                 if(orderedList.contains(precedence))
                     continue;
-
+                insertTask(orderedList,precedence);
             }
+            insertTask(orderedList,j);
         }
         return orderedList;
     }
@@ -41,23 +43,29 @@ public class Schedule {
     private void assignPositionTask(List<Task> list, Task task, int i){
         list.add(i,task);
         task.setPosition(i);
+        for (int j = i+1; j < list.size(); j++) {
+            list.get(j).setPosition(j);
+        }
     }
 
-    // TODO: 19-04-2016  
+    private void removeTaskPosition(List<Task> list, Task task){
+        int i = task.getPosition();
+        list.remove(i);
+        for (int j = i; j < list.size(); j++) {
+            list.get(j).setPosition(j);
+        }
+    }
+
     private int insertTask(List<Task> list, Task task){
-        boolean inserted = false;
         int position=-1;
 
         Random random = new Random();
         int min = task.getLastPrecedence();
         int max = task.getFirstSuccessor(list.size());
 
-        do {
-            position = random.nextInt(max - min + 1) + min;
-//            if()
-        }while(!inserted);
+        position = random.nextInt(max - min + 1) + min;
 
-
+        assignPositionTask(list,task,position);
         return position;
     }
 }

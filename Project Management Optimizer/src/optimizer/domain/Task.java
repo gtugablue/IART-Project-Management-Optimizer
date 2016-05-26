@@ -1,34 +1,32 @@
 package optimizer.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Task {
 	private String name;
-	private int weight;
+	private int duration;
 	private Skill skill;
 	private List<Task> precedences = new ArrayList<Task>();
 	private List<Task> successors = new ArrayList<Task>();
     private Integer position = null; //Needed for SA
+    private Set<Element> assignedElements = new HashSet<>();
 
 	public Task(String name, int duration) {
 		this.name = name;
-		this.weight = weight;
+		this.duration = duration;
 		this.skill = null;
 	}
 	
 	public Task(String name, int weight, Skill skill, List<Task> precedences) {
 		this.name = name;
-		this.weight = weight;
+		this.duration = weight;
 		this.skill = skill;
-        //precedences = new ArrayList<>();
-        //precedences.forEach(this::addPrecedence);
 		this.precedences = precedences;
     }
 	
 	public Task(String name, int weight, Skill skill){
 		this.name = name;
-		this.weight = weight;
+		this.duration = weight;
 		this.skill = skill;
 	}
 	
@@ -54,7 +52,7 @@ public class Task {
 	}
 	
 	public int getDuration() {
-		return this.duration;
+		return getDuration();
 	}
 	
 	public void setName(String name) {
@@ -94,7 +92,7 @@ public class Task {
         Task task = (Task) obj;
 
         return this.getName().equals(task.getName())
-                && this.getWeight() == task.getWeight()
+                && this.getDuration() == task.getDuration()
                 && this.getSkill().equals(task.getSkill())
                 ;
     }
@@ -111,6 +109,8 @@ public class Task {
     public int getFirstSuccessor(){
         int best = 9999999;
         for(Task task : precedences){
+            if(task.getPosition() == null)
+                continue;
             if(task.getPosition() <= best)
                 best = task.getPosition();
         }
@@ -123,5 +123,17 @@ public class Task {
             return size;
         else
             return bestSize;
+    }
+
+    public Set<Element> getAssignedElements() {
+        return assignedElements;
+    }
+
+    public boolean assignElement(Element element){
+        return assignedElements.add(element);
+    }
+
+    public boolean removeAssignedElement(Element element){
+        return assignedElements.remove(element);
     }
 }

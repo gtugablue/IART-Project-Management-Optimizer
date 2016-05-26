@@ -61,29 +61,60 @@ public class Element {
 		return true;
 	}
 
-	public boolean canAssign(int start, int end){
+	public boolean canBeAssigned(int start, int end){
 		Set<Integer> keys = assignementTimes.keySet();
 
-		for(Integer key : keys){
-			int t_end = assignementTimes.get(key).getWeight()+start;
-
-			if((start > key && start < t_end)
-					|| (key > start && key < end)){
+		for(Integer t_start : keys){
+			int t_end = assignementTimes.get(t_start).getDuration()+start;
+			if((start > t_start && start < t_end)
+					|| (t_start > start && t_start < end)){
 				return false;
 			}
 		}
 		return true;
 	}
 
+	/**
+	 * Verifies if a client could be assigned to a specific project that starts and finishes at start time
+	 * @param start
+	 * @return
+     */
+	public boolean isFree(int start){
+		return canBeAssigned(start,start);
+	}
+
+	/**
+	 * Verifies if a Element is free to be assigned to a task that starts and finishes at start time and if true assigns it
+	 * @param start
+	 * @param task
+     * @return
+     */
 	public boolean assign(int start, Task task){
-		int end = task.getWeight() + start;
-		if(canAssign(start, end)){
+		if (!skills.containsKey(skills) || assignementTimes.containsValue(task))
+			return false;
+		if(isFree(start)){
 			assignementTimes.put(start,task);
+			task.assignElement(this);
 			return true;
 		}else{
 			return false;
 		}
+	}
 
+	public boolean removeFromTask(Task task){
+		if(!assignementTimes.containsValue(task)){
+			return false;
+		}
+		Set<Integer> keys = assignementTimes.keySet();
+		for (Integer startTime : keys){
+			Task t_task = assignementTimes.get(startTime);
+			if(t_task.equals(task)) {
+				assignementTimes.remove(startTime);
+				task.removeAssignedElement(this);
+				break;
+			}
+		}
+		return true;
 	}
 }
 
