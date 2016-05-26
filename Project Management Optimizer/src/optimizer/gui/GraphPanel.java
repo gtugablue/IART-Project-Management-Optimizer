@@ -38,6 +38,8 @@ public class GraphPanel {
 			Node n = graph.addNode(t.getName());
 			n.addAttribute("label", t.getName());
 			n.addAttribute("skill", t.getSkill().getName());
+		}
+		for (Task t : problem.getTasks()) {
 			for (Task precedence : t.getPrecedences())
 				graph.addEdge(t.getName()+"-"+precedence.getName(), t.getName(), precedence.getName(), true);
 		}

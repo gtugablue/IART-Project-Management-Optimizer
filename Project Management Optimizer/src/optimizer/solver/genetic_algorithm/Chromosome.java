@@ -18,7 +18,7 @@ import optimizer.domain.Element;
 import optimizer.domain.Task;
 
 public class Chromosome extends Solution implements Comparable<Chromosome>, Cloneable {
-	public static final int TOTAL_TIME_SCORE_MULTIPLIER = 100;
+	public static final int TOTAL_TIME_SCORE_MULTIPLIER = 1000;
 	public static final int INVALID_TASK_ID_PENALTY = 50;
 	public static final int REPEATED_TASK_PENALTY = 10;
 	public static final int UNSKILLED_ELEMENT_PENALTY = 1;
@@ -111,7 +111,7 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 			if (ids.size() == 0) {
 				score += NO_VALID_ELEMENT_PENALTY;
 				for (int j = 0; j < problem.getElements().size(); j++) {
-					if (problem.getElements().get(ids.get(j)).getSkillPerfomance(task.getSkill()) > 0) {
+					if (problem.getElements().get(j).getSkillPerfomance(task.getSkill()) > 0) {
 						ids.add(j);
 						break;
 					}

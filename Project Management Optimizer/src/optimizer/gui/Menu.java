@@ -25,6 +25,7 @@ public class Menu extends JPanel {
 		setLayout(new FlowLayout());
 		
 		problem = Optimizer.generateRandomProblem();
+		//problem = Optimizer.loadProblemFromJSON("inputExample.json");
 		
 		JButton geneticAlgorithmButton = new JButton("Genetic Algorithm");
 		geneticAlgorithmButton.addActionListener(new ActionListener() {

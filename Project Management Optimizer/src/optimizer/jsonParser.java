@@ -97,7 +97,6 @@ public class jsonParser {
 				}
 
 				elements.add(el);
-
 			}
 
 		} catch (Exception e) {
