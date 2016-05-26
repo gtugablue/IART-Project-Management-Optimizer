@@ -81,7 +81,7 @@ public class GraphPanel {
 		if (view != null) {
 			//view.resizeFrame(800, 600);
 			//view.getCamera().setViewCenter(solution.getTotalTime() / 2, 0, 0);
-			//view.getCamera().setViewPercent(1);
+			//view.getCamera().setViewPercent(2.5);
 			//view.getCamera().setGraphViewport(-solution.getTotalTime() / 2, 0, problem.scoreLimit(), 5 * numTasks);
 		}
 	}
