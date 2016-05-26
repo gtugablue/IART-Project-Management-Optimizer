@@ -9,18 +9,9 @@ public class Task {
 	private Skill skill;
 	private List<Task> precedences = new ArrayList<Task>();
 	private List<Task> successors = new ArrayList<Task>();
-
     private Integer position = null; //Needed for SA
 
-    protected Task(Task task){
-        this.name = task.getName();
-        this.weight = task.getWeight();
-        this.skill = getSkill();
-        this.precedences = getPrecedences();
-        this.successors = getSuccessors();
-    }
-
-	public Task(String name, int weight) {
+	public Task(String name, int duration) {
 		this.name = name;
 		this.weight = weight;
 		this.skill = null;
@@ -30,8 +21,9 @@ public class Task {
 		this.name = name;
 		this.weight = weight;
 		this.skill = skill;
-        precedences = new ArrayList<>();
-        precedences.forEach(this::addPrecedence);
+        //precedences = new ArrayList<>();
+        //precedences.forEach(this::addPrecedence);
+		this.precedences = precedences;
     }
 	
 	public Task(String name, int weight, Skill skill){
@@ -57,12 +49,12 @@ public class Task {
 		this.precedences = precedences;
 	}
 	
-	public void setWeight(int weight) {
-		this.weight = weight;
+	public void setDuration(int duration) {
+		this.duration = duration;
 	}
 	
-	public int getWeight() {
-		return this.weight;
+	public int getDuration() {
+		return this.duration;
 	}
 	
 	public void setName(String name) {

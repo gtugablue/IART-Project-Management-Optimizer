@@ -6,10 +6,9 @@ import java.util.List;
 import java.util.Random;
 
 import optimizer.Problem;
-import optimizer.Solution;
 
 public class Population implements Cloneable{
-	
+	private int num;
 	private List<Chromosome> chromosomes;
 	private int totalFitness;
 	Random random = new Random();
@@ -21,11 +20,13 @@ public class Population implements Cloneable{
 	 * @param chromosomeLength
 	 */
 	public Population(int populationSize, Problem problem){
+		this.num = 0;
 		chromosomes = new ArrayList<Chromosome>();
 		for(int i = 0; i < populationSize; i++){
 			Chromosome oneChromosome = new Chromosome(problem);
 			chromosomes.add(oneChromosome);
 		}
+		this.evaluate(problem);
 	}
 	
 	/**
@@ -34,6 +35,7 @@ public class Population implements Cloneable{
 	 * @return
 	 */
 	public Population(){
+		this.num = 0;
 		chromosomes = new ArrayList<Chromosome>();
 	}
 	
@@ -107,12 +109,30 @@ public class Population implements Cloneable{
 		return totalFitness;
 	}
 	
+	public void showInfo() {
+		System.out.print("#" + this.num + "\t Best fitness: " + getFittest().getFitness() + "\t Avg. fitness: " + getTotalFitness() / getSize() + " - ");
+		for (int j = 0; j < getSize(); j++) {
+			System.out.print(getChromosome(j).getFitness() + " ");
+		}
+		System.out.println();
+	}
+	
 	@Override
 	public Population clone() {
 		Population p = new Population();
+		p.totalFitness = this.totalFitness;
 		for (int i = 0; i < this.chromosomes.size(); i++) {
 			p.chromosomes.add(this.chromosomes.get(i).clone());
 		}
+		p.num = this.num;
 		return p;
+	}
+	
+	public void increaseNum() {
+		this.num++;
+	}
+	
+	public int num() {
+		return this.num;
 	}
 }
