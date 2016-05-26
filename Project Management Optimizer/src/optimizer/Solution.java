@@ -40,7 +40,7 @@ public class Solution {
 		return end - start;
 	}
 	
-	public float getTotalTime() {
-		return this.totalTime;
+	public int getTotalTime() {
+		return Math.round(this.totalTime);
 	}
 }

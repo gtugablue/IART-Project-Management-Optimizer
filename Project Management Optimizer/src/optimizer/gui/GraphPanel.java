@@ -49,7 +49,7 @@ public class GraphPanel {
 		graph.addAttribute("ui.quality");
 		graph.addAttribute("ui.antialias");
 		String styleSheet = ""
-				+ "node {shape: box; size-mode:dyn-size;text-mode: hidden;z-index: 0;}"
+				+ "node {shape: box; size-mode:dyn-size;z-index: 0;}"
 				+ "edge {shape: line;fill-color: #222;arrow-size: 10px, 3px;}";
 		graph.setAttribute("ui.stylesheet", styleSheet);
 		List<Color> colors = generateColors(problem.getSkills().size());
@@ -73,9 +73,9 @@ public class GraphPanel {
 			Node n = this.graph.getNode(i);
 			Task t = problem.getTasks().get(i);
 			float duration = solution.getTaskDuration(t);
-			n.setAttribute("xy", solution.getTaskStartTime(t) + duration / 2, i);
+			n.setAttribute("xy", solution.getTaskStartTime(t) + duration / 2, 2*i);
 			Color c = skillColors.get(t.getSkill());
-			n.setAttribute("ui.style", "size: " + duration + "gu, 1gu; fill-color: rgb(" + c.getRed() + ", " + c.getGreen() + ", " + c.getBlue() + ");");
+			n.setAttribute("ui.style", "size: " + duration + "gu, 1.5gu; fill-color: rgb(" + c.getRed() + ", " + c.getGreen() + ", " + c.getBlue() + ");");
 		}
 		ViewPanel view = viewer.getDefaultView();
 		if (view != null) {
