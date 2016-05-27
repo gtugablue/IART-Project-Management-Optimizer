@@ -16,7 +16,11 @@ public class Solution {
 	public Solution(Problem problem) {
 		this.problem = problem;
 	}
-	
+
+	public Problem getProblem() {
+		return problem;
+	}
+
 	public List<Integer> getTaskOrder() {
 		return this.taskOrder;
 	}

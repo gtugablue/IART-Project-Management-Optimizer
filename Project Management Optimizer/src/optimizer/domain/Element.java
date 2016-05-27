@@ -101,6 +101,12 @@ public class Element {
 		}
 	}
 
+	public void removeFromTaskArray(Task... tasks){
+		for(Task task : tasks){
+			removeFromTask(task);
+		}
+	}
+
 	public boolean removeFromTask(Task task){
 		if(!assignementTimes.containsValue(task)){
 			return false;

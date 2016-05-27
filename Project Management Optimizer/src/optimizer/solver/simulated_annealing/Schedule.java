@@ -68,4 +68,19 @@ public class Schedule extends Solution{
         assignPositionTask(list,task,position);
         return position;
     }
+
+    public void clearTask(Task... tasks){
+        for(Task task :tasks ){
+            taskStartTimes.remove(task);
+            taskCompletionTimes.remove(task);
+        }
+    }
+
+    public List<Task> getOrderedTasks() {
+        return orderedTasks;
+    }
+
+    public void setOrderedTasks(List<Task> orderedTasks) {
+        this.orderedTasks = orderedTasks;
+    }
 }
