@@ -10,28 +10,16 @@ import optimizer.Problem;
 
 public class Algorithm {
 	private Problem problem;
-	private double mutationRate;
-	private double crossoverRate;
-	private int elitism;
+	private Config config;
 	private static Random random = new Random();
 
-	public Algorithm(Problem problem, double mutationRate, double crossoverRate, int elitism) {
+	public Algorithm(Problem problem, Config config) {
 		this.problem = problem;
-		this.mutationRate = mutationRate;
-		this.crossoverRate = crossoverRate;
-		this.elitism = elitism;
+		this.config = config;
 	}
 
-	public Population randomStartingPopulation(int size) {
-		return new Population(size, problem);
-	}
-
-	public double getMutationRate() {
-		return mutationRate;
-	}
-
-	public int getElitism() {
-		return elitism;
+	public Population randomStartingPopulation() {
+		return new Population(config.populationSize, problem);
 	}
 
 	/**
@@ -89,7 +77,7 @@ public class Algorithm {
 	}
 
 	private Chromosome[] rouletteWheelSelection(Population population) {
-		int amountToSelect = population.getSize() - this.elitism;
+		int amountToSelect = population.getSize() - this.config.elitism;
 		Chromosome[] selected = new Chromosome[amountToSelect];
 		int maxValue = population.getChromosome(0).getFitness();
 		for (int i = 0; i < amountToSelect; i++) {
@@ -150,22 +138,22 @@ public class Algorithm {
 
 	private void classicMutation(Population population) {
 		int chromosomeSize = population.getChromosomeSize();
-		int totalBits = (population.getSize() - this.elitism) * chromosomeSize;
+		int totalBits = (population.getSize() - this.config.elitism) * chromosomeSize;
 		for (int i = 0; i < totalBits; i++) {
 			float f = random.nextFloat();
-			if (f < mutationRate) {
+			if (f < config.mutationRate) {
 				population.getChromosome(i / chromosomeSize).flipGene(i % chromosomeSize);
 			}
 		}
 	}
 
 	private void swapMutation(Population population) {
-		int numChromosomes = population.getSize() - this.elitism;
+		int numChromosomes = population.getSize() - this.config.elitism;
 		for (int i = 0; i < numChromosomes; i++) {
 			Chromosome c = population.getChromosome(i);
 			for (int j = 0; j < problem.getTasks().size(); j++) {
 				float f = random.nextFloat();
-				if (f < mutationRate) {
+				if (f < config.mutationRate) {
 					// Temporarily store the first task
 					boolean[] temp = Arrays.copyOfRange(c.getGenes(), j * c.getNumBitsTaskBlock(), (j + 1) * c.getNumBitsTaskBlock());
 					
