@@ -35,7 +35,7 @@ public class Schedule extends Solution{
         return orderedList;
     }
 
-    private void assignPositionTask(List<Task> list, Task task, int i){
+    private static void assignPositionTask(List<Task> list, Task task, int i){
         list.add(i,task);
         task.setPosition(i);
         for (int j = i+1; j < list.size(); j++) {
@@ -43,15 +43,26 @@ public class Schedule extends Solution{
         }
     }
 
-    private void removeTaskPosition(List<Task> list, Task task){
+    public Task removeTaskPosition(int position){
+        Task task = getOrderedTasks().get(position);
+        removeTaskPosition(getOrderedTasks(), task);
+        return task;
+    }
+
+    public static void removeTaskPosition(List<Task> list, Task task){
         int i = task.getPosition();
         list.remove(i);
+        task.setPosition(null);
         for (int j = i; j < list.size(); j++) {
             list.get(j).setPosition(j);
         }
     }
 
-    private int insertTask(List<Task> list, Task task){
+    public int insertTask(Task task){
+        return insertTask(getOrderedTasks(), task);
+    }
+
+    public static int insertTask(List<Task> list, Task task){
         for(Task precedence : task.getPrecedences()){
             if(list.contains(precedence))
                 continue;

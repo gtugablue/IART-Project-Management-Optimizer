@@ -6,6 +6,7 @@ import optimizer.domain.Task;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by duarte on 15-04-2016.
@@ -42,6 +43,18 @@ public class ScheduleGenerationScheme {
             currStartTime--;
             while (!assigned) {
                 currStartTime++;
+                boolean precedenceNotFinished = false;
+                for (Task precedence : task.getPrecedences()){
+                    if(schedule.getTaskCompletionTime(precedence) < currStartTime){
+                        precedenceNotFinished = true;
+                        break;
+                    }
+                }
+
+                if(precedenceNotFinished){
+                    break;
+                }
+
                 for (Element element : schedule.getProblem().getElements()) {
                     element.assign(currStartTime,task);
                 }
@@ -74,5 +87,14 @@ public class ScheduleGenerationScheme {
         for(Element element : schedule.getProblem().getElements()){
             element.removeFromTaskArray(tasks);
         }
+    }
+
+    public void generateNewState(){
+        Random random = new Random();
+        int i = random.nextInt(schedule.getOrderedTasks().size());
+        Task removedTask = schedule.removeTaskPosition(i);
+        int newPosition = schedule.insertTask(removedTask);
+        int timesCalculationPosition = (newPosition < i)? newPosition : i;
+        calculateTimes();
     }
 }

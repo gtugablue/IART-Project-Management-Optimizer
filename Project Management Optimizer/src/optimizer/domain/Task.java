@@ -120,9 +120,14 @@ public class Task {
         return best;
     }
 
+    /**
+     * Retorna a posição do sucessor que aparece em primeiro na lista. Se o sucessor
+     * @param size
+     * @return
+     */
     public int getFirstSuccessor(int size){
         int bestSize = getFirstSuccessor();
-        if(bestSize >= 999999)
+        if(bestSize >= 9999999)
             return size;
         else
             return bestSize;
