@@ -45,8 +45,8 @@ public class ScheduleGenerationScheme {
                 for (Element element : schedule.getProblem().getElements()) {
                     element.assign(currStartTime,task);
                 }
-                int previousNumberElements;
-                /*do{
+                /*int previousNumberElements;
+                do{
                     previousNumberElements = task.getAssignedElements().size();
                     //calcular duração
                     //verificar se não choca

@@ -30,11 +30,6 @@ public class Schedule extends Solution{
         for(Task j : tasks){
             if(j.getPosition() != null)
                 continue;
-            for(Task precedence : j.getPrecedences()){
-                if(orderedList.contains(precedence))
-                    continue;
-                insertTask(orderedList,precedence);
-            }
             insertTask(orderedList,j);
         }
         return orderedList;
@@ -57,6 +52,12 @@ public class Schedule extends Solution{
     }
 
     private int insertTask(List<Task> list, Task task){
+        for(Task precedence : task.getPrecedences()){
+            if(list.contains(precedence))
+                continue;
+            insertTask(list,precedence);
+        }
+
         int position=-1;
 
         Random random = new Random();
