@@ -119,25 +119,24 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 			}
 			taskElements.set(i, ids);
 		}
-
 		taskStartTimes.clear();
 		taskCompletionTimes.clear();
-		HashMap<Element, Integer> elementReadyTimes = new LinkedHashMap<Element, Integer>();
+		HashMap<Element, Float> elementReadyTimes = new LinkedHashMap<Element, Float>();
 		createTimes(taskCompletionTimes, elementReadyTimes);
-		int currTime = 0;
+		float currTime = 0;
 
 		while (!allTasksDone(taskCompletionTimes)) {
 			for (int i = 0; i < taskOrder.size(); i++) {
 				Task task = problem.getTasks().get(taskOrder.get(i));
-				if (!taskCompletionTimes.get(task).equals(Integer.MAX_VALUE)) continue; // Task already done, skip it
-				int taskStartTime = calculateTaskStartTime(task, taskElements.get(i), taskCompletionTimes, elementReadyTimes);
-				if (taskStartTime == Integer.MAX_VALUE) continue; // Precedences not ready, try a different task
+				if (!taskCompletionTimes.get(task).equals(Float.MAX_VALUE)) continue; // Task already done, skip it
+				float taskStartTime = calculateTaskStartTime(task, taskElements.get(i), taskCompletionTimes, elementReadyTimes);
+				if (taskStartTime == Float.MAX_VALUE) continue; // Precedences not ready, try a different task
 				currTime = taskStartTime;
 				allocateElementsToTask(task, taskElements.get(i), currTime, taskCompletionTimes, elementReadyTimes);
 				break;
 			}
 		}
-
+		
 		score += TOTAL_TIME_SCORE_MULTIPLIER * findMaxTaskCompletionTime(taskCompletionTimes);
 		return score;
 	}
@@ -227,19 +226,19 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 		return c.score - this.score;
 	}
 
-	private int findMaxTaskCompletionTime(HashMap<Task, Integer> taskCompletionTimes) {
-		int max = 0;
-		Iterator<Entry<Task, Integer>> it = taskCompletionTimes.entrySet().iterator();
+	private float findMaxTaskCompletionTime(HashMap<Task, Float> taskCompletionTimes) {
+		float max = 0;
+		Iterator<Entry<Task, Float>> it = taskCompletionTimes.entrySet().iterator();
 		while (it.hasNext()) {
-			Map.Entry<Task, Integer> pair = (Map.Entry<Task, Integer>)it.next();
-			int value = pair.getValue();
+			Map.Entry<Task, Float> pair = (Map.Entry<Task, Float>)it.next();
+			float value = pair.getValue();
 			if (value > max)
 				max = value;
 		}
 		return max;
 	}
 
-	private void allocateElementsToTask(Task task, List<Integer> taskElements, int currTime, HashMap<Task, Integer> taskCompletionTimes, HashMap<Element, Integer> elementReadyTimes) {
+	private void allocateElementsToTask(Task task, List<Integer> taskElements, float currTime, HashMap<Task, Float> taskCompletionTimes, HashMap<Element, Float> elementReadyTimes) {
 		float totalPerformance = 0;
 		ArrayList<Element> assignedElements = new ArrayList<Element>();
 		for (int id : taskElements) {
@@ -255,40 +254,41 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 			float performance = findFreeElementID(task, elementReadyTimes).getSkillPerfomance(task.getSkill());
 			totalPerformance += 1 / (performance * task.getDuration());
 		}
-		int duration = (int)(1 / totalPerformance);
-		int endTime = currTime + duration;
+		float duration = 1 / totalPerformance;
+		float endTime = currTime + duration;
 		taskStartTimes.put(task, currTime);
 		taskCompletionTimes.put(task, endTime);
+
 		if (endTime > totalTime) totalTime = endTime; 
 		for (Element element : assignedElements) {
 			elementReadyTimes.put(element, endTime);
 		}
 	}
 
-	private Element findFreeElementID(Task task, HashMap<Element, Integer> elementReadyTimes) {
-		Iterator<Entry<Element, Integer>> it = elementReadyTimes.entrySet().iterator();
+	private Element findFreeElementID(Task task, HashMap<Element, Float> elementReadyTimes) {
+		Iterator<Entry<Element, Float>> it = elementReadyTimes.entrySet().iterator();
 		while (it.hasNext()) {
-			Map.Entry<Element, Integer> pair = (Map.Entry<Element, Integer>)it.next();
+			Map.Entry<Element, Float> pair = (Map.Entry<Element, Float>)it.next();
 			if (pair.getKey().getSkillPerfomance(task.getSkill()) > 0)
 				return pair.getKey();
 		}
 		return null;
 	}
 
-	private int calculateTaskStartTime(Task task, List<Integer> taskElements, HashMap<Task, Integer> taskCompletionTimes, HashMap<Element, Integer> elementReadyTimes) {
-		int precedencesReadyTime = 0;
+	private float calculateTaskStartTime(Task task, List<Integer> taskElements, HashMap<Task, Float> taskCompletionTimes, HashMap<Element, Float> elementReadyTimes) {
+		float precedencesReadyTime = 0;
 		if (task.getPrecedences().size() >= 1)
 		{
 			for (Task precedence : task.getPrecedences()) {
-				int time = taskCompletionTimes.get(precedence);
+				float time = taskCompletionTimes.get(precedence);
 				if (time > precedencesReadyTime)
 					precedencesReadyTime = time;
 			}
-			if (precedencesReadyTime == Integer.MAX_VALUE)
+			if (precedencesReadyTime == Float.MAX_VALUE)
 				return precedencesReadyTime; // If the task's precedences haven't been met, there's no need to check if there are elements available
 		}
 
-		int elementReadyTime = Integer.MAX_VALUE;
+		float elementReadyTime = Float.MAX_VALUE;
 
 		List<Element> elements = problem.getElements();
 		for (Integer id : taskElements) {
@@ -297,27 +297,27 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 		return Math.max(precedencesReadyTime, elementReadyTime);
 	}
 
-	private boolean allTasksDone(HashMap<Task, Integer> taskCompletionTimes) {
-		Iterator<Entry<Task, Integer>> it = taskCompletionTimes.entrySet().iterator();
+	private boolean allTasksDone(HashMap<Task, Float> taskCompletionTimes) {
+		Iterator<Entry<Task, Float>> it = taskCompletionTimes.entrySet().iterator();
 		while (it.hasNext()) {
-			Map.Entry<Task, Integer> pair = (Map.Entry<Task, Integer>)it.next();
-			if (pair.getValue().equals(Integer.MAX_VALUE))
+			Map.Entry<Task, Float> pair = (Map.Entry<Task, Float>)it.next();
+			if (pair.getValue().equals(Float.MAX_VALUE))
 				return false;
 		}
 		return true;
 	}
 
-	private void createTimes(HashMap<Task, Integer> taskCompletionTimes, HashMap<Element, Integer> elementReadyTimes) {
+	private void createTimes(HashMap<Task, Float> taskCompletionTimes, HashMap<Element, Float> elementReadyTimes) {
 		for (Task task : problem.getTasks()) {
-			taskStartTimes.put(task, Integer.MAX_VALUE);
-			taskCompletionTimes.put(task, Integer.MAX_VALUE);
+			taskStartTimes.put(task, Float.MAX_VALUE);
+			taskCompletionTimes.put(task, Float.MAX_VALUE);
 		}
 		for (Element element : problem.getElements()) {
-			elementReadyTimes.put(element, 0);
+			elementReadyTimes.put(element, 0f);
 		}
 	}
 
-	private boolean precedencesReady(Task task, int currTime, HashMap<Task, Integer> taskCompletionTimes) {
+	private boolean precedencesReady(Task task, float currTime, HashMap<Task, Float> taskCompletionTimes) {
 		List<Task> precedences = task.getPrecedences();
 		for (Task precedence : precedences) {
 			if (currTime < taskCompletionTimes.get(precedence)) {

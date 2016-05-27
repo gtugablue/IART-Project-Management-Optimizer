@@ -10,8 +10,8 @@ import optimizer.domain.Task;
 public class Solution {
 	protected Problem problem;
 	protected List<Integer> taskOrder = new ArrayList<>();
-	protected HashMap<Task, Integer> taskStartTimes = new LinkedHashMap<>();
-	protected HashMap<Task, Integer> taskCompletionTimes = new LinkedHashMap<>();
+	protected HashMap<Task, Float> taskStartTimes = new LinkedHashMap<>();
+	protected HashMap<Task, Float> taskCompletionTimes = new LinkedHashMap<>();
 	protected int totalTime;
 	public Solution(Problem problem) {
 		this.problem = problem;
@@ -25,23 +25,23 @@ public class Solution {
 		return this.taskOrder;
 	}
 	
-	public Integer getTaskStartTime(Task t) {
+	public Float getTaskStartTime(Task t) {
 		return taskStartTimes.get(t);
 	}
 	
-	public Integer getTaskCompletionTime(Task t) {
+	public Float getTaskCompletionTime(Task t) {
 		return taskCompletionTimes.get(t);
 	}
 	
-	public Integer getTaskDuration(Task t) {
-		Integer start = taskStartTimes.get(t);
+	public Float getTaskDuration(Task t) {
+		Float start = taskStartTimes.get(t);
 		if (start == null) return null;
-		Integer end = taskCompletionTimes.get(t);
+		Float end = taskCompletionTimes.get(t);
 		if (end == null) return null;
 		return end - start;
 	}
 	
 	public int getTotalTime() {
-		return this.totalTime;
+		return Math.round(this.totalTime);
 	}
 }

@@ -111,12 +111,12 @@ public class GeneticAlgorithmDialog {
 			int oldFitness = p.getFittest().getFitness();
 			while (running) {
 				p.showInfo();
-				//if (p.getFittest().getFitness() != oldFitness)
-				//{
-				//	oldFitness = p.getFittest().getFitness();
+				if (p.getFittest().getFitness() != oldFitness)
+				{
+					oldFitness = p.getFittest().getFitness();
 					dataset.addValue((float)p.getFittest().getFitness() / Chromosome.TOTAL_TIME_SCORE_MULTIPLIER, "fitness/" + Chromosome.TOTAL_TIME_SCORE_MULTIPLIER, "" + p.num());
 					dataset.addValue(p.getFittest().getTotalTime(), "total time", "" + p.num());
-				//}
+				}
 				p = algorithm.evolve(p);
 				gp.update(p.getFittest());
 				fitnessLabel.setText("" + p.getFittest().getFitness());
