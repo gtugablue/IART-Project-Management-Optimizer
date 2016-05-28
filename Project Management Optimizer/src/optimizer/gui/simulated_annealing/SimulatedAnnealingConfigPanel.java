@@ -17,17 +17,18 @@ import javax.swing.SpringLayout;
 import javax.swing.text.NumberFormatter;
 
 import optimizer.Problem;
+import optimizer.jsonParser;
 import optimizer.gui.SpringUtilities;
 import optimizer.solver.genetic_algorithm.Config;
 
 public class SimulatedAnnealingConfigPanel extends JPanel {
-	private Problem problem;
+	private JTextField filePathField;
 	private JFrame frame;
 	private JTextField initialTemperatureField;
 	private JTextField coolingRateField;
-	public SimulatedAnnealingConfigPanel(JFrame frame, Problem problem) {
+	public SimulatedAnnealingConfigPanel(JFrame frame, JTextField filePathField) {
 		this.frame = frame;
-		this.problem = problem;
+		this.filePathField = filePathField;
 		
 		createForm();
 	}

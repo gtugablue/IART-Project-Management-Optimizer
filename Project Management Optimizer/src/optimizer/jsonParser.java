@@ -100,7 +100,7 @@ public class jsonParser {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			return null;
 		}
 		return new Problem(tasks, elements, skills);
 	}
