@@ -35,7 +35,7 @@ public class ScheduleGenerationScheme {
     }
 
     private void assignElementsToTasks(List<Task> taskList, int start){
-        int currStartTime = (start > 0) ? schedule.getTaskStartTime(taskList.get(start-1)) : 0;
+        float currStartTime = (start > 0) ? schedule.getTaskStartTime(taskList.get(start-1)) : (float)0;
 
         for (int i = start; i < taskList.size(); i++){
             Task task = taskList.get(i);

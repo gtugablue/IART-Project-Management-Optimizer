@@ -5,7 +5,7 @@ import java.util.*;
 public class Element {
 	private String name;
 	private Map<Skill, Float> skills;
-	protected Map<Integer,Task> assignementTimes= new HashMap<>();
+	protected Map<Float,Task> assignementTimes= new HashMap<>();
 
 
 	public Element(String name) {
@@ -61,11 +61,11 @@ public class Element {
 		return true;
 	}
 
-	public boolean canBeAssigned(int start, int end){
-		Set<Integer> keys = assignementTimes.keySet();
+	public boolean canBeAssigned(float start, float end){
+		Set<Float> keys = assignementTimes.keySet();
 
-		for(Integer t_start : keys){
-			int t_end = assignementTimes.get(t_start).getDuration()+start;
+		for(Float t_start : keys){
+			float t_end = assignementTimes.get(t_start).getDuration()+start;
 			if((start > t_start && start < t_end)
 					|| (t_start > start && t_start < end)){
 				return false;
@@ -79,7 +79,7 @@ public class Element {
 	 * @param start
 	 * @return
      */
-	public boolean isFree(int start){
+	public boolean isFree(Float start){
 		return canBeAssigned(start,start);
 	}
 
@@ -89,7 +89,7 @@ public class Element {
 	 * @param task
      * @return
      */
-	public boolean assign(int start, Task task){
+	public boolean assign(float start, Task task){
 		if (!skills.containsKey(skills) || assignementTimes.containsValue(task))
 			return false;
 		if(isFree(start)){
@@ -111,8 +111,8 @@ public class Element {
 		if(!assignementTimes.containsValue(task)){
 			return false;
 		}
-		Set<Integer> keys = assignementTimes.keySet();
-		for (Integer startTime : keys){
+		Set<Float> keys = assignementTimes.keySet();
+		for (Float startTime : keys){
 			Task t_task = assignementTimes.get(startTime);
 			if(t_task.equals(task)) {
 				assignementTimes.remove(startTime);

@@ -19,8 +19,8 @@ public class Schedule extends Solution{
         orderedTasks.addAll(getGeneratedOrderedList(problem.getTasks()));
 
         for (Task task : problem.getTasks()){
-            taskStartTimes.put(task,0);
-            taskCompletionTimes.put(task,0);
+            taskStartTimes.put(task,(float)0);
+            taskCompletionTimes.put(task,(float)0);
         }
     }
 
