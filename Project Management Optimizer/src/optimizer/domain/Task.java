@@ -109,8 +109,8 @@ public class Task {
     }
 
     public int getFirstSuccessor(){
-        int best = 9999999;
-        for(Task task : precedences){
+        int best = Integer.MAX_VALUE;
+        for(Task task : successors){
             if(task.getPosition() == null)
                 continue;
             if(task.getPosition() <= best)

@@ -48,10 +48,15 @@ public class ScheduleGenerationScheme {
                 currStartTime+=1;
                 boolean precedenceNotFinished = false;
                 for (Task precedence : task.getPrecedences()){
-                    if(schedule.getTaskCompletionTime(precedence) > currStartTime){
-                        //System.err.println(precedence.getName() + " "+schedule.getTaskCompletionTime(precedence));
-                        precedenceNotFinished = true;
-                        break;
+                    try {
+                        if (schedule.getTaskCompletionTime(precedence) > currStartTime) {
+                            //System.err.println(precedence.getName() + " "+schedule.getTaskCompletionTime(precedence));
+                            precedenceNotFinished = true;
+                            break;
+                        }
+                    }catch (Exception e){
+                        System.err.println(task.getName());
+                        System.err.println(precedence.getName() + " - "+ schedule.getTaskCompletionTime(precedence));
                     }
                 }
 
@@ -101,8 +106,10 @@ public class ScheduleGenerationScheme {
         int i = random.nextInt(schedule.getOrderedTasks().size());
         Task removedTask = schedule.removeTaskPosition(i);
         int newPosition = schedule.insertTask(removedTask);
+        System.out.println("Changing task: "+removedTask.getName() + " to position "+newPosition);
+
         int timesCalculationPosition = (newPosition < i)? newPosition : i;
-        calculateTimes();
+        calculateTimes(timesCalculationPosition);
     }
 
     public Schedule getSchedule() {
