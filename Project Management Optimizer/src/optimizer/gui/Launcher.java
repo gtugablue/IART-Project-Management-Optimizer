@@ -1,6 +1,4 @@
-package optimizer;
-
-import optimizer.gui.GUI;
+package optimizer.gui;
 
 public class Launcher {
 

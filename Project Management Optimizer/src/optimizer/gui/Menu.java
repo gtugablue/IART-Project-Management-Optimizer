@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -23,6 +24,7 @@ public class Menu extends JPanel {
 	private Problem problem;
 	private JFrame frame;
 	private JTabbedPane tabbedPane;
+	private JFileChooser fileChooser;
 	public Menu(JFrame frame) {
 		this.frame = frame;
 		
@@ -32,11 +34,14 @@ public class Menu extends JPanel {
 		problem = Optimizer.generateRandomProblem();
 		//problem = Optimizer.loadProblemFromJSON("inputExample.json");
 		
+		fileChooser = new JFileChooser();
+		
+		
         this.tabbedPane = new JTabbedPane();
         this.tabbedPane.addTab("Genetic Algorithm", new GeneticAlgorithmConfigPanel(this.frame, problem));
         this.tabbedPane.addTab("Simulated Annealing", new SimulatedAnnealingConfigPanel(this.frame, problem));
         
-        add(this.tabbedPane);
+        add(this.tabbedPane, BorderLayout.CENTER);
 	}
 	
 	@Override
