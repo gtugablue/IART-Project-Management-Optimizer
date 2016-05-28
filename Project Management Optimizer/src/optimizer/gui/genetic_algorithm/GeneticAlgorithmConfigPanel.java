@@ -15,25 +15,27 @@ import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.text.NumberFormatter;
 
 import optimizer.Problem;
+import optimizer.jsonParser;
 import optimizer.gui.SpringUtilities;
 import optimizer.solver.genetic_algorithm.Config;
 
 public class GeneticAlgorithmConfigPanel extends JPanel {
-	private Problem problem;
+	private JTextField filePathField;
 	private JFrame frame;
 	private JTextField populationSizeField;
 	private JTextField mutationRateField;
 	private JTextField crossoverRateField;
 	private JTextField elitismField;
-	public GeneticAlgorithmConfigPanel(JFrame frame, Problem problem) {
+	public GeneticAlgorithmConfigPanel(JFrame frame, JTextField filePathField) {
 		this.frame = frame;
-		this.problem = problem;
+		this.filePathField = filePathField;
 
 		createForm();
 	}
@@ -121,6 +123,11 @@ public class GeneticAlgorithmConfigPanel extends JPanel {
 		runButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				Problem problem = jsonParser.parse(filePathField.getText());
+				if (problem == null) {
+					JOptionPane.showMessageDialog(panel, "Could not open file", "Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 				Config config = new Config();
 				config.populationSize = Integer.parseInt(populationSizeField.getText());
 				config.mutationRate = Float.parseFloat(mutationRateField.getText());

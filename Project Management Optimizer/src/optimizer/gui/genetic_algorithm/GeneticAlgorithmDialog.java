@@ -4,7 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.GraphicsEnvironment;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -36,6 +41,7 @@ public class GeneticAlgorithmDialog {
 	private Config config;
 	private GraphPanel gp;
 	private GeneticAlgoThread algoThread;
+	private JLabel generationLabel;
 	private JLabel fitnessLabel;
 	private JLabel totalTimeLabel;
 	private JFreeChart chart;
@@ -46,7 +52,7 @@ public class GeneticAlgorithmDialog {
 		this.problem = problem;
 		this.config = config;
 		this.gp = new GraphPanel(problem);
-		dialog.setPreferredSize(new Dimension(800, 600));
+		dialog.setMaximumSize(new Dimension());
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.addWindowListener(new WindowAdapter() {
 			@Override
@@ -55,7 +61,8 @@ public class GeneticAlgorithmDialog {
 					algoThread.terminate();
 			}
 		});
-		dialog.getContentPane().setLayout(new BoxLayout(dialog.getContentPane(), BoxLayout.X_AXIS));
+		dialog.getContentPane().setLayout(new GridBagLayout());
+		generationLabel = new JLabel("0");
 		fitnessLabel = new JLabel("");
 		totalTimeLabel = new JLabel("");
 		dataset = new DefaultCategoryDataset();
@@ -68,19 +75,33 @@ public class GeneticAlgorithmDialog {
 				true, true, false);
 		chartPanel = new ChartPanel(chart);
 
-		JPanel header = new JPanel();
-		header.setLayout(new FlowLayout());
+		JPanel bestInfo = new JPanel();
+		bestInfo.setLayout(new FlowLayout());
+		
+		bestInfo.add(new JLabel("Generation:"));
+		bestInfo.add(generationLabel);
 
-		header.add(new JLabel("Fitness: "));
-		header.add(fitnessLabel);
+		bestInfo.add(new JLabel("Fitness:"));
+		bestInfo.add(fitnessLabel);
 
-		header.add(new JLabel("Total time: "));
-		header.add(totalTimeLabel);
-
-		header.add(chartPanel);
-
-		dialog.add(header);
-		dialog.add(gp.getView());
+		bestInfo.add(new JLabel("Total time:"));
+		bestInfo.add(totalTimeLabel);
+		
+		GridBagConstraints c = new GridBagConstraints();
+		c.insets = new Insets(6, 6, 6, 6);
+		c.weightx = 0.5;
+		c.weighty = 0;
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx = 0;
+		c.gridy = 0;
+		dialog.add(bestInfo, c);
+		c.weighty = 0.5;
+		c.gridy = 1;
+		dialog.add(chartPanel, c);
+		c.gridx = 1;
+		c.gridy = 0;
+		c.gridheight = 2;
+		dialog.add(gp.getView(), c);
 		dialog.setModal(false);
 		gp.getView().setMinimumSize(new Dimension(800, 600));
 		gp.getView().setPreferredSize(new Dimension(800, 600));
@@ -112,17 +133,18 @@ public class GeneticAlgorithmDialog {
 		public void run() {
 			running = true;
 			Population p = population;
-			int oldFitness = p.getFittest().getFitness();
+			//int oldFitness = p.getFittest().getFitness();
 			while (running) {
 				p.showInfo();
-				if (p.getFittest().getFitness() != oldFitness)
-				{
-					oldFitness = p.getFittest().getFitness();
+				//if (p.getFittest().getFitness() != oldFitness)
+				//{
+				//	oldFitness = p.getFittest().getFitness();
 					dataset.addValue((float)p.getFittest().getFitness() / Chromosome.TOTAL_TIME_SCORE_MULTIPLIER, "fitness/" + Chromosome.TOTAL_TIME_SCORE_MULTIPLIER, "" + p.num());
 					dataset.addValue(p.getFittest().getTotalTime(), "total time", "" + p.num());
-				}
+				//}
 				p = algorithm.evolve(p);
 				gp.update(p.getFittest());
+				generationLabel.setText("" + p.num());
 				fitnessLabel.setText("" + p.getFittest().getFitness());
 				totalTimeLabel.setText("" + p.getFittest().getTotalTime());
 				dialog.repaint();

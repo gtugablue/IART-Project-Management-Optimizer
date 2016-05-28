@@ -1,5 +1,7 @@
 package optimizer.gui;
 
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -22,7 +24,8 @@ public class GUI {
 	}	
 	public void show() {
 		frame.getContentPane().add(new Menu(frame));
-		
+		frame.setSize(new Dimension(600, 200));
+		frame.setLocationRelativeTo(null);
         display();
     }
 	
