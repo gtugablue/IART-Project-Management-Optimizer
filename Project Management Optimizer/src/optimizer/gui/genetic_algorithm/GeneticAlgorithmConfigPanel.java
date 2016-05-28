@@ -79,7 +79,7 @@ public class GeneticAlgorithmConfigPanel extends JPanel {
 		l1.setLabelFor(populationSizeField);
 		panel.add(populationSizeField);
 
-		JLabel l2 = new JLabel("Mutation rate: ", JLabel.TRAILING);
+		JLabel l2 = new JLabel("Mutation coolingRate: ", JLabel.TRAILING);
 		panel.add(l2);
 		formatter = new NumberFormatter(format);
 		formatter.setValueClass(Float.class);
@@ -91,7 +91,7 @@ public class GeneticAlgorithmConfigPanel extends JPanel {
 		l2.setLabelFor(mutationRateField);
 		panel.add(mutationRateField);
 
-		JLabel l3 = new JLabel("Crossover rate: ", JLabel.TRAILING);
+		JLabel l3 = new JLabel("Crossover coolingRate: ", JLabel.TRAILING);
 		panel.add(l3);
 		crossoverRateField = new JFormattedTextField(formatter);
 		crossoverRateField.setText("0.20");
