@@ -5,7 +5,6 @@ import java.util.*;
 public class Element {
 	private String name;
 	private Map<Skill, Float> skills;
-	protected Map<Float,Task> assignementTimes= new HashMap<>();
 
 
 	public Element(String name) {
@@ -36,6 +35,10 @@ public class Element {
 		return this.name;
 	}
 
+	public boolean hasSkill(Skill skill){
+		return skills.containsKey(skill);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -58,68 +61,6 @@ public class Element {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		return true;
-	}
-
-	public boolean canBeAssigned(float start, float end){
-		Set<Float> keys = assignementTimes.keySet();
-
-		for(Float t_start : keys){
-			float t_end = assignementTimes.get(t_start).getDuration()+start;
-			if((start > t_start && start < t_end)
-					|| (t_start > start && t_start < end)){
-				return false;
-			}
-		}
-		return true;
-	}
-
-	/**
-	 * Verifies if a client could be assigned to a specific project that starts and finishes at start time
-	 * @param start
-	 * @return
-     */
-	public boolean isFree(Float start){
-		return canBeAssigned(start,start);
-	}
-
-	/**
-	 * Verifies if a Element is free to be assigned to a task that starts and finishes at start time and if true assigns it
-	 * @param start
-	 * @param task
-     * @return
-     */
-	public boolean assign(float start, Task task){
-		if (!skills.containsKey(skills) || assignementTimes.containsValue(task))
-			return false;
-		if(isFree(start)){
-			assignementTimes.put(start,task);
-			task.assignElement(this);
-			return true;
-		}else{
-			return false;
-		}
-	}
-
-	public void removeFromTaskArray(Task... tasks){
-		for(Task task : tasks){
-			removeFromTask(task);
-		}
-	}
-
-	public boolean removeFromTask(Task task){
-		if(!assignementTimes.containsValue(task)){
-			return false;
-		}
-		Set<Float> keys = assignementTimes.keySet();
-		for (Float startTime : keys){
-			Task t_task = assignementTimes.get(startTime);
-			if(t_task.equals(task)) {
-				assignementTimes.remove(startTime);
-				task.removeAssignedElement(this);
-				break;
-			}
-		}
 		return true;
 	}
 }

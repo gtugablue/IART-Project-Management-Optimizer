@@ -4,7 +4,6 @@ import optimizer.Problem;
 import optimizer.domain.Element;
 import optimizer.domain.Task;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -29,13 +28,17 @@ public class ScheduleGenerationScheme {
     public void calculateTimes(int startPosition){
         List<Task> taskList = schedule.getOrderedTasks();
         List<Task> sublist = taskList.subList(startPosition,taskList.size()-1);
-        clearTasks(sublist);
+        schedule.clearTasks(sublist);
 
         assignElementsToTasks(taskList,startPosition);
     }
 
     private void assignElementsToTasks(List<Task> taskList, int start){
         float currStartTime = (start > 0) ? schedule.getTaskStartTime(taskList.get(start-1)) : (float)0;
+
+        for(Element  element : schedule.getProblem().getElements()){
+
+        }
 
         for (int i = start; i < taskList.size(); i++){
             Task task = taskList.get(i);
@@ -56,7 +59,7 @@ public class ScheduleGenerationScheme {
                 }
 
                 for (Element element : schedule.getProblem().getElements()) {
-                    element.assign(currStartTime,task);
+                    schedule.assignElement(currStartTime,task, element);
                 }
                 /*int previousNumberElements;
                 do{
@@ -65,27 +68,12 @@ public class ScheduleGenerationScheme {
                     //verificar se não choca
                 }while (previousNumberElements !=task.getAssignedElements().size() && task.getAssignedElements().size() > 0);*/
 
-                int duration = task.calculateEfectiveDuration();
+                int duration = schedule.taskCalculateEfectiveDuration(task);
 
                 if(duration != 0){
                     assigned= true;
                 }
             }
-        }
-    }
-
-    private void clearTasks(List<Task> tasks){
-        clearTasks(tasks.toArray(new Task[tasks.size()]));
-    }
-
-    /**
-     * Removes from all the assignements and deletes assign times and completion times
-     * @param tasks
-     */
-    private void clearTasks(Task... tasks){
-        schedule.clearTask(tasks);
-        for(Element element : schedule.getProblem().getElements()){
-            element.removeFromTaskArray(tasks);
         }
     }
 
@@ -96,5 +84,13 @@ public class ScheduleGenerationScheme {
         int newPosition = schedule.insertTask(removedTask);
         int timesCalculationPosition = (newPosition < i)? newPosition : i;
         calculateTimes();
+    }
+
+    public Schedule getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
     }
 }

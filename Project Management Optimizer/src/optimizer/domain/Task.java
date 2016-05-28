@@ -12,7 +12,6 @@ public class Task {
 	private List<Task> precedences = new ArrayList<Task>();
 	private List<Task> successors = new ArrayList<Task>();
     private Integer position = null; //Needed for SA
-    private Set<Element> assignedElements = new HashSet<>();
 
 	public Task(String name, int duration) {
 		this.name = name;
@@ -133,26 +132,10 @@ public class Task {
             return bestSize;
     }
 
-    public Set<Element> getAssignedElements() {
-        return assignedElements;
-    }
-
-    public boolean assignElement(Element... elements){
-        return assignedElements.addAll(Arrays.asList(elements));
-    }
-
-    public boolean removeAssignedElement(Element... elements){
-        return assignedElements.removeAll(Arrays.asList(elements));
-    }
-
-    public int calculateEfectiveDuration(){
-        float sum = 0;
-
-        for(Element element : assignedElements){
-            float tempDuration = getDuration()/element.getSkillPerfomance(getSkill());
-            sum += 1/(tempDuration);
-        }
-        float duration = 1/sum;
-        return (int) Math.ceil(duration);
+    @Override
+    public String toString() {
+        return "Task{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }
