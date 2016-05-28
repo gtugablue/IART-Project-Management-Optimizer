@@ -262,7 +262,7 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 		taskStartTimes.put(task, currTime);
 		taskCompletionTimes.put(task, endTime);
 
-		if (endTime > totalTime) totalTime = endTime; 
+		if (endTime > totalTime) totalTime = (int) endTime;
 		for (Element element : assignedElements) {
 			elementReadyTimes.put(element, endTime);
 		}

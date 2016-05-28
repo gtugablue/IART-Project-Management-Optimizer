@@ -1,12 +1,12 @@
 package optimizer.domain;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Element {
 	private String name;
 	private Map<Skill, Float> skills;
-	
+
+
 	public Element(String name) {
 		this.name = name;
 		this.skills = new HashMap<Skill, Float>();
@@ -35,6 +35,10 @@ public class Element {
 		return this.name;
 	}
 
+	public boolean hasSkill(Skill skill){
+		return skills.containsKey(skill);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -60,3 +64,4 @@ public class Element {
 		return true;
 	}
 }
+
