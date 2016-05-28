@@ -16,7 +16,7 @@ public class Optimizer {
 	public static Random r = new Random(1);
 	
 	public static Population createStartingPopulation(Algorithm algorithm) {
-		return algorithm.randomStartingPopulation(50);
+		return algorithm.randomStartingPopulation();
 	}
 	
 	public static Population evolvePopulation(Algorithm algorithm, Population population) {

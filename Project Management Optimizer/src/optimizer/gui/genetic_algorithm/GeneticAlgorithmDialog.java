@@ -1,4 +1,4 @@
-package optimizer.gui;
+package optimizer.gui.genetic_algorithm;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -24,13 +24,16 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import optimizer.Optimizer;
 import optimizer.Problem;
+import optimizer.gui.GraphPanel;
 import optimizer.solver.genetic_algorithm.Algorithm;
 import optimizer.solver.genetic_algorithm.Chromosome;
+import optimizer.solver.genetic_algorithm.Config;
 import optimizer.solver.genetic_algorithm.Population;
 
 public class GeneticAlgorithmDialog {
 	private JDialog dialog;
 	private Problem problem;
+	private Config config;
 	private GraphPanel gp;
 	private GeneticAlgoThread algoThread;
 	private JLabel fitnessLabel;
@@ -38,9 +41,10 @@ public class GeneticAlgorithmDialog {
 	private JFreeChart chart;
 	private ChartPanel chartPanel;
 	private DefaultCategoryDataset dataset;
-	public GeneticAlgorithmDialog(JFrame frame, Problem problem) {
+	public GeneticAlgorithmDialog(JFrame frame, Problem problem, Config config) {
 		this.dialog = new JDialog(frame, "Genetic Algorithm");
 		this.problem = problem;
+		this.config = config;
 		this.gp = new GraphPanel(problem);
 		dialog.setPreferredSize(new Dimension(800, 600));
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -83,11 +87,11 @@ public class GeneticAlgorithmDialog {
 	}
 
 	public void show() {
-		startGeneticAlgorithm(problem);
+		startGeneticAlgorithm(problem, config);
 	}
 
-	private void startGeneticAlgorithm(Problem problem) {	
-		Algorithm algorithm = new Algorithm(problem, 0.02, 0.2, 5);
+	private void startGeneticAlgorithm(Problem problem, Config config) {
+		Algorithm algorithm = new Algorithm(problem, config);
 		final Population population = Optimizer.createStartingPopulation(algorithm);
 		gp.update(population.getFittest());
 		dialog.pack();
