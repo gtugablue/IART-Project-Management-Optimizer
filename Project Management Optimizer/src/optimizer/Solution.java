@@ -40,7 +40,23 @@ public class Solution {
 		if (end == null) return null;
 		return end - start;
 	}
-	
+
+	protected void setTaskOrder(List<Integer> taskOrder) {
+		this.taskOrder = taskOrder;
+	}
+
+	protected void setTaskStartTimes(HashMap<Task, Float> taskStartTimes) {
+		this.taskStartTimes = taskStartTimes;
+	}
+
+	protected void setTaskCompletionTimes(HashMap<Task, Float> taskCompletionTimes) {
+		this.taskCompletionTimes = taskCompletionTimes;
+	}
+
+	protected void setTotalTime(float totalTime) {
+		this.totalTime = totalTime;
+	}
+
 	public int getTotalTime() {
 		return Math.round(this.totalTime);
 	}

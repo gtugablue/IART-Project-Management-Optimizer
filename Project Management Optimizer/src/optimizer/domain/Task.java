@@ -103,7 +103,7 @@ public class Task {
     }
 
     public int getLastPrecedence(){
-        int best = 0;
+        int best = -1;
         for(Task task : precedences){
             if(task.getPosition() >= best)
                 best = task.getPosition();

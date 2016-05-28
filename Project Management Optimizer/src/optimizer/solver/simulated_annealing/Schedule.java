@@ -106,10 +106,10 @@ public class Schedule extends Solution{
         int position=-1;
 
         Random random = new Random();
-        int min = task.getLastPrecedence();
+        int min = task.getLastPrecedence()+1;
         int max = task.getFirstSuccessor(list.size());
-        System.out.println("max "+max +" min "+min+" list_size "+list.size());;
-        position = random.nextInt(max-min-1) + min+1;
+        //System.out.println("max "+max +" min "+min+" list_size "+list.size());;
+        position = random.nextInt(max-min+1) + min;
 
         assignPositionTask(list,task,position);
         return position;
@@ -271,6 +271,12 @@ public class Schedule extends Solution{
         System.out.println(schedule.toString());
     }
 
+    public void correctPositions(){
+        for (int i = 0; i < orderedTasks.size(); i++) {
+            orderedTasks.get(i).setPosition(i);
+        }
+    }
+
     @Override
     public String toString() {
         return "Schedule{" +
@@ -280,6 +286,26 @@ public class Schedule extends Solution{
 
     @Override
     public Object clone() {
-        return new Schedule(getProblem(), getOrderedTasks(),getElementsAssignementTimes(),getTaskAssignedElements());
+        ArrayList<Task> orderedTasks = new ArrayList<>(getOrderedTasks());
+
+        HashMap<Element, Set<Task>> elementsAssignementTimes = new HashMap<>(getElementsAssignementTimes());
+
+        for(Element key : elementsAssignementTimes.keySet()){
+            Set<Task> newSet = new HashSet<>(getElementsAssignementTimes().get(key));
+            elementsAssignementTimes.put(key,newSet);
+        }
+
+        HashMap<Task, Set<Element>> taskAssignedElements = new HashMap<>(getTaskAssignedElements());
+        for(Task key : taskAssignedElements.keySet()){
+            Set<Element> newSet = new HashSet<>(getTaskAssignedElements().get(key));
+            taskAssignedElements.put(key, newSet);
+        }
+        Schedule newSchedule = new Schedule(getProblem(), orderedTasks, elementsAssignementTimes, taskAssignedElements);
+        newSchedule.setTaskCompletionTimes(taskCompletionTimes);
+        newSchedule.setTaskStartTimes(taskStartTimes);
+        newSchedule.setTaskOrder(taskOrder);
+        newSchedule.setTotalTime(totalTime);
+
+        return newSchedule;
     }
 }

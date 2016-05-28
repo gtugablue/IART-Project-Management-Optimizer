@@ -95,7 +95,7 @@ public class ScheduleGenerationScheme {
                     //System.err.println("Falhou a dar assign à task:" + task.getName());
                     continue;
                 }
-                System.out.println("Assigned task: "+task.getName()+" start: "+currStartTime + " end "+end);
+                //System.out.println("Assigned task: "+task.getName()+" start: "+currStartTime + " end "+end);
                 assigned = true;
             }
         }
@@ -106,7 +106,7 @@ public class ScheduleGenerationScheme {
         int i = random.nextInt(schedule.getOrderedTasks().size());
         Task removedTask = schedule.removeTaskPosition(i);
         int newPosition = schedule.insertTask(removedTask);
-        System.out.println("Changing task: "+removedTask.getName() + " to position "+newPosition);
+        //System.out.println("Changing task: "+removedTask.getName() + " from position "+i+" to position "+newPosition);
 
         int timesCalculationPosition = (newPosition < i)? newPosition : i;
         calculateTimes(timesCalculationPosition);
