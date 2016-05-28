@@ -74,13 +74,16 @@ public class Algorithm implements Runnable{
         long endTime = System.nanoTime();
 
         long duration = (endTime - startTime)/1000000;
+        System.out.println(bestAllSchedule.toString());
+        System.out.println(bestAllSchedule.getElementsAssignementTimes());
+        System.out.println(bestAllSchedule.getTaskAssignedElements());
         System.out.println("T: "+temperature+" bestAll: "+bestAll+" score: "+score);
         System.out.println("Duration: "+duration);
 
     }
 
     public static void main(String[] args) {
-        Algorithm algorithm = new Algorithm(Optimizer.generateRandomProblem(), 0.9999,100,50000);
+        Algorithm algorithm = new Algorithm(Optimizer.loadProblemFromJSON("1.json"), 0.999,1000,50000);
         algorithm.run();
     }
 }

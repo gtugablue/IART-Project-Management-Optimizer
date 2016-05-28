@@ -286,6 +286,7 @@ public class Schedule extends Solution{
 
     @Override
     public Object clone() {
+        super.toString();
         ArrayList<Task> orderedTasks = new ArrayList<>(getOrderedTasks());
 
         HashMap<Element, Set<Task>> elementsAssignementTimes = new HashMap<>(getElementsAssignementTimes());
