@@ -54,7 +54,7 @@ public class Task {
 	}
 	
 	public int getDuration() {
-		return getDuration();
+		return duration;
 	}
 	
 	public void setName(String name) {

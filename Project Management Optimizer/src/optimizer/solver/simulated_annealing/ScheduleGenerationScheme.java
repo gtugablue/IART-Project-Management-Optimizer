@@ -1,5 +1,6 @@
 package optimizer.solver.simulated_annealing;
 
+import optimizer.Optimizer;
 import optimizer.Problem;
 import optimizer.domain.Element;
 import optimizer.domain.Task;
@@ -15,11 +16,13 @@ public class ScheduleGenerationScheme {
 
     public ScheduleGenerationScheme(Schedule schedule){
         this.schedule = schedule;
+        calculateTimes();
     }
 
     public ScheduleGenerationScheme(Problem problem){
         Schedule schedule = new Schedule(problem);
         this.schedule = schedule;
+        calculateTimes();
     }
 
     public void calculateTimes(){
@@ -36,43 +39,59 @@ public class ScheduleGenerationScheme {
     private void assignElementsToTasks(List<Task> taskList, int start){
         float currStartTime = (start > 0) ? schedule.getTaskStartTime(taskList.get(start-1)) : (float)0;
 
-        for(Element  element : schedule.getProblem().getElements()){
-
-        }
-
         for (int i = start; i < taskList.size(); i++){
             Task task = taskList.get(i);
             boolean assigned = false;
-            currStartTime--;
+            currStartTime-=1;
             while (!assigned) {
-                currStartTime++;
+                schedule.clearTasks(task);
+                currStartTime+=1;
                 boolean precedenceNotFinished = false;
                 for (Task precedence : task.getPrecedences()){
-                    if(schedule.getTaskCompletionTime(precedence) < currStartTime){
+                    if(schedule.getTaskCompletionTime(precedence) > currStartTime){
+                        //System.err.println(precedence.getName() + " "+schedule.getTaskCompletionTime(precedence));
                         precedenceNotFinished = true;
                         break;
                     }
                 }
 
                 if(precedenceNotFinished){
-                    break;
+                    continue;
                 }
 
                 for (Element element : schedule.getProblem().getElements()) {
-                    schedule.assignElement(currStartTime,task, element);
-                }
-                /*int previousNumberElements;
-                do{
-                    previousNumberElements = task.getAssignedElements().size();
-                    //calcular duração
-                    //verificar se não choca
-                }while (previousNumberElements !=task.getAssignedElements().size() && task.getAssignedElements().size() > 0);*/
+                    if(!schedule.assignElement(currStartTime,task, element)){
+                        /*if(!element.hasSkill(task.getSkill())){
+                            System.err.println(element.getName() + " skill doesn't match task:" +task.getName());
+                            continue;
+                        }
 
-                int duration = schedule.taskCalculateEfectiveDuration(task);
-
-                if(duration != 0){
-                    assigned= true;
+                        if(!schedule.elementIsFree(currStartTime,element)){
+                            System.out.println(currStartTime+ " element "+element.getName() +"is not free");
+                            continue;
+                        }*/
+                    }
                 }
+
+                float duration = 0;
+                try {
+                    duration = (float) schedule.taskCalculateEfectiveDuration(task);
+                } catch (Exception e) {
+                    //System.out.println(e.getMessage());
+                    continue;
+                }
+                if(duration <= 0){
+                    //System.err.println("Falhou a dar assign à task:" + task.getName()+" duration:"+duration);
+                    continue;
+                }
+                float end = currStartTime+duration;
+
+                if(!schedule.assignTask(task,currStartTime,end)){
+                    //System.err.println("Falhou a dar assign à task:" + task.getName());
+                    continue;
+                }
+                System.out.println("Assigned task: "+task.getName()+" start: "+currStartTime + " end "+end);
+                assigned = true;
             }
         }
     }
@@ -92,5 +111,14 @@ public class ScheduleGenerationScheme {
 
     public void setSchedule(Schedule schedule) {
         this.schedule = schedule;
+    }
+
+    public static void main(String[] args) {
+        Schedule schedule = new Schedule(Optimizer.generateRandomProblem());
+        ScheduleGenerationScheme scheme = new ScheduleGenerationScheme(schedule);
+        System.out.println(schedule.toString());
+        scheme.generateNewState();
+        System.out.println(schedule.toString());
+
     }
 }

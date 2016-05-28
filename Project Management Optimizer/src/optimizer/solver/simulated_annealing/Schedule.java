@@ -15,7 +15,7 @@ import java.util.*;
  */
 public class Schedule extends Solution{
     protected List<Task> orderedTasks = new ArrayList<>();
-    protected Map<Element,Map<Float,Task>> elementsAssignementTimes = new HashMap<>();
+    protected Map<Element,Set<Task>> elementsAssignementTimes = new HashMap<>();
     private Map<Task ,Set<Element>> taskAssignedElements = new HashMap<>();
 
 
@@ -28,17 +28,17 @@ public class Schedule extends Solution{
     private void initMaps() {
         Problem problem = getProblem();
         for(Element element : problem.getElements()){
-            elementsAssignementTimes.put(element, new HashMap<>());
+            elementsAssignementTimes.put(element, new HashSet<>());
         }
 
         for (Task task : problem.getTasks()){
             taskAssignedElements.put(task, new HashSet<>());
             taskStartTimes.put(task,(float)0);
-            taskCompletionTimes.put(task,(float)0);
+            taskCompletionTimes.put(task,Float.MAX_VALUE);
         }
     }
 
-    public Schedule(Problem problem, List<Task> tasks, Map<Element,Map<Float,Task>> elementsAssignementTimes,Map<Task ,Set<Element>> taskAssignedElements){
+    public Schedule(Problem problem, List<Task> tasks, Map<Element,Set<Task>> elementsAssignementTimes,Map<Task ,Set<Element>> taskAssignedElements){
         super(problem);
         orderedTasks = tasks;
         this.elementsAssignementTimes = elementsAssignementTimes;
@@ -51,13 +51,19 @@ public class Schedule extends Solution{
         for(Task j : tasks){
             if(j.getPosition() != null)
                 continue;
-            insertTask(orderedList,j);
+            putTaskInBuildingList(orderedList,j);
         }
         return orderedList;
     }
 
     private static void assignPositionTask(List<Task> list, Task task, int i){
-        list.add(i,task);
+        if(i >= list.size()){
+            i = list.size();
+            list.add(task);
+        }else{
+            list.add(i,task);
+        }
+
         task.setPosition(i);
         for (int j = i+1; j < list.size(); j++) {
             list.get(j).setPosition(j);
@@ -83,20 +89,27 @@ public class Schedule extends Solution{
         return insertTask(getOrderedTasks(), task);
     }
 
-    public static int insertTask(List<Task> list, Task task){
+    public static void putTaskInBuildingList(List<Task> list, Task task){
+        int addedPrecedencies = 0;
         for(Task precedence : task.getPrecedences()){
             if(list.contains(precedence))
                 continue;
-            insertTask(list,precedence);
+            putTaskInBuildingList(list,precedence);
+            addedPrecedencies++;
         }
+        //System.out.println(task.getPrecedences().size()+" "+addedPrecedencies);
 
+        assignPositionTask(list,task,list.size());
+    }
+
+    public static int insertTask(List<Task> list, Task task){
         int position=-1;
 
         Random random = new Random();
         int min = task.getLastPrecedence();
         int max = task.getFirstSuccessor(list.size());
-
-        position = random.nextInt(max - min + 1) + min;
+        System.out.println("max "+max +" min "+min+" list_size "+list.size());;
+        position = random.nextInt(max-min-1) + min+1;
 
         assignPositionTask(list,task,position);
         return position;
@@ -112,8 +125,8 @@ public class Schedule extends Solution{
         }
 
         for(Task task :tasks ){
-            taskStartTimes.remove(task);
-            taskCompletionTimes.remove(task);
+            taskStartTimes.put(task,null);
+            taskCompletionTimes.put(task,null);
         }
     }
 
@@ -126,11 +139,11 @@ public class Schedule extends Solution{
     }
 
     public boolean elementCanBeAssigned(float start, float end, Element element){
-        Map<Float,Task> assignementTimes = elementsAssignementTimes.get(element);
-        Set<Float> keys = assignementTimes.keySet();
+        Set<Task> assignementTimes = elementsAssignementTimes.get(element);
 
-        for(Float t_start : keys){
-            float t_end = assignementTimes.get(t_start).getDuration()+start;
+        for(Task task : assignementTimes){
+            float t_start = getTaskStartTime(task);
+            float t_end = getTaskCompletionTime(task);
             if((start > t_start && start < t_end)
                     || (t_start > start && t_start < end)){
                 return false;
@@ -155,13 +168,12 @@ public class Schedule extends Solution{
      * @return
      */
     public boolean assignElement(float start, Task task, Element element){
-        Map<Float, Task> assignementTimes = elementsAssignementTimes.get(element);
+        Set<Task> assignementTimes = elementsAssignementTimes.get(element);
 
-        if (! element.hasSkill(task.getSkill()) || assignementTimes.containsValue(task))
+        if (! element.hasSkill(task.getSkill()) || assignementTimes.contains(task))
             return false;
         if(elementIsFree(start, element)){
-
-            assignementTimes.put(start,task);
+            assignementTimes.add(task);
             taskAssignedElements.get(task).add(element);
             return true;
         }else{
@@ -176,17 +188,15 @@ public class Schedule extends Solution{
     }
 
     public boolean removeElementFromTask(Task task, Element element){
-        Map<Float,Task> assignementTimes = elementsAssignementTimes.get(element);
+        Set<Task> assignementTimes = elementsAssignementTimes.get(element);
 
-        if(!assignementTimes.containsValue(task)){
+        if(!assignementTimes.contains(task)){
             return false;
         }
 
-        Set<Float> keys = assignementTimes.keySet();
-        for (Float startTime : keys){
-            Task t_task = assignementTimes.get(startTime);
+        for (Task t_task : assignementTimes){
             if(t_task.equals(task)) {
-                assignementTimes.remove(startTime);
+                assignementTimes.remove(task);
                 taskRemoveAssignedElement(task,element);
                 break;
             }
@@ -203,24 +213,26 @@ public class Schedule extends Solution{
         return assignedElements.removeAll(Arrays.asList(elements));
     }
 
-    public int taskCalculateEfectiveDuration(Task task){
+    public double taskCalculateEfectiveDuration(Task task) throws Exception {
         Set<Element> assignedElements = taskAssignedElements.get(task);
-
+        if (assignedElements.size() == 0)
+            throw new Exception("Não há elementos adicionados na task: "+task.getName());
         float sum = 0;
 
         for(Element element : assignedElements){
             float tempDuration = task.getDuration()/element.getSkillPerfomance(task.getSkill());
             sum += 1/(tempDuration);
         }
+
         float duration = 1/sum;
-        return (int) Math.ceil(duration);
+        return Math.ceil(duration);
     }
 
-    public Map<Element, Map<Float, Task>> getElementsAssignementTimes() {
+    public Map<Element, Set<Task>> getElementsAssignementTimes() {
         return elementsAssignementTimes;
     }
 
-    public void setElementsAssignementTimes(Map<Element, Map<Float, Task>> elementsAssignementTimes) {
+    public void setElementsAssignementTimes(Map<Element, Set<Task>> elementsAssignementTimes) {
         this.elementsAssignementTimes = elementsAssignementTimes;
     }
 
@@ -232,9 +244,31 @@ public class Schedule extends Solution{
         this.taskAssignedElements = taskAssignedElements;
     }
 
+    public boolean assignTask(Task task, float start, float end){
+        if(start > end){
+            return false;
+        }
+
+        for(Task precedence : task.getPrecedences()){
+            float t_start = taskStartTimes.get(precedence);
+            float t_end = taskCompletionTimes.get(precedence);
+
+            if(start < t_start || start < t_end){
+                //System.err.println("task "+task.getName()+" start "+ start + " t_end "+t_end+ " t_start "+t_start);
+                return false;
+            }
+
+        }
+
+        this.taskStartTimes.put(task, start);
+        this.taskCompletionTimes.put(task, end);
+
+        return true;
+    }
+
     public static void main(String[] args) {
         Schedule schedule = new Schedule(Optimizer.generateRandomProblem());
-        schedule.toString();
+        System.out.println(schedule.toString());
     }
 
     @Override

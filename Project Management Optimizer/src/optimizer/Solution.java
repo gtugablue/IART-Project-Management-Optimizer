@@ -12,7 +12,7 @@ public class Solution {
 	protected List<Integer> taskOrder = new ArrayList<>();
 	protected HashMap<Task, Float> taskStartTimes = new LinkedHashMap<>();
 	protected HashMap<Task, Float> taskCompletionTimes = new LinkedHashMap<>();
-	protected int totalTime;
+	protected float totalTime;
 	public Solution(Problem problem) {
 		this.problem = problem;
 	}
