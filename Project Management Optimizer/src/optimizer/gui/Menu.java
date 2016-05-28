@@ -39,8 +39,6 @@ public class Menu extends JPanel {
 		setBorder(new EmptyBorder(6, 6, 6, 6));
 		setPreferredSize(new Dimension(600, 200));
 		
-		problem = Optimizer.generateRandomProblem();
-		//problem = Optimizer.loadProblemFromJSON("inputExample.json");
 		add(new InputFileChooserPanel(this), BorderLayout.NORTH);
         this.tabbedPane = new JTabbedPane();
         this.tabbedPane.addTab("Genetic Algorithm", new GeneticAlgorithmConfigPanel(this.frame, filePathField));

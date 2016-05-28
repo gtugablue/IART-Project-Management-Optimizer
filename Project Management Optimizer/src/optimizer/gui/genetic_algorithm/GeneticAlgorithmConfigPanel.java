@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.text.NumberFormatter;
 
+import optimizer.Optimizer;
 import optimizer.Problem;
 import optimizer.jsonParser;
 import optimizer.gui.SpringUtilities;
@@ -124,6 +125,7 @@ public class GeneticAlgorithmConfigPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Problem problem = jsonParser.parse(filePathField.getText());
+				problem = Optimizer.generateRandomProblem();
 				if (problem == null) {
 					JOptionPane.showMessageDialog(panel, "Could not open file", "Error", JOptionPane.ERROR_MESSAGE);
 					return;

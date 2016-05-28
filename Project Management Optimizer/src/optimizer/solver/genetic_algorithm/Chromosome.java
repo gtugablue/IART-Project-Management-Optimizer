@@ -132,6 +132,9 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 				float taskStartTime = calculateTaskStartTime(task, taskElements.get(i), taskCompletionTimes, elementReadyTimes);
 				if (taskStartTime == Float.MAX_VALUE) continue; // Precedences not ready, try a different task
 				currTime = taskStartTime;
+				float elementsReadyTime = calculateElementsReadyTime(taskElements.get(i), taskCompletionTimes, elementReadyTimes);
+				//if (elementsReadyTime > currTime)
+					currTime = elementsReadyTime;
 				allocateElementsToTask(task, taskElements.get(i), currTime, taskCompletionTimes, elementReadyTimes);
 				break;
 			}
@@ -247,12 +250,12 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 			float performance = problem.getElements().get(id).getSkillPerfomance(task.getSkill());
 			if (performance <= 0)
 				break; // Element hasn't got the skill to do the task, don't assign
-			totalPerformance += 1 / (performance * task.getDuration());
+			totalPerformance += 1 / (task.getDuration() / performance);
 			assignedElements.add(problem.getElements().get(id));
 		}
 		if (totalPerformance <= 0) { // Can happen if the algorithm doesn't generate an element with the skill to realize the task. If so, find any available element to be assigned to the task.
 			float performance = findFreeElementID(task, elementReadyTimes).getSkillPerfomance(task.getSkill());
-			totalPerformance += 1 / (performance * task.getDuration());
+			totalPerformance += 1 / (task.getDuration() / performance);
 		}
 		float duration = 1 / totalPerformance;
 		float endTime = currTime + duration;
@@ -273,6 +276,16 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 				return pair.getKey();
 		}
 		return null;
+	}
+	
+	private float calculateElementsReadyTime(List<Integer> elements, HashMap<Task, Float> taskCompletionTimes, HashMap<Element, Float> elementReadyTimes) {
+		float readyTime = Float.MAX_VALUE;
+		for (int id : elements) {
+			float time = elementReadyTimes.get(problem.getElements().get(id));
+			if (time < readyTime)
+				readyTime = time;
+		}
+		return readyTime;
 	}
 
 	private float calculateTaskStartTime(Task task, List<Integer> taskElements, HashMap<Task, Float> taskCompletionTimes, HashMap<Element, Float> elementReadyTimes) {
