@@ -1,4 +1,4 @@
-package optimizer.gui;
+package optimizer.gui.genetic_algorithm;
 
 import java.awt.Container;
 import java.awt.GridBagConstraints;
@@ -21,6 +21,7 @@ import javax.swing.SpringLayout;
 import javax.swing.text.NumberFormatter;
 
 import optimizer.Problem;
+import optimizer.gui.SpringUtilities;
 import optimizer.solver.genetic_algorithm.Config;
 
 public class GeneticAlgorithmConfigPanel extends JPanel {

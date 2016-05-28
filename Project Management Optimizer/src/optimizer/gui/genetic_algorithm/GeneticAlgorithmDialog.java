@@ -1,4 +1,4 @@
-package optimizer.gui;
+package optimizer.gui.genetic_algorithm;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -24,6 +24,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import optimizer.Optimizer;
 import optimizer.Problem;
+import optimizer.gui.GraphPanel;
 import optimizer.solver.genetic_algorithm.Algorithm;
 import optimizer.solver.genetic_algorithm.Chromosome;
 import optimizer.solver.genetic_algorithm.Config;

@@ -14,6 +14,8 @@ import javax.swing.JTabbedPane;
 
 import optimizer.Optimizer;
 import optimizer.Problem;
+import optimizer.gui.genetic_algorithm.GeneticAlgorithmConfigPanel;
+import optimizer.gui.simulated_annealing.SimulatedAnnealingConfigPanel;
 import optimizer.solver.genetic_algorithm.Algorithm;
 import optimizer.solver.genetic_algorithm.Population;
 
@@ -32,7 +34,7 @@ public class Menu extends JPanel {
 		
         this.tabbedPane = new JTabbedPane();
         this.tabbedPane.addTab("Genetic Algorithm", new GeneticAlgorithmConfigPanel(this.frame, problem));
-        this.tabbedPane.addTab("Simulated Annealing", new SimulatedAnnealingConfigPanel(problem));
+        this.tabbedPane.addTab("Simulated Annealing", new SimulatedAnnealingConfigPanel(this.frame, problem));
         
         add(this.tabbedPane);
 	}
