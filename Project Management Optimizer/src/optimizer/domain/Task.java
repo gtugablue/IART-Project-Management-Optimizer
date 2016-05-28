@@ -24,6 +24,9 @@ public class Task {
 		this.duration = weight;
 		this.skill = skill;
 		this.precedences = precedences;
+		for (Task t : precedences) {
+			t.successors.add(this);
+		}
     }
 	
 	public Task(String name, int weight, Skill skill){

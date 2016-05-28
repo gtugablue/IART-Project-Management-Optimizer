@@ -12,6 +12,7 @@ import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
 import org.graphstream.ui.geom.Point3;
+import org.graphstream.ui.graphicGraph.GraphicGraph;
 import org.graphstream.ui.swingViewer.DefaultView;
 import org.graphstream.ui.swingViewer.ViewPanel;
 import org.graphstream.ui.view.Camera;
@@ -19,6 +20,7 @@ import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.Viewer;
 import org.graphstream.ui.view.ViewerListener;
 import org.graphstream.ui.view.ViewerPipe;
+import org.graphstream.ui.view.util.MouseManager;
 
 import optimizer.Problem;
 import optimizer.Solution;
@@ -45,7 +47,6 @@ public class GraphPanel {
 		}
 		viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
 		View view = viewer.addDefaultView(false);
-		view.addMouseListener(new GraphPanelMouseListener(view.getCamera()));
 		graph.addAttribute("ui.quality");
 		graph.addAttribute("ui.antialias");
 		String styleSheet = ""
@@ -61,7 +62,7 @@ public class GraphPanel {
 	public void display() {
 		graph.display(false);
 	}
-	
+
 	public ViewPanel getView() {
 		return viewer.getDefaultView();
 	}
@@ -85,45 +86,13 @@ public class GraphPanel {
 			//view.getCamera().setGraphViewport(-solution.getTotalTime() / 2, 0, problem.scoreLimit(), 5 * numTasks);
 		}
 	}
-	
+
 	public List<Color> generateColors(int n) {
 		List<Color> colors = new LinkedList<Color>();
 		for(int i = 0; i < 360; i += 360 / n) {
-		    Color color = Color.getHSBColor(i, (float)(90 + Math.random() * 10), (float)(50 + Math.random() * 10));
-		    colors.add(color);
+			Color color = Color.getHSBColor(i, (float)(90 + Math.random() * 10), (float)(50 + Math.random() * 10));
+			colors.add(color);
 		}
 		return colors;
-	}
-
-	public class GraphPanelMouseListener implements MouseListener {
-		private Camera camera;
-		public GraphPanelMouseListener(Camera camera) {
-			this.camera = camera;
-		}
-
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			Point p = e.getPoint();
-			p = e.getLocationOnScreen();
-			Point3 p3 = camera.transformPxToGu(p.getX(), p.getY());
-			System.out.println(p3.x + " " + p3.y);
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) {
-		}
-
-		@Override
-		public void mousePressed(MouseEvent e) {
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-		}
-		
 	}
 }
