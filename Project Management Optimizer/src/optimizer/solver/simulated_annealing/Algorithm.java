@@ -49,7 +49,6 @@ public class Algorithm implements Runnable{
         float bigger = 0;
         for(Task task : schedule.getOrderedTasks()){
             float completionTime = schedule.getTaskCompletionTime(task);
-            //System.out.println(task.getName()+" completion: "+completionTime);
             if(completionTime > bigger){
                 bigger = completionTime;
             }

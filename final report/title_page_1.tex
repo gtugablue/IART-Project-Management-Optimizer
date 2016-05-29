@@ -35,6 +35,7 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{textcomp}
 \usepackage{lmodern}
 \usepackage{parselines}
 \usepackage[portuguese]{babel}
@@ -236,13 +237,14 @@ O input é colhido de um ficheiro de formato \textit{json} e tem a estrutura con
 }
 \end{lstlisting}
 
-%----------------------------------------------------------------------------------------
-%	ALGORITMOS GENÉTICOS
-%----------------------------------------------------------------------------------------
 \subsection{Algoritmos}
 \justify\normalsize
 
 Na presente secção são analisados os algortimos usados passando pela explicação da implementação decidida e pela descrição da perspetiva tomada ao enfrentar os mesmos. Inicialmente serão esmiuçados os algoritmos genéticos, sendo explicada a função de avaliação implementada, a estrutura do cromossoma construído e os processos de seleção, cruzamento e mutação. Finalmente é explicitado o arrefecimento simulado incluindo a representação escolhida, a atribuição de tempos iniciais e a geração do próximo estado. 
+
+%----------------------------------------------------------------------------------------
+%	ALGORITMOS GENÉTICOS
+%----------------------------------------------------------------------------------------
 
 \subsubsection{Algoritmos Genéticos}
 
@@ -298,6 +300,37 @@ A mutação ocorre a uma taxa variável, sendo esta selecionada conforme os test
 \subsubsection{Arrefecimento Simulado}
 \justify\normalsize
 
+\paragraph{Geração do Estado Inicial}
+%Igual ao relatório passado
+\paragraph{Geração do Próximo Estado}
+%igual ao relatório passado
+\paragraph{Atribuição do Tempo inicial e dos Elementos às Tarefas }
+%ver função no ScheduleGenerationScheme chamada assignElements(acho que é este o nome)
+\paragraph{Calculo de duração de uma tarefa}
+%Tempo da tarefa = 1/(1/x+1/y) em que x e y é o tempo que o funcionário x e o funcionário y demoram a executar a tarefa.
+%x = duração da tarefa / performance de x 
+
+\paragraph{Função de Avaliação}
+Para analisar uma calendarização gerada e poder comparar com outras geradas é utilizado o valor de quando termina a última tarefa a ser completada, ou seja, o tempo total que demora a terminar todo o conjunto de projectos na dada calendarização  
+
+\begin{lstlisting}[frame=single, language=java,numbers=left,numberfirstline=true] 
+public float eval(Schedule schedule){
+	float bigger = 0;
+	for(Task task : schedule.getOrderedTasks()){
+		float completionTime = schedule.getTaskCompletionTime(task);
+		if(completionTime > bigger){
+			bigger = completionTime;
+		}
+	}
+	return bigger;
+}
+\end{lstlisting}
+
+\paragraph{Temperatura}
+A temperatura vai descendo sempre gradualmente, tendendo para 0 ao longo do tempo
+\begin{equation} \label{temperatura}
+T \textsubscript{n} = 	\alpha  * T\textsubscript{n-1}
+\end{equation}
 
 \section{Desenvolvimento}
 
@@ -382,6 +415,15 @@ As condições em que foi testado o ficheiro teste1.json foram as visíveis na f
     \includegraphics[width=14cm, height = 9cm]{test1.png}
   \caption{Condições do ficheiro teste1.json.}
   \label{teste1}
+\end{figure}
+
+\subsubsection{Arrefecimento Simulado}
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=18cm, height = 7.5cm]{sa_config_exp1.png}
+  \caption{Configurações para o arrefecimento simulado usados no test1.}
+  \label{sa_config_teste1}
 \end{figure}
 
 \paragraph{Resultados}
