@@ -37,13 +37,20 @@ public class Algorithm {
 		p.increaseNum();
 		return p;
 	}
+	
+	private void crossover(Population p){
+		if (random.nextBoolean())
+			crossoverMembers(p);
+		else
+			crossoverInside(p);
+	}
 
 	/**
 	 * Select the genes to be crossed over
 	 * If the gene to flip is equal in both chromosomes then another gene is fliped
 	 * @param p
 	 */
-	private void crossover(Population p) {
+	private void crossoverMembers(Population p) {
 
 		int taskToCross = random.nextInt(problem.getTasks().size() - 1) + 1;
 		int chromosome1 = random.nextInt(p.getSize()-1) + 1;
@@ -67,6 +74,49 @@ public class Algorithm {
 		
 		crossoverElement(p.getChromosome(chromosome1),p.getChromosome(chromosome2), taskToCross, member);
 
+	}
+	
+	private void crossoverInside(Population p) {
+
+		int taskToCross = random.nextInt(problem.getTasks().size() - 1) + 1;
+		int chromosome1 = random.nextInt(p.getSize()-1) + 1;
+		
+		int member1 = random.nextInt(problem.getElements().size());
+		int member2 = random.nextInt(problem.getElements().size());
+		
+		int bit1 = (problem.getElements().size() + p.getChromosome(chromosome1).getNumBitsTaskID())*(taskToCross - 1) 
+				+ (p.getChromosome(chromosome1).getNumBitsTaskID() - 1) + member1 + 1;
+		
+		int bit2 = (problem.getElements().size() + p.getChromosome(chromosome1).getNumBitsTaskID())*(taskToCross - 1) 
+				+ (p.getChromosome(chromosome1).getNumBitsTaskID() - 1) + member1 + 1;
+		
+		int nrMembers = problem.getElements().size();
+		int counter = 0;
+		
+		while(p.getChromosome(chromosome1).getGenes()[bit1] == p.getChromosome(chromosome1).getGenes()[bit2] && counter < nrMembers){
+			member1 = random.nextInt(problem.getElements().size());
+			counter++;
+		}
+		
+		crossoverInside(p.getChromosome(chromosome1), taskToCross, member1, member2);
+
+	}
+
+	private Chromosome crossoverInside(Chromosome chromosome, int task, int member1, int member2) {
+
+		int nrMembers = problem.getElements().size();
+		int block = chromosome.getNumBitsTaskID() + nrMembers;
+		int blockIndex = block * (task-1);
+		int geneToFlip = blockIndex + (chromosome.getNumBitsTaskID() - 1) + member1 + 1;
+		int geneToFlip2 = blockIndex + (chromosome.getNumBitsTaskID() - 1) + member2 + 1;
+		
+		boolean gene;
+		gene = chromosome.getGenes()[geneToFlip];
+		chromosome.getGenes()[geneToFlip] = chromosome.getGenes()[geneToFlip2];
+		chromosome.getGenes()[geneToFlip2] = gene;
+
+		return chromosome;		
+		
 	}
 
 	private void selection(Population population) {
