@@ -1,9 +1,12 @@
 package optimizer.solver.simulated_annealing;
 
+import com.sun.org.apache.bcel.internal.generic.FLOAD;
+import com.sun.org.apache.bcel.internal.generic.INEG;
 import optimizer.Optimizer;
 import optimizer.Problem;
 import optimizer.Solution;
 import optimizer.domain.Element;
+import optimizer.domain.Skill;
 import optimizer.domain.Task;
 import scala.Array;
 import scala.xml.Elem;
@@ -16,7 +19,6 @@ import java.util.*;
 public class Schedule extends Solution{
     protected List<Task> orderedTasks = new ArrayList<>();
     protected Map<Element,Set<Task>> elementsAssignementTimes = new HashMap<>();
-    private Map<Task ,Set<Element>> taskAssignedElements = new HashMap<>();
 
 
     Schedule(Problem problem){
@@ -144,8 +146,8 @@ public class Schedule extends Solution{
         for(Task task : assignementTimes){
             float t_start = getTaskStartTime(task);
             float t_end = getTaskCompletionTime(task);
-            if((start > t_start && start < t_end)
-                    || (t_start > start && t_start < end)){
+            if((start >= t_start && start <= t_end)
+                    || (t_start >= start && t_start <= end)){
                 return false;
             }
         }
@@ -226,6 +228,7 @@ public class Schedule extends Solution{
 
         float duration = 1/sum;
         return Math.ceil(duration);
+        //return task.getDuration();
     }
 
     public Map<Element, Set<Task>> getElementsAssignementTimes() {
@@ -277,16 +280,41 @@ public class Schedule extends Solution{
         }
     }
 
+    public Set<Element> getElementsBySkill(Skill skill){
+        Set<Element> elements = new HashSet<>();
+        for (Element element : getProblem().getElements()){
+            if(element.hasSkill(skill)){
+                elements.add(element);
+            }
+        }
+        return elements;
+    }
+
     @Override
     public String toString() {
-        return "Schedule{" +
-                "orderedTasks=" + orderedTasks +
-                '}';
+        StringBuilder stringBuilder = new StringBuilder();
+        for(Task task : orderedTasks){
+            stringBuilder.append(task.getName() + " start: "+taskStartTimes.get(task)+" end "+taskCompletionTimes.get(task)+"\n");
+            for(Element element : taskAssignedElements.get(task)){
+                stringBuilder.append(element.getName()+"\n");
+            }
+            stringBuilder.append("\n");
+        }
+
+        stringBuilder.append("\n\n\n\nOrdeação pelos Elementos");
+        Set<Element> elements= elementsAssignementTimes.keySet();
+        for(Element element: elements){
+            stringBuilder.append(element.getName()+"\n");
+            for(Task task : elementsAssignementTimes.get(element)){
+                stringBuilder.append(task.getName() + " start: "+taskStartTimes.get(task)+" end "+taskCompletionTimes.get(task)+"\n");
+            }
+            stringBuilder.append("\n");
+        }
+        return stringBuilder.toString();
     }
 
     @Override
     public Object clone() {
-        super.toString();
         ArrayList<Task> orderedTasks = new ArrayList<>(getOrderedTasks());
 
         HashMap<Element, Set<Task>> elementsAssignementTimes = new HashMap<>(getElementsAssignementTimes());
@@ -302,9 +330,9 @@ public class Schedule extends Solution{
             taskAssignedElements.put(key, newSet);
         }
         Schedule newSchedule = new Schedule(getProblem(), orderedTasks, elementsAssignementTimes, taskAssignedElements);
-        newSchedule.setTaskCompletionTimes(taskCompletionTimes);
-        newSchedule.setTaskStartTimes(taskStartTimes);
-        newSchedule.setTaskOrder(taskOrder);
+        newSchedule.setTaskCompletionTimes(new HashMap<Task, Float>( taskCompletionTimes));
+        newSchedule.setTaskStartTimes(new HashMap<Task, Float>( taskStartTimes));
+        newSchedule.setTaskOrder(new ArrayList<Integer>(taskOrder));
         newSchedule.setTotalTime(totalTime);
 
         return newSchedule;
