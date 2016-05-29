@@ -26,6 +26,7 @@ public class Algorithm implements Runnable{
         float bigger = 0;
         for(Task task : schedule.getOrderedTasks()){
             float completionTime = schedule.getTaskCompletionTime(task);
+            //System.out.println(task.getName()+" completion: "+completionTime);
             if(completionTime > bigger){
                 bigger = completionTime;
             }
@@ -47,7 +48,7 @@ public class Algorithm implements Runnable{
         Schedule bestAllSchedule = (Schedule) schedule.clone();
         float score = bestAll;
         for (int i = 0 ; i < cicles; i++){
-            System.out.println("T: "+temperature+" bestAll: "+bestAll+" score: "+score);
+            System.out.println("T: "+temperature+" bestAll: "+bestAll+" score: "+score + " i "+i);
             schedule.correctPositions();
             scheme.setSchedule((Schedule) schedule.clone());
             scheme.generateNewState();
@@ -62,7 +63,7 @@ public class Algorithm implements Runnable{
                     bestAllSchedule = (Schedule) scheme.getSchedule().clone();
                 }
             }else{
-                double boltzmannFactor = Math.exp(Math.abs(delta/temperature));
+                double boltzmannFactor = Math.exp(-Math.abs(delta/temperature));
                 //System.out.println("Boltzmann Factor:"+boltzmannFactor+"");
                 if(boltzmannFactor > random.nextFloat()){
                     score = eval;
@@ -74,6 +75,7 @@ public class Algorithm implements Runnable{
         long endTime = System.nanoTime();
 
         long duration = (endTime - startTime)/1000000;
+        bestAllSchedule.correctPositions();
         System.out.println(bestAllSchedule.toString());
         System.out.println(bestAllSchedule.getElementsAssignementTimes());
         System.out.println(bestAllSchedule.getTaskAssignedElements());
@@ -83,7 +85,7 @@ public class Algorithm implements Runnable{
     }
 
     public static void main(String[] args) {
-        Algorithm algorithm = new Algorithm(Optimizer.loadProblemFromJSON("1.json"), 0.999,1000,50000);
+        Algorithm algorithm = new Algorithm(Optimizer.generateRandomProblem(), 0.9999,1000,50000);
         algorithm.run();
     }
 }

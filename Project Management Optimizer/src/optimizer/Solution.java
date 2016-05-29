@@ -67,4 +67,12 @@ public class Solution {
 	public int getTotalTime() {
 		return Math.round(this.totalTime);
 	}
+
+	@Override
+	public String toString() {
+		return "Solution{" +
+				"taskStartTimes=" + taskStartTimes +
+				",\n taskCompletionTimes=" + taskCompletionTimes +
+				'}';
+	}
 }
