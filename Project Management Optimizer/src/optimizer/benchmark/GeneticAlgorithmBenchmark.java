@@ -25,10 +25,12 @@ public class GeneticAlgorithmBenchmark extends Benchmark {
 		Config config = new Config(populationSize, crossoverRate, mutationRate, elitism);
 		Algorithm algorithm = new Algorithm(problem, config);
 		Population p = algorithm.randomStartingPopulation();
-		this.score = p.getFittest().getFitness();
+		//this.score = p.getFittest().getFitness();
+		this.score = p.getFittest().getTotalTime();
 		for (int i = 0; i < maxGenerations; i++) {
 			p = algorithm.evolve(p);
-			this.score = p.getFittest().getFitness();
+			//this.score = p.getFittest().getFitness();
+			this.score = p.getFittest().getTotalTime();
 		}
 	}
 }

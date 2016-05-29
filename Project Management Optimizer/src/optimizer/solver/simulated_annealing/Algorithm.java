@@ -116,11 +116,11 @@ public class Algorithm implements Runnable{
 
         long duration = (endTime - startTime)/1000000;
         bestAllSchedule.correctPositions();
-        System.out.println(bestAllSchedule.toString());
+        /*System.out.println(bestAllSchedule.toString());
         System.out.println(bestAllSchedule.getElementsAssignementTimes());
         System.out.println(bestAllSchedule.getTaskAssignedElements());
         System.out.println("T: "+temperature+" bestAll: "+bestAll+" score: "+score);
-        System.out.println("Duration: "+duration);
+        System.out.println("Duration: "+duration);*/
 
     }
 
