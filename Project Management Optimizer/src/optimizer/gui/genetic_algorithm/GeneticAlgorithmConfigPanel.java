@@ -88,14 +88,14 @@ public class GeneticAlgorithmConfigPanel extends JPanel {
 		formatter.setMaximum(1.0f);
 		formatter.setCommitsOnValidEdit(true);
 		mutationRateField = new JFormattedTextField(formatter);
-		mutationRateField.setText("0.02");
+		mutationRateField.setText("0.005");
 		l2.setLabelFor(mutationRateField);
 		panel.add(mutationRateField);
 
 		JLabel l3 = new JLabel("Crossover rate: ", JLabel.TRAILING);
 		panel.add(l3);
 		crossoverRateField = new JFormattedTextField(formatter);
-		crossoverRateField.setText("0.20");
+		crossoverRateField.setText("0.5");
 		l3.setLabelFor(crossoverRateField);
 		panel.add(crossoverRateField);
 
