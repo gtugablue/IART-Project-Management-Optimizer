@@ -1,10 +1,6 @@
 package optimizer;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import optimizer.domain.Element;
 import optimizer.domain.Task;
@@ -14,7 +10,7 @@ public class Solution {
 	protected List<Integer> taskOrder = new ArrayList<>();
 	protected HashMap<Task, Float> taskStartTimes = new LinkedHashMap<>();
 	protected HashMap<Task, Float> taskCompletionTimes = new LinkedHashMap<>();
-	protected HashMap<Task, Set<Element>> taskAssignedElements = new HashMap<>();
+	protected Map<Task, Set<Element>> taskAssignedElements = new HashMap<>();
 	protected float totalTime;
 	public Solution(Problem problem) {
 		this.problem = problem;

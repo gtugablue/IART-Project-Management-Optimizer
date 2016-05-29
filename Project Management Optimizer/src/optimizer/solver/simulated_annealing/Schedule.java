@@ -19,7 +19,6 @@ import java.util.*;
 public class Schedule extends Solution{
     protected List<Task> orderedTasks = new ArrayList<>();
     protected Map<Element,Set<Task>> elementsAssignementTimes = new HashMap<>();
-    private Map<Task ,Set<Element>> taskAssignedElements = new HashMap<>();
 
 
     Schedule(Problem problem){
