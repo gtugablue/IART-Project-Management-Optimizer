@@ -598,10 +598,30 @@ INSERIR CONCLUSÕES AQUI
 
 \section{Melhoramentos}
 \justify\normalsize
-%Melhorar a heurística para a atribuição de elementos. Falar com o CC . Ele neste momento vai fazer um bocadinho de SDIS
-NÃO HÁ MELHORAMENTOS PORQUE ESTÁ DO CRLHHHHHHHH
 
-O grupo considera que o trabalho foi desenvolvido de uma maneira saudável e todos os elementos do grupo trabalharam de forma igual (33.3\% para cada elemento). As melhorias a serem implementadas passariam por realizar mais testes por forma a perceber quais as condições que levariam a uma mehor otimização.%% Não concordo, o SA tá op mereço mais
+\subsection{Heurística de atribuição de Elementos}
+A atribuição dos elementos a uma task pode ser melhorada. Em ambos os algorítmos, apenas é necessário que haja pelo menos um elemento disponível com a skill correspondente para que uma task seja alocada. Contudo, pode haver situações em que seja mais vantajoso esperar um certo tempo para que hajam mais elementos a trabalhar na tarefa o que vai diminuir o tempo da mesma.
+
+Para isso seria necessário o estudo da seguinte função procura reflectir o tempo de final da tarefa se procurarmos alocar os membros.
+
+\begin{mycapequ}[!ht]
+  \begin{equation}
+   f(a,b, \ldots)  = { t \over p_a  + p_b  +\ldots } + g(a,b,\ldots)
+  \end{equation}
+  \caption{ i - tempo actual\\
+  		g(a,b,\ldots) - tempo a esperar até que todos os elementos estivessem disponíveis
+  		}
+\end{mycapequ}
+
+Fazendo uma análise da função poderíamos utilizar esta heurística para optimizar ambos os algorítmos e chegar assim a soluções que se aproximassem mais do óptimo global
+
+\subsection{Outros Melhoramentos}
+Outros melhoramentos a serem implementadas passariam por realizar mais testes por forma a perceber quais as condições que levariam a uma mehor otimização.
+
+\section{Divisão de tarefas}
+\justify\normalsize
+
+O grupo considera que o trabalho foi desenvolvido de uma maneira saudável e todos os elementos do grupo trabalharam de forma igual (33.3\% para cada elemento). %% Não concordo, o SA tá op mereço mais
 
 \nocite{*}
 \bibliography{title_page_1}
