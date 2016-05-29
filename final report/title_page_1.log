@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.5.12)  29 MAY 2016 18:36
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.5.12)  29 MAY 2016 18:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -957,7 +957,7 @@ Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
 Package csquotes Info: Redefining alias 'default' -> 'portuguese'.
 
-(./title_page_1.aux)
+No file title_page_1.aux.
 \openout1 = `title_page_1.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 129.
@@ -975,7 +975,7 @@ LaTeX Font Info:    ... okay on input line 129.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 129.
 LaTeX Font Info:    Try loading font information for TS1+cmr on input line 129.
 
- (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    ... okay on input line 129.
@@ -1067,8 +1067,6 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 129.
 LaTeX Info: Redefining \pageref on input line 129.
 LaTeX Info: Redefining \nameref on input line 129.
-
-(./title_page_1.out) (./title_page_1.out)
 \@outlinefile=\write3
 \openout3 = `title_page_1.out'.
 
@@ -1076,7 +1074,7 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: End \AtBeginDocument code.
 
-<images/feup.jpg, id=88, 168.02776pt x 151.16475pt>
+<images/feup.jpg, id=4, 168.02776pt x 151.16475pt>
 File: images/feup.jpg Graphic file (type jpg)
  <use images/feup.jpg>
 Package pdftex.def Info: images/feup.jpg used on input line 141.
@@ -1091,50 +1089,51 @@ Underfull \hbox (badness 10000) in paragraph at lines 178--178
 |\T1/lmr/bx/n/17.28 Conteúdo|
  []
 
-(./title_page_1.toc
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 3.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 3.
- [1
-
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./images/feup.jpg>]
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 4.
- (/usr/share/texmf/tex/latex/lm/ot1lmr.fd
-File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 4.
-
-(/usr/share/texmf/tex/latex/lm/omllmm.fd
-File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 4.
-
-(/usr/share/texmf/tex/latex/lm/omslmsy.fd
-File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 4.
-
-(/usr/share/texmf/tex/latex/lm/omxlmex.fd
-File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 4.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 4.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 4.
-)
 \tf@toc=\write4
 \openout4 = `title_page_1.toc'.
 
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 184.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 184.
+[1
 
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./images/feup.jpg>]
 Underfull \hbox (badness 10000) in paragraph at lines 184--184
 |\T1/lmr/bx/n/17.28 Introdução|
  []
 
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 184.
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 185.
+
+(/usr/share/texmf/tex/latex/lm/ot1lmr.fd
+File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 185.
+
+
+(/usr/share/texmf/tex/latex/lm/omllmm.fd
+File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 185
+.
+
+(/usr/share/texmf/tex/latex/lm/omslmsy.fd
+File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 185
+.
+
+(/usr/share/texmf/tex/latex/lm/omxlmex.fd
+File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <12> on input line 185.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <8> on input line 185.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <6> on input line 185.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <10> on input line 185.
 LaTeX Font Info:    External font `lmex10' loaded for size
@@ -1142,49 +1141,42 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <5> on input line 185.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 190.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 190.
-[2]
-Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 200.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 202.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 211.
 Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 211.
+ [2]
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 211.
+Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 215.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 220.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 220.
- [3]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 223.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 225.
 LaTeX Font Info:    Try loading font information for T1+lmtt on input line 229.
 
- (/usr/share/texmf/tex/latex/lm/t1lmtt.fd
+
+(/usr/share/texmf/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 242.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 242.
+ [3]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 248.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 257.
 
 
-Package caption Warning: \label without proper reference on input line 268.
-See the caption package documentation for explanation.
-
-
 LaTeX Warning: Reference `fig:sub1' on page 4 undefined on input line 261.
 
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 262.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 262.
-[4] <images/chromosome.png, id=160, 1397.22pt x 67.25125pt>
+<images/chromosome.png, id=51, 1397.22pt x 67.25125pt>
 File: images/chromosome.png Graphic file (type png)
 
 <use images/chromosome.png>
@@ -1195,10 +1187,9 @@ Overfull \hbox (99.13918pt too wide) in paragraph at lines 267--269
  [][] 
  []
 
-<images/legenda.png, id=162, 342.27875pt x 142.5325pt>
+<images/legenda.png, id=53, 342.27875pt x 142.5325pt>
 File: images/legenda.png Graphic file (type png)
-
-<use images/legenda.png>
+ <use images/legenda.png>
 Package pdftex.def Info: images/legenda.png used on input line 272.
 (pdftex.def)             Requested size: 99.58209pt x 54.0585pt.
 
@@ -1206,11 +1197,15 @@ Overfull \hbox (149.60028pt too wide) in paragraph at lines 265--275
  []$[]$$[]$ 
  []
 
+
+LaTeX Warning: Reference `equa\IeC {\c c}\IeC {\~a}o 1' on page 4 undefined on 
+input line 279.
+
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 299.
+(babel)             in language  on input line 291.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 299.
-[5 <./images/chromosome.png> <./images/legenda.png>]
+(babel)             in language  on input line 291.
+[4 <./images/chromosome.png> <./images/legenda.png>]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 308.
 Package babel Info: Redefining portuges shorthand "|
@@ -1219,8 +1214,12 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 320.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 323.
-
-<images/sa.png, id=181, 617.30624pt x 331.2375pt>
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 327.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 327.
+ [5]
+<images/sa.png, id=86, 617.30624pt x 331.2375pt>
 File: images/sa.png Graphic file (type png)
  <use images/sa.png>
 Package pdftex.def Info: images/sa.png used on input line 335.
@@ -1229,13 +1228,7 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 343.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 343.
- [6]
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 356.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 356.
-
-[7 <./images/sa.png>]
+ [6 <./images/sa.png>]
 
 Package amsmath Warning: Foreign command \over;
 (amsmath)                \frac or \genfrac should be used instead
@@ -1244,17 +1237,21 @@ Package amsmath Warning: Foreign command \over;
 Package hyperref Info: bookmark level for unknown mycapequ defaults to 0 on inp
 ut line 369.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 407.
+(babel)             in language  on input line 393.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 407.
-[8]
+(babel)             in language  on input line 393.
+[7]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 418.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 420.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 424.
- <images/uml.jpg, id=241, 773.89125pt x 963.6pt>
+
+
+LaTeX Warning: Reference `uml' on page 8 undefined on input line 426.
+
+<images/uml.jpg, id=130, 773.89125pt x 963.6pt>
 File: images/uml.jpg Graphic file (type jpg)
  <use images/uml.jpg>
 Package pdftex.def Info: images/uml.jpg used on input line 430.
@@ -1263,8 +1260,11 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 434.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 434.
+ [8]
 
-[9] <images/packageDiagram.jpg, id=251, 776.9025pt x 506.89375pt>
+LaTeX Warning: Reference `packageD' on page 9 undefined on input line 435.
+
+<images/packageDiagram.jpg, id=154, 776.9025pt x 506.89375pt>
 File: images/packageDiagram.jpg Graphic file (type jpg)
 
 <use images/packageDiagram.jpg>
@@ -1279,7 +1279,7 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 443.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 443.
-[10 <./images/uml.jpg>]
+[9 <./images/uml.jpg>]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 444.
 Package babel Info: Redefining portuges shorthand "|
@@ -1288,11 +1288,14 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 462.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 462.
- [11 <./images/packageDiagram.jpg>]
+ [10 <./images/packageDiagram.jpg>]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 492.
 
-<images/test1.png, id=274, 408.3255pt x 191.5155pt>
+
+LaTeX Warning: Reference `teste1' on page 11 undefined on input line 496.
+
+<images/test1.png, id=178, 408.3255pt x 191.5155pt>
 File: images/test1.png Graphic file (type png)
  <use images/test1.png>
 Package pdftex.def Info: images/test1.png used on input line 500.
@@ -1302,10 +1305,13 @@ Package babel Info: Redefining portuges shorthand "|
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 504.
 
-[12] <images/exp1.png, id=311, 1143.67274pt x 603.4545pt>
-File: images/exp1.png Graphic file (type png)
+[11]
 
-<use images/exp1.png>
+LaTeX Warning: Reference `exp1' on page 12 undefined on input line 505.
+
+<images/exp1.png, id=214, 1143.67274pt x 603.4545pt>
+File: images/exp1.png Graphic file (type png)
+ <use images/exp1.png>
 Package pdftex.def Info: images/exp1.png used on input line 509.
 (pdftex.def)             Requested size: 540.6151pt x 312.98784pt.
 
@@ -1313,19 +1319,22 @@ Overfull \hbox (41.95251pt too wide) in paragraph at lines 509--510
  [][] 
  []
 
+
+LaTeX Warning: Reference `exp1Zoom' on page 12 undefined on input line 514.
+
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 515.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 515.
-[13 <./images/test1.png> <./images/exp1.png>]
-<images/exp1Zoom.png, id=321, 531.1845pt x 455.90324pt>
+[12 <./images/test1.png> <./images/exp1.png>]
+<images/exp1Zoom.png, id=223, 531.1845pt x 455.90324pt>
 File: images/exp1Zoom.png Graphic file (type png)
 
 <use images/exp1Zoom.png>
 Package pdftex.def Info: images/exp1Zoom.png used on input line 518.
 (pdftex.def)             Requested size: 398.35497pt x 284.5423pt.
 
-<images/sa_config_exp1.png, id=322, 594.22pt x 230.8625pt>
+<images/sa_config_exp1.png, id=224, 594.22pt x 230.8625pt>
 File: images/sa_config_exp1.png Graphic file (type png)
 
 <use images/sa_config_exp1.png>
@@ -1336,7 +1345,10 @@ Overfull \hbox (13.50818pt too wide) in paragraph at lines 527--528
  [][] 
  []
 
-<images/sa_result_exp1.png, id=324, 1309.89375pt x 640.3925pt>
+
+LaTeX Warning: Reference `sa_exp1' on page 13 undefined on input line 532.
+
+<images/sa_result_exp1.png, id=225, 1309.89375pt x 640.3925pt>
 File: images/sa_result_exp1.png Graphic file (type png)
 
 <use images/sa_result_exp1.png>
@@ -1351,8 +1363,11 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 540.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 540.
-[14 <./images/exp1Zoom.png> <./images/sa_config_exp1.png>]
-<images/sa_graph_exp1.png, id=335, 468.75125pt x 331.2375pt>
+[13 <./images/exp1Zoom.png> <./images/sa_config_exp1.png>]
+
+LaTeX Warning: Reference `sa_graph1' on page 14 undefined on input line 541.
+
+<images/sa_graph_exp1.png, id=235, 468.75125pt x 331.2375pt>
 File: images/sa_graph_exp1.png Graphic file (type png)
 
 <use images/sa_graph_exp1.png>
@@ -1362,7 +1377,7 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 549.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 549.
- [15 <./images/sa_result_exp1.png>]
+ [14 <./images/sa_result_exp1.png>]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 571.
 Package babel Info: Redefining portuges shorthand "|
@@ -1371,33 +1386,42 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 582.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 582.
- [16 <./images/sa_graph_exp1.png>] (./title_page_1.bbl)
+ [15 <./images/sa_graph_exp1.png>] (./title_page_1.bbl)
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 587.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 587.
- [17]
+ [16]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 588.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 588.
  (./title_page_1.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 588.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 588.
-Package rerunfilecheck Info: File `title_page_1.out' has not changed.
-(rerunfilecheck)             Checksum: 0D4CF598A0468A512C69719F4FFAE076;1406.
 
+
+Package rerunfilecheck Warning: File `title_page_1.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `title_page_1.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  0D4CF598A0468A512C69719F4FFAE076;1406.
 
 LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 588.
  ) 
 Here is how much of TeX's memory you used:
- 12800 strings out of 494888
- 184242 string characters out of 6179127
+ 12770 strings out of 494888
+ 183770 string characters out of 6179127
  419970 words of memory out of 5000000
- 15712 multiletter control sequences out of 15000+600000
+ 15690 multiletter control sequences out of 15000+600000
  84870 words of font info for 56 fonts, out of 8000000 for 9000
  38 hyphenation exceptions out of 8191
- 36i,10n,40p,1091b,2271s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,10n,40p,1091b,2227s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/share/texmf/fonts/en
 c/dvips/lm/lm-mathit.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-ec.enc}{/usr/s
 hare/texmf/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm
@@ -1412,10 +1436,10 @@ i10.pfb></usr/share/texmf/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf/fo
 nts/type1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy8.pf
 b></usr/share/texmf/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf/fonts/ty
 pe1/public/lm/lmtt12.pfb>
-Output written on title_page_1.pdf (17 pages, 715762 bytes).
+Output written on title_page_1.pdf (16 pages, 710094 bytes).
 PDF statistics:
- 448 PDF objects out of 1000 (max. 8388607)
- 392 compressed objects within 4 object streams
+ 350 PDF objects out of 1000 (max. 8388607)
+ 296 compressed objects within 3 object streams
  162 named destinations out of 1000 (max. 500000)
- 229 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 61 words of extra memory for PDF output out of 10000 (max. 10000000)
 
