@@ -5,4 +5,11 @@ public class Config {
 	public double mutationRate;
 	public double crossoverRate;
 	public int elitism;
+	public Config() {}
+	public Config(int populationSize, float crossoverRate, float mutationRate, int elitism) {
+		this.populationSize = populationSize;
+		this.crossoverRate = crossoverRate;
+		this.mutationRate = mutationRate;
+		this.elitism = elitism;
+	}
 }

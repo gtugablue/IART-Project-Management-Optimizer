@@ -76,7 +76,7 @@ public class GeneticAlgorithmConfigPanel extends JPanel {
 		formatter.setMaximum(Integer.MAX_VALUE);
 		formatter.setCommitsOnValidEdit(true);
 		populationSizeField = new JFormattedTextField(formatter);
-		populationSizeField.setText("50");
+		populationSizeField.setText("155");
 		l1.setLabelFor(populationSizeField);
 		panel.add(populationSizeField);
 
@@ -88,14 +88,14 @@ public class GeneticAlgorithmConfigPanel extends JPanel {
 		formatter.setMaximum(1.0f);
 		formatter.setCommitsOnValidEdit(true);
 		mutationRateField = new JFormattedTextField(formatter);
-		mutationRateField.setText("0.005");
+		mutationRateField.setText("0.015");
 		l2.setLabelFor(mutationRateField);
 		panel.add(mutationRateField);
 
 		JLabel l3 = new JLabel("Crossover rate: ", JLabel.TRAILING);
 		panel.add(l3);
 		crossoverRateField = new JFormattedTextField(formatter);
-		crossoverRateField.setText("0.5");
+		crossoverRateField.setText("0.65");
 		l3.setLabelFor(crossoverRateField);
 		panel.add(crossoverRateField);
 
@@ -107,7 +107,7 @@ public class GeneticAlgorithmConfigPanel extends JPanel {
 		formatter.setMaximum(Integer.MAX_VALUE);
 		formatter.setCommitsOnValidEdit(true);
 		elitismField = new JFormattedTextField(formatter);
-		elitismField.setText("5");
+		elitismField.setText("15");
 		l4.setLabelFor(elitismField);
 		panel.add(elitismField);
 

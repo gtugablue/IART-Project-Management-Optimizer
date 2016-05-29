@@ -39,7 +39,7 @@ public class Optimizer {
 	
 	private static ArrayList<Skill> createSkills() {
 		ArrayList<Skill> skills = new ArrayList<Skill>();
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 8; i++) {
 			skills.add(new Skill("random skill #" + i));
 		}
 		return skills;
@@ -47,7 +47,7 @@ public class Optimizer {
 
 	private static ArrayList<Task> createTasks(List<Skill> skills) {
 		ArrayList<Task> tasks = new ArrayList<Task>();
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 25; i++) {
 			ArrayList<Task> precedences = new ArrayList<Task>();
 			if (tasks.size() > 3) {
 				for (int j = 0; j < r.nextInt(3); j++) {
@@ -64,7 +64,7 @@ public class Optimizer {
 
 	private static ArrayList<Element> createElements() {
 		ArrayList<Element> elements = new ArrayList<Element>();
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 10; i++) {
 			elements.add(new Element("random element #" + i));
 		}
 		return elements;
