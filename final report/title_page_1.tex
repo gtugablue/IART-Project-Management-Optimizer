@@ -305,10 +305,10 @@ A duração de uma tarefa é dada em função do número de elementos e a \texti
 Para analisar uma calendarização gerada e poder comparar com outras geradas é utilizado o valor de quando termina a última tarefa a ser completada, ou seja, o tempo total que demora a terminar todo o conjunto de projectos na dada calendarização  
 
 \begin{lstlisting}[frame=single, language=java,numbers=left,numberfirstline=true] 
-public float eval(Schedule schedule){
+public float eval(Solution solution){
 	float bigger = 0;
-	for(Task task : schedule.getOrderedTasks()){
-		float completionTime = schedule.getTaskCompletionTime(task);
+	for(Task task : solution.getOrderedTasks()){
+		float completionTime = solution.getTaskCompletionTime(task);
 		if(completionTime > bigger){
 			bigger = completionTime;
 		}
@@ -442,7 +442,7 @@ A temperatura vai descendo sempre gradualmente, tendendo para 0 ao longo do temp
 
 \subsection{Ferramentas, linguagens e ambientes}
 \justify\normalsize
-Para tornar mais fácil a visualização dos resultados foi usada uma API de visualização de grafos chamada NOME DA API. A linguagem usada foi Java.
+Para tornar mais fácil a visualização dos resultados foi usada uma API de visualização de grafos chamada GraphStream. A linguagem usada foi Java.
 
 \subsection{Aquitetura}
 \justify\normalsize
@@ -561,7 +561,7 @@ Os resultados obtidos foram os apresentados na figura \ref{sa_exp1}.
   \label{sa_exp1}
 \end{figure}
 
-Do lado direito da figura pode-se observar o grafo de precedências de tarefas. Do lado esquerdo apresenta-se o gráfico que representa a evolução do valor de fitness ao longo das gerações. A figura \ref{sa_graph1} mostra o gráfico com mais detalhe.
+Do lado direito da figura pode-se observar o grafo de precedências de tarefas. Do lado esquerdo apresenta-se o gráfico que representa a evolução do valores gerados pelos novos estados à medida que a temperatura se aproxima de 0. A figura \ref{sa_graph1} mostra o gráfico com mais detalhe.
 
 \begin{figure}[H]
   \centering
@@ -569,6 +569,11 @@ Do lado direito da figura pode-se observar o grafo de precedências de tarefas. 
   \caption{Resultados obtidos.}
   \label{sa_graph1}
 \end{figure}
+
+\subsection{Experiência 2}
+
+Foi gerado um problema de forma automática com 25 tarefas, 8 skills e 10 elementos, com atribuição de skills a tarefas e elementos e criação de precedências entre tarefas.
+Este problema foi utilizado para estudar várias configurações para os algorítmos e para os comparar com o problema de maior dimensão que o da experiência  1.
 
 \paragraph{Resultados}
 
@@ -589,6 +594,7 @@ Temperatura Inicial    & 100    & \multirow{2}{*}{26}    & \multirow{2}{*}{26} \
 Cooling Rate           & 0.9999 &                        &                     \\ \hline
 \end{tabular}
 \end{table}
+
 
 
 \section{Conclusões}

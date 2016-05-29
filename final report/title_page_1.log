@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.10.8)  29 MAY 2016 22:44
-=======
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.5.12)  29 MAY 2016 22:45
->>>>>>> 4706a5590bf14a2c8927b56673dd7dd4499a5f9e
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.5.12)  29 MAY 2016 23:07
 entering extended mode
 **"C:/Users/utilizador/git/IART-Project-Management-Optimizer/final report/title
 _page_1.tex"
@@ -990,7 +986,7 @@ LaTeX Font Info:    Try loading font information for TS1+lmr on input line 144.
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 Underfull \hbox (badness 10000) in paragraph at lines 178--178
-|\T1/lmr/bx/n/17.28 Conteúdo|
+|\T1/lmr/bx/n/17.28 Conteï¿½do|
  []
 
 (title_page_1.toc
@@ -1030,7 +1026,7 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 \tf@toc=\write4
 
 Underfull \hbox (badness 10000) in paragraph at lines 184--184
- |[]\T1/lmr/bx/n/17.28 Introdução|
+ |[]\T1/lmr/bx/n/17.28 Introduï¿½ï¿½o|
  []
 
 Package babel Info: Redefining portuges shorthand "|
