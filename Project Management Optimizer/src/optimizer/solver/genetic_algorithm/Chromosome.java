@@ -106,6 +106,7 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 				if (problem.getElements().get(ids.get(j)).getSkillPerfomance(task.getSkill()) <= 0) {
 					score += UNSKILLED_ELEMENT_PENALTY;
 					ids.remove(j);
+					j--;
 				}
 			}
 
@@ -246,18 +247,12 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 		ArrayList<Element> assignedElements = new ArrayList<Element>();
 		for (int id : taskElements) {
 			if (currTime < elementReadyTimes.get(problem.getElements().get(id)))
-				break; // Element not ready, don't assign to task
+				continue; // Element not ready, don't assign to task
 			float performance = problem.getElements().get(id).getSkillPerfomance(task.getSkill());
 			if (performance <= 0)
-				break; // Element hasn't got the skill to do the task, don't assign
+				continue; // Element hasn't got the skill to do the task, don't assign
 			totalPerformance += 1 / (task.getDuration() / performance);
 			assignedElements.add(problem.getElements().get(id));
-		}
-		if (totalPerformance <= 0) { // Can happen if the algorithm doesn't generate an element with the skill to realize the task. If so, find any available element to be assigned to the task.
-			Element e = findFreeElementID(task, elementReadyTimes);
-			float performance = e.getSkillPerfomance(task.getSkill());
-			totalPerformance += 1 / (task.getDuration() / performance);
-			assignedElements.add(e);
 		}
 		float duration = 1 / totalPerformance;
 		float endTime = currTime + duration;
@@ -271,12 +266,13 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 		}
 	}
 
-	private Element findFreeElementID(Task task, HashMap<Element, Float> elementReadyTimes) {
+	private Element findFreeElementID(Task task, float currTime, HashMap<Element, Float> elementReadyTimes) {
 		Iterator<Entry<Element, Float>> it = elementReadyTimes.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry<Element, Float> pair = (Map.Entry<Element, Float>)it.next();
-			if (pair.getKey().getSkillPerfomance(task.getSkill()) > 0)
+			if (currTime >= elementReadyTimes.get(pair.getKey()) && pair.getKey().getSkillPerfomance(task.getSkill()) > 0) {
 				return pair.getKey();
+			}
 		}
 		return null;
 	}
