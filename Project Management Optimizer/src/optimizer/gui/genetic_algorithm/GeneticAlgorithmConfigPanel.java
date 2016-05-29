@@ -124,8 +124,8 @@ public class GeneticAlgorithmConfigPanel extends JPanel {
 		runButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//Problem problem = jsonParser.parse(filePathField.getText());
-				Problem problem = Optimizer.generateRandomProblem();
+				Problem problem = jsonParser.parse(filePathField.getText());
+				//Problem problem = Optimizer.generateRandomProblem();
 				if (problem == null) {
 					JOptionPane.showMessageDialog(panel, "Could not open file", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
