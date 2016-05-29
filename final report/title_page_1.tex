@@ -315,9 +315,32 @@ Para este projecto optamos por representar a nossa solução através de uma lis
 \subsubsection{Representação}
 A representação da solução é importante pois tem que permitir a geração rápida do próximo estado e rápido calculo do 	$\Delta$E.
 
-Para tal colocamos as tarefas numa lista ordenada de tasks onde cada task aparece numa posição depois de todos os seus antecessores e antes dos seus sucessores e onde as tasks mais pequenas têm prioridade(aparecem primeiro na lista) sobre as tasks mais pesadas.
+Para tal colocamos as tarefas numa lista ordenada de tasks onde cada task aparece numa posição depois de todos os seus antecessores e antes dos seus sucessores.
 
 \subsubsection{Geração do estado inicial}
+O Primeiro estado é gerado percorrendo a lista de tasks e tentando adicionar a uma lista ordenada. Se os precedentes ainda não tiverem sido colocados na lista, chama a função recursivamente, passando o precedente como argumento, e só depois de todos os precedentes estarem na lista é que coloca a tarefa.
+
+\begin{lstlisting}[frame=single, language=java,numbers=left,numberfirstline=true]  
+public List<Task> orderTask(List<Task> unorderedTasks){
+	List<Task> orderedTasks = new ArrayList<Task>();
+	for(Task task : unorderedTask){
+		if(!orderedTasks.contains(task)){
+			insertTask(orderedList, task);
+		}
+	}
+	return orderedTasks;
+}
+
+public void insertTask(List<Task> orderedList, Task task){
+	for(Task precedence : task.getPrecedences()){
+		if(!orderedList.contains(precedence)){
+			insertTask(orderedList,precedence);
+		}
+	}
+	orderedList.add(task);	
+}
+\end{lstlisting}
+
 
 
 \subsubsection{Geração do próximo Estado}
