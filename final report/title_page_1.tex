@@ -206,7 +206,7 @@ Um dos objetivos principais do presente documento é avaliar a resposta de ambos
 \justify\normalsize
 Como é especificado em cima o sistema tem por objetivo otimizar a atribuição de membros por tarefas num dado projeto. Os dados do mesmo são introduzidos por input através de um ficheiro no formato json no qual estão representadas as tarefas, elementos e as competências de cada um deles.
 
-Um projeto em análise caracteriza-se por um conjunto de tarefas (Task) a cumprir, tendo estas um nome (por motivos de identificação) e uma duração. Existe ainda um conjunto de elementos (Element) que podem ser atribuídos a essas mesmas tarefas. Um elemento é identificado por um nome e tem uma lista de competências (Skill) avaliadas em função da sua capacidade. Por exemplo, o elemento "joão" tem competências na área da informática a um nível 6 e na área da economia com nível 10.
+Um projeto em análise caracteriza-se por um conjunto de tarefas (Task) a cumprir, tendo estas um nome (por motivos de identificação) e uma duração. Existe ainda um conjunto de elementos (Element) que podem ser atribuídos a essas mesmas tarefas. Um elemento é identificado por um nome e tem uma lista de competências (Skill) avaliadas em função da sua capacidade. Por exemplo, o elemento "joão" tem competências na área da informática a um nível 0.6 e na área da economia com nível 1.
 
 \subsection{Cenários}
 \justify\normalsize
@@ -218,7 +218,7 @@ Um dos maiores obstáculos encontrados no planeamento da implementação foi o j
 
 A maior dificuldade identificada nos algoritmos genéticos foi a da construção de uma função de avaliação que tivesse em conta a precedência de tarefas. Assim, inicialmente, pensou-se ser necessária uma heurística de escolha de ordem de tarefas. Se este processo não fosse bem otimizado a solução apresentada não seria a melhor possível. Logo, esta heurística teria de ser cautelosamente planeada. Contudo, optou-se por implementar a estrutura do projeto de forma diferente sendo que a ordem das tarefas seria transmitida pelos cromossomas e seria decidida aquando da sua construção. A implementação será esmiuçada mais à frente. Para além disto, a escolha de um método de cruzamento provocou algumas dúvidas nos elementos porém após terem sido realizados alguns testes foi escolhido layout que produzia mais frequentemente melhores resultados.
 
-NOS ALGORITMOS GENÉTICOS A DIFICULDADE FOI BLÁ BLÁ BLÁ...
+No algorítmo de arrefecimento simulado a maior dificuldade foi encontrar uma representação que permitisse a geração de novos estados e alocação de elementos às tasks de maneira eficiente e rápida.
 
 \subsection{Datasets}
 
@@ -250,6 +250,73 @@ O input é colhido de um ficheiro de formato \textit{json} e tem a estrutura con
 
 Na presente secção são analisados os algortimos usados passando pela explicação da implementação decidida e pela descrição da perspetiva tomada ao enfrentar os mesmos. Inicialmente serão esmiuçados os algoritmos genéticos, sendo explicada a função de avaliação implementada, a estrutura do cromossoma construído e os processos de seleção, cruzamento e mutação. Finalmente é explicitado o arrefecimento simulado incluindo a representação escolhida, a atribuição de tempos iniciais e a geração do próximo estado. 
 
+\paragraph{Atribuição do Tempo inicial e dos Elementos às Tarefas }
+
+Para atribuir os tempos iniciais e tempos finais de cada tarefa executamos um ciclo onde cada iteração representa a passagem de um \textit{sprint}, de duração é varíavel. Começamos com \textit{i} = 0, percorremos a lista e tentamos atribuir o tempo inicial à task \textit{j}. Se as tasks antecessoras de \textit{j} já tiverem terminado e houver pelo menos um elemento com as \textit{skills} para executar a tarefa, então o \textit{j}$_{start\_time}$ = \textit{i}. Caso contrário, incrementamos \textit{i} e voltamos a verificar se é possível fazer a atribuição de tempo inicial à task. Nenhuma task pode ter o seu tempo inicial atribuído que a task anterior na lista ordenada também tenha o tempo inicial atribuído. Ao atribuir o tempo inicial a uma task é automaticamente calculado quando é que esta irá terminar, com base no número de pessoas com as skills necessárias para completar a task disponíveis. Essas pessoas ficam então alocadas à task e não podem ser utilizadas noutras tasks enquanto a task não tiver terminado.
+
+\begin{lstlisting}[frame=single, language=java,numbers=left,numberfirstline=true]  
+int i = 0;
+for(Task j : tasks){
+	while(true){
+		if(j.assigned)
+			break;
+		if(j.predecessorsFinished() && workers.hasAvailableResources(j)){
+			workers.assign(j,i);		//Assigns resources(people) to the task j from i until the end of the task
+			duration = getDuration(j, i, workers);
+			end = i + duration
+			j.assignStartTime(i,end);
+			
+		} 
+		else {i++;}
+	}	
+}
+\end{lstlisting}
+
+\paragraph{Calculo de duração de uma tarefa}
+A duração de uma tarefa é dada em função do número de elementos e a \textit{performance} de cada um dos elementos atribuídos à tarefa. A duração da tarefa é avaliada da seguinte maneira:
+
+\begin{mycapequ}[!ht]
+  \begin{equation}
+   d_{total}  = { 1 \over { 1 \over d_a } + { 1  \over  d_b } +\ldots }
+  \end{equation}
+  \caption{ d$_ a$ , d$_b$ ,\ldots  -  tempo que os elementos a e b demoram  a completar a tarefa}
+\end{mycapequ}
+
+
+
+\begin{mycapequ}[!ht]
+ \caption{Sabendo que o tempo que cada elemento demora a concluir a tarefa que é dado pela função: }
+  \begin{equation}
+  d_{x}  = {t \over p_x } 
+  \end{equation}
+  \caption{ 	 t   -  duração base da tarefa \\
+   		 t$_x$ -  performance do elemento x a efectuar a tarefa}
+\end{mycapequ}
+
+
+\begin{mycapequ}[!ht]
+  \caption{Daqui podemos concluir que:}
+  \begin{equation}
+   d_{total}  = { t \over p_a  + p_b  +\ldots }
+  \end{equation}
+\end{mycapequ}
+
+\paragraph{Função de Avaliação}
+Para analisar uma calendarização gerada e poder comparar com outras geradas é utilizado o valor de quando termina a última tarefa a ser completada, ou seja, o tempo total que demora a terminar todo o conjunto de projectos na dada calendarização  
+
+\begin{lstlisting}[frame=single, language=java,numbers=left,numberfirstline=true] 
+public float eval(Schedule schedule){
+	float bigger = 0;
+	for(Task task : schedule.getOrderedTasks()){
+		float completionTime = schedule.getTaskCompletionTime(task);
+		if(completionTime > bigger){
+			bigger = completionTime;
+		}
+	}
+	return bigger;
+}
+\end{lstlisting}
+
 %----------------------------------------------------------------------------------------
 %	ALGORITMOS GENÉTICOS
 %----------------------------------------------------------------------------------------
@@ -266,7 +333,7 @@ Um cromossoma válido traduz a ordem de realização das tarefas sendo que a que
   \centering
   \includegraphics[width=14cm, height = 0.7cm]{chromosome.png}
   \label{fig:sub1}
-\end{subfigure}%
+\end{subfigure}
 \begin{subfigure}{.7\textwidth}
   \centering
   \includegraphics[width=3.5cm, height =1.9cm]{legenda.png}
@@ -359,73 +426,6 @@ Depois de efectuados estes passos obtém-se a uma lista que representará o pró
   \caption{Representação de uma lista e processo de geração de um novo estado. (A) Representação de uma lista ordenada de tasks. (B) Exemplo de um planeamento viável com base na lista de tasks. (C) Geração aleatório de uma nova posição para a task 3. (D) Nova lista após o deslocamento. (E) Representação gráfica do Estado Inicial. (F) Representação gráfica do Novo Estado.}
   \label{Simulated Annealing}
 \end{figure}
-
-\paragraph{Atribuição do Tempo inicial e dos Elementos às Tarefas }
-
-Para atribuir os tempos iniciais e tempos finais de cada tarefa executamos um ciclo onde cada iteração representa a passagem de um \textit{sprint}, de duração é varíavel. Começamos com \textit{i} = 0, percorremos a lista e tentamos atribuir o tempo inicial à task \textit{j}. Se as tasks antecessoras de \textit{j} já tiverem terminado e houver pelo menos um elemento com as \textit{skills} para executar a tarefa, então o \textit{j}$_{start\_time}$ = \textit{i}. Caso contrário, incrementamos \textit{i} e voltamos a verificar se é possível fazer a atribuição de tempo inicial à task. Nenhuma task pode ter o seu tempo inicial atribuído que a task anterior na lista ordenada também tenha o tempo inicial atribuído. Ao atribuir o tempo inicial a uma task é automaticamente calculado quando é que esta irá terminar, com base no número de pessoas com as skills necessárias para completar a task disponíveis. Essas pessoas ficam então alocadas à task e não podem ser utilizadas noutras tasks enquanto a task não tiver terminado.
-
-\begin{lstlisting}[frame=single, language=java,numbers=left,numberfirstline=true]  
-int i = 0;
-for(Task j : tasks){
-	while(true){
-		if(j.assigned)
-			break;
-		if(j.predecessorsFinished() && workers.hasAvailableResources(j)){
-			workers.assign(j,i);		//Assigns resources(people) to the task j from i until the end of the task
-			duration = getDuration(j, i, workers);
-			end = i + duration
-			j.assignStartTime(i,end);
-			
-		} 
-		else {i++;}
-	}	
-}
-\end{lstlisting}
-
-\paragraph{Calculo de duração de uma tarefa}
-A duração de uma tarefa é dada em função do número de elementos e a \textit{performance} de cada um dos elementos atribuídos à tarefa. A duração da tarefa é avaliada da seguinte maneira:
-
-\begin{mycapequ}[!ht]
-  \begin{equation}
-   d_{total}  = { 1 \over { 1 \over d_a } + { 1  \over  d_b } +\ldots }
-  \end{equation}
-  \caption{ d$_ a$ , d$_b$ ,\ldots  -  tempo que os elementos a e b demoram  a completar a tarefa}
-\end{mycapequ}
-
-
-
-\begin{mycapequ}[!ht]
- \caption{Sabendo que o tempo que cada elemento demora a concluir a tarefa que é dado pela função: }
-  \begin{equation}
-  d_{x}  = {t \over p_x } 
-  \end{equation}
-  \caption{ 	 t   -  duração base da tarefa \\
-   		 t$_x$ -  performance do elemento x a efectuar a tarefa}
-\end{mycapequ}
-
-
-\begin{mycapequ}[!ht]
-  \caption{Daqui podemos concluir que:}
-  \begin{equation}
-   d_{total}  = { t \over p_a  + p_b  +\ldots }
-  \end{equation}
-\end{mycapequ}
-
-\paragraph{Função de Avaliação}
-Para analisar uma calendarização gerada e poder comparar com outras geradas é utilizado o valor de quando termina a última tarefa a ser completada, ou seja, o tempo total que demora a terminar todo o conjunto de projectos na dada calendarização  
-
-\begin{lstlisting}[frame=single, language=java,numbers=left,numberfirstline=true] 
-public float eval(Schedule schedule){
-	float bigger = 0;
-	for(Task task : schedule.getOrderedTasks()){
-		float completionTime = schedule.getTaskCompletionTime(task);
-		if(completionTime > bigger){
-			bigger = completionTime;
-		}
-	}
-	return bigger;
-}
-\end{lstlisting}
 
 \paragraph{Temperatura}
 A temperatura vai descendo sempre gradualmente, tendendo para 0 ao longo do tempo
