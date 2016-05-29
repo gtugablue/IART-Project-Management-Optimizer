@@ -142,6 +142,7 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 		}
 		
 		score += TOTAL_TIME_SCORE_MULTIPLIER * findMaxTaskCompletionTime(taskCompletionTimes);
+		//score -= TOTAL_TIME_SCORE_MULTIPLIER * 950;
 		return score;
 	}
 
@@ -306,11 +307,11 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 				return precedencesReadyTime; // If the task's precedences haven't been met, there's no need to check if there are elements available
 		}
 
-		float elementReadyTime = Float.MAX_VALUE;
+		float elementReadyTime = Float.MIN_VALUE;
 
 		List<Element> elements = problem.getElements();
 		for (Integer id : taskElements) {
-			elementReadyTime = Math.min(elementReadyTime, elementReadyTimes.get(elements.get(id)));
+			elementReadyTime = Math.max(elementReadyTime, elementReadyTimes.get(elements.get(id)));
 		}
 		return Math.max(precedencesReadyTime, elementReadyTime);
 	}

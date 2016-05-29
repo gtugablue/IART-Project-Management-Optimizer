@@ -11,16 +11,21 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Set;
 
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
@@ -53,6 +58,8 @@ public class GeneticAlgorithmDialog {
 	private JFreeChart chart;
 	private ChartPanel chartPanel;
 	private DefaultCategoryDataset dataset;
+	private volatile int selectedTask;
+	private DefaultListModel<String> elementListModel;
 	public GeneticAlgorithmDialog(JFrame frame, Problem problem, Config config) {
 		this.dialog = new JDialog(frame, "Genetic Algorithm");
 		this.problem = problem;
@@ -107,7 +114,8 @@ public class GeneticAlgorithmDialog {
 		dialog.add(chartPanel, c);
 		c.gridx = 0;
 		c.gridy = 2;
-		dialog.add(createElementsPanel());
+		c.weighty = 0;
+		dialog.add(createElementsPanel(), c);
 		
 		c.gridx = 1;
 		c.gridy = 0;
@@ -123,8 +131,27 @@ public class GeneticAlgorithmDialog {
 		for (int i = 0; i < problem.getTasks().size(); i++) {
 			taskNames[i] = problem.getTasks().get(i).getName();
 		}
-		JComboBox comboBox = new JComboBox(taskNames);
-		return comboBox;
+		JComboBox<String> elementComboBox = new JComboBox<String>(taskNames);
+		elementComboBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				selectedTask = elementComboBox.getSelectedIndex();
+			}
+		});
+		JPanel top = new JPanel();
+		top.setLayout(new BoxLayout(top, BoxLayout.LINE_AXIS));
+		JLabel taskLabel = new JLabel("Task: ");
+		elementListModel = new DefaultListModel<String>();
+		JList<String> elementList = new JList<String>(elementListModel);
+		top.add(taskLabel);
+		top.add(elementComboBox);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setViewportView(elementList);
+		JPanel panel = new JPanel();
+		panel.setLayout(new BorderLayout());
+		panel.add(top, BorderLayout.NORTH);
+		panel.add(scrollPane);
+		return panel;
 	}
 
 	public void show() {
@@ -157,7 +184,7 @@ public class GeneticAlgorithmDialog {
 			while (running) {
 				p.showInfo();
 				Solution s = p.getFittest();
-				for (Task t : problem.getTasks()) {
+				/*for (Task t : problem.getTasks()) {
 					System.out.println("Task \"" + t.getName() + "\" [" + s.getTaskStartTime(t) + ", " + s.getTaskCompletionTime(t) + "]: ");
 					Set<Element> elements = p.getFittest().getTaskAssignedElements(t);
 					if (elements == null) continue;
@@ -165,8 +192,7 @@ public class GeneticAlgorithmDialog {
 						System.out.print(e.getName() + ", ");
 					}
 					System.out.println();
-				}
-				
+				}*/
 				chart.setNotify(false);
 				if (p.getFittest().getFitness() != oldFitness)
 				{
@@ -175,6 +201,11 @@ public class GeneticAlgorithmDialog {
 				}
 				dataset.addValue((float)p.getFittest().getFitness() / Chromosome.TOTAL_TIME_SCORE_MULTIPLIER, "fitness/" + Chromosome.TOTAL_TIME_SCORE_MULTIPLIER, "" + p.num());
 				dataset.addValue(p.getFittest().getTotalTime(), "total time", "" + p.num());
+				
+				elementListModel.clear();
+				for (Element e : p.getFittest().getTaskAssignedElements(problem.getTasks().get(selectedTask)))
+					elementListModel.addElement(e.getName());
+				
 				p = algorithm.evolve(p);
 				gp.update(p.getFittest());
 				generationLabel.setText("" + p.num());
