@@ -1,6 +1,7 @@
 package optimizer.gui.genetic_algorithm;
 
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -15,6 +16,7 @@ import java.awt.event.WindowEvent;
 import java.util.Set;
 
 import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -100,15 +102,29 @@ public class GeneticAlgorithmDialog {
 		c.gridy = 0;
 		dialog.add(bestInfo, c);
 		c.weighty = 0.5;
+		c.gridx = 0;
 		c.gridy = 1;
 		dialog.add(chartPanel, c);
+		c.gridx = 0;
+		c.gridy = 2;
+		dialog.add(createElementsPanel());
+		
 		c.gridx = 1;
 		c.gridy = 0;
-		c.gridheight = 2;
+		c.gridheight = 3;
 		dialog.add(gp.getView(), c);
 		dialog.setModal(false);
 		gp.getView().setMinimumSize(new Dimension(800, 600));
 		gp.getView().setPreferredSize(new Dimension(800, 600));
+	}
+	
+	private Container createElementsPanel() {
+		String[] taskNames = new String[problem.getTasks().size()];
+		for (int i = 0; i < problem.getTasks().size(); i++) {
+			taskNames[i] = problem.getTasks().get(i).getName();
+		}
+		JComboBox comboBox = new JComboBox(taskNames);
+		return comboBox;
 	}
 
 	public void show() {
