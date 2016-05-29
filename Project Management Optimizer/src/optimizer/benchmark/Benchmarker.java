@@ -41,10 +41,10 @@ public class Benchmarker {
 		/*Benchmark b = new SimulatedAnnealingBenchmark(15000, 0.9997, 100);
 		Score score = measureScore(b, 20, Double.MAX_VALUE);
 		System.out.println(score.score + "\t" + score.time);
-		
-		b = new GeneticAlgorithmBenchmark(4000, 155, 0.3f, 0.015f, 15);
-		score = measureScore(b, 20, Double.MAX_VALUE);
-		System.out.println(score.score + "\t" + score.time);*/
+		*/
+		Benchmark b = new GeneticAlgorithmBenchmark(4000, 155, 0.65f, 0.015f, 15);
+		Score score = measureScore(b, 20, Double.MAX_VALUE);
+		System.out.println(score.score + "\t" + score.time);
 	}
 
 	public static Score measureScore(Benchmark benchmark, int n, double maxTime) {
