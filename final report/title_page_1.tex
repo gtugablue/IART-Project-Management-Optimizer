@@ -52,6 +52,7 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{float}
+\usepackage{multirow}
 
 \setcounter{secnumdepth}{4}
 
@@ -326,11 +327,11 @@ public float eval(Schedule schedule){
 }
 \end{lstlisting}
 
-\paragraph{Temperatura}
-A temperatura vai descendo sempre gradualmente, tendendo para 0 ao longo do tempo
-\begin{equation} \label{temperatura}
-T \textsubscript{n} = 	\alpha  * T\textsubscript{n-1}
-\end{equation}
+%\paragraph{Temperatura}
+%A temperatura vai descendo sempre gradualmente, tendendo para 0 ao longo do tempo
+%\begin{equation} \label{temperatura}
+%T \textsubscript{n} = 	\alpha  * T\textsubscript{n-1}
+%\end{equation}
 
 \section{Desenvolvimento}
 
@@ -406,7 +407,9 @@ O ficheiro usado para a experiência 1 foi o seguinte.
 }
 \end{lstlisting}
 
-\subsubsection{Algoritmo Genético}
+\subsubsection{Experiência 1 - A}
+
+\paragraph{Algoritmo Genético}
 
 As condições em que foi testado o ficheiro teste1.json foram as visíveis na figura \ref{teste1}. 
 
@@ -416,17 +419,6 @@ As condições em que foi testado o ficheiro teste1.json foram as visíveis na f
   \caption{Condições do ficheiro teste1.json.}
   \label{teste1}
 \end{figure}
-
-\subsubsection{Arrefecimento Simulado}
-
-\begin{figure}[H]
-  \centering
-    \includegraphics[width=18cm, height = 7.5cm]{sa_config_exp1.png}
-  \caption{Configurações para o arrefecimento simulado usados no test1.}
-  \label{sa_config_teste1}
-\end{figure}
-
-\paragraph{Resultados}
 
 Os resultados obtidos foram os apresentados na figura \ref{exp1}.
 
@@ -445,6 +437,54 @@ Do lado direito da figura pode-se observar o grafo de precedências de tarefas. 
   \caption{Resultados obtidos.}
   \label{exp1Zoom}
 \end{figure}
+
+\paragraph{Arrefecimento Simulado}
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=18cm, height = 7.5cm]{sa_config_exp1.png}
+  \caption{Configurações para o arrefecimento simulado usados no test1.}
+  \label{sa_config_teste1}
+\end{figure}
+
+Os resultados obtidos foram os apresentados na figura \ref{sa_exp1}.
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=19cm, height = 11cm]{sa_result_exp1.png}
+  \caption{Resultados obtidos.}
+  \label{sa_exp1}
+\end{figure}
+
+Do lado direito da figura pode-se observar o grafo de precedências de tarefas. Do lado esquerdo apresenta-se o gráfico que representa a evolução do valor de fitness ao longo das gerações. A figura \ref{sa_graph1} mostra o gráfico com mais detalhe.
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=14cm, height = 10cm]{sa_graph_exp1.png}
+  \caption{Resultados obtidos.}
+  \label{sa_graph1}
+\end{figure}
+
+\paragraph{Resultados}
+
+\begin{table}[H]
+\centering
+\caption{Resultados combinados do algoritmo genético e do arrefecimento simulado para a mesma experiência.}
+\label{my-label}
+\begin{tabular}{|l|l|l|l|}
+\hline
+Algoritmo              & \multicolumn{3}{l|}{Resultados}                       \\ \hline
+Algoritmo Genético     & Valor  & Fitness/1000           & Tempo Total         \\ \hline
+Tamanho da população   & 50     & \multirow{4}{*}{19.78} & \multirow{4}{*}{19} \\ \cline{1-2}
+Mutation Rate          & 0.005  &                        &                     \\ \cline{1-2}
+Crossover Rate         & 0.5    &                        &                     \\ \cline{1-2}
+Elitism                & 5      &                        &                     \\ \hline
+Arrefecimento Simulado & Valor  & Fitness/1000           & Tempo Total         \\ \hline
+Temperatura Inicial    & 100    & \multirow{2}{*}{26}    & \multirow{2}{*}{26} \\ \cline{1-2}
+Cooling Rate           & 0.9999 &                        &                     \\ \hline
+\end{tabular}
+\end{table}
+
 
 \section{Conclusões}
 \justify\normalsize
