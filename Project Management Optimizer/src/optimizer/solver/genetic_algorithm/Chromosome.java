@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import optimizer.Problem;
@@ -119,6 +121,7 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 			}
 			taskElements.set(i, ids);
 		}
+		taskAssignedElements.clear();
 		taskStartTimes.clear();
 		taskCompletionTimes.clear();
 		HashMap<Element, Float> elementReadyTimes = new LinkedHashMap<Element, Float>();
@@ -132,9 +135,6 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 				float taskStartTime = calculateTaskStartTime(task, taskElements.get(i), taskCompletionTimes, elementReadyTimes);
 				if (taskStartTime == Float.MAX_VALUE) continue; // Precedences not ready, try a different task
 				currTime = taskStartTime;
-				float elementsReadyTime = calculateElementsReadyTime(taskElements.get(i), taskCompletionTimes, elementReadyTimes);
-				//if (elementsReadyTime > currTime)
-					currTime = elementsReadyTime;
 				allocateElementsToTask(task, taskElements.get(i), currTime, taskCompletionTimes, elementReadyTimes);
 				break;
 			}
@@ -240,7 +240,7 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 		}
 		return max;
 	}
-
+ 
 	private void allocateElementsToTask(Task task, List<Integer> taskElements, float currTime, HashMap<Task, Float> taskCompletionTimes, HashMap<Element, Float> elementReadyTimes) {
 		float totalPerformance = 0;
 		ArrayList<Element> assignedElements = new ArrayList<Element>();
@@ -254,8 +254,10 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 			assignedElements.add(problem.getElements().get(id));
 		}
 		if (totalPerformance <= 0) { // Can happen if the algorithm doesn't generate an element with the skill to realize the task. If so, find any available element to be assigned to the task.
-			float performance = findFreeElementID(task, elementReadyTimes).getSkillPerfomance(task.getSkill());
+			Element e = findFreeElementID(task, elementReadyTimes);
+			float performance = e.getSkillPerfomance(task.getSkill());
 			totalPerformance += 1 / (task.getDuration() / performance);
+			assignedElements.add(e);
 		}
 		float duration = 1 / totalPerformance;
 		float endTime = currTime + duration;
@@ -265,6 +267,7 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 		if (endTime > totalTime) totalTime = (int) endTime;
 		for (Element element : assignedElements) {
 			elementReadyTimes.put(element, endTime);
+			this.taskAssignedElements.put(task, new HashSet<Element>(assignedElements));
 		}
 	}
 
@@ -284,6 +287,12 @@ public class Chromosome extends Solution implements Comparable<Chromosome>, Clon
 			float time = elementReadyTimes.get(problem.getElements().get(id));
 			if (time < readyTime)
 				readyTime = time;
+		}
+		if (readyTime == Float.MAX_VALUE) {
+			List<Integer> fullElements = new ArrayList<Integer>();
+			for (int i = 0; i < problem.getElements().size(); i++)
+				fullElements.add(i);
+			readyTime = calculateElementsReadyTime(fullElements, taskCompletionTimes, elementReadyTimes);
 		}
 		return readyTime;
 	}

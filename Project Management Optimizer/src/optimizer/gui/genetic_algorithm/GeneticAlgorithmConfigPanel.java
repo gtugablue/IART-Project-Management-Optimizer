@@ -80,7 +80,7 @@ public class GeneticAlgorithmConfigPanel extends JPanel {
 		l1.setLabelFor(populationSizeField);
 		panel.add(populationSizeField);
 
-		JLabel l2 = new JLabel("Mutation coolingRate: ", JLabel.TRAILING);
+		JLabel l2 = new JLabel("Mutation rate: ", JLabel.TRAILING);
 		panel.add(l2);
 		formatter = new NumberFormatter(format);
 		formatter.setValueClass(Float.class);
@@ -92,7 +92,7 @@ public class GeneticAlgorithmConfigPanel extends JPanel {
 		l2.setLabelFor(mutationRateField);
 		panel.add(mutationRateField);
 
-		JLabel l3 = new JLabel("Crossover coolingRate: ", JLabel.TRAILING);
+		JLabel l3 = new JLabel("Crossover rate: ", JLabel.TRAILING);
 		panel.add(l3);
 		crossoverRateField = new JFormattedTextField(formatter);
 		crossoverRateField.setText("0.20");
@@ -124,8 +124,8 @@ public class GeneticAlgorithmConfigPanel extends JPanel {
 		runButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Problem problem = jsonParser.parse(filePathField.getText());
-				problem = Optimizer.generateRandomProblem();
+				//Problem problem = jsonParser.parse(filePathField.getText());
+				Problem problem = Optimizer.generateRandomProblem();
 				if (problem == null) {
 					JOptionPane.showMessageDialog(panel, "Could not open file", "Error", JOptionPane.ERROR_MESSAGE);
 					return;

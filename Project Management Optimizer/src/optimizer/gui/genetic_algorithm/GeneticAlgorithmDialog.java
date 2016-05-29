@@ -12,6 +12,7 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Set;
 
 import javax.swing.BoxLayout;
 import javax.swing.JDialog;
@@ -29,6 +30,9 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import optimizer.Optimizer;
 import optimizer.Problem;
+import optimizer.Solution;
+import optimizer.domain.Element;
+import optimizer.domain.Task;
 import optimizer.gui.GraphPanel;
 import optimizer.solver.genetic_algorithm.Algorithm;
 import optimizer.solver.genetic_algorithm.Chromosome;
@@ -136,6 +140,17 @@ public class GeneticAlgorithmDialog {
 			int oldFitness = p.getFittest().getFitness();
 			while (running) {
 				p.showInfo();
+				Solution s = p.getFittest();
+				for (Task t : problem.getTasks()) {
+					System.out.println("Task \"" + t.getName() + "\" [" + s.getTaskStartTime(t) + ", " + s.getTaskCompletionTime(t) + "]: ");
+					Set<Element> elements = p.getFittest().getTaskAssignedElements(t);
+					if (elements == null) continue;
+					for (Element e : elements) {
+						System.out.print(e.getName() + ", ");
+					}
+					System.out.println();
+				}
+				
 				chart.setNotify(false);
 				if (p.getFittest().getFitness() != oldFitness)
 				{
