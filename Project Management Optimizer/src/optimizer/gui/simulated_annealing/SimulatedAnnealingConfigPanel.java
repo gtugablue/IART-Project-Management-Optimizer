@@ -71,7 +71,7 @@ public class SimulatedAnnealingConfigPanel extends JPanel {
 		l1.setLabelFor(initialTemperatureField);
 		panel.add(initialTemperatureField);
 
-		JLabel l2 = new JLabel("Cooling coolingRate: ", JLabel.TRAILING);
+		JLabel l2 = new JLabel("Cooling rate: ", JLabel.TRAILING);
 		panel.add(l2);
 		formatter = new NumberFormatter(format);
 		formatter.setValueClass(Float.class);

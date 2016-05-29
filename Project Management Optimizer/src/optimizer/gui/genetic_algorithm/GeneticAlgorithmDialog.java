@@ -1,6 +1,7 @@
 package optimizer.gui.genetic_algorithm;
 
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -12,8 +13,10 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Set;
 
 import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,6 +32,9 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import optimizer.Optimizer;
 import optimizer.Problem;
+import optimizer.Solution;
+import optimizer.domain.Element;
+import optimizer.domain.Task;
 import optimizer.gui.GraphPanel;
 import optimizer.solver.genetic_algorithm.Algorithm;
 import optimizer.solver.genetic_algorithm.Chromosome;
@@ -96,15 +102,29 @@ public class GeneticAlgorithmDialog {
 		c.gridy = 0;
 		dialog.add(bestInfo, c);
 		c.weighty = 0.5;
+		c.gridx = 0;
 		c.gridy = 1;
 		dialog.add(chartPanel, c);
+		c.gridx = 0;
+		c.gridy = 2;
+		dialog.add(createElementsPanel());
+		
 		c.gridx = 1;
 		c.gridy = 0;
-		c.gridheight = 2;
+		c.gridheight = 3;
 		dialog.add(gp.getView(), c);
 		dialog.setModal(false);
 		gp.getView().setMinimumSize(new Dimension(800, 600));
 		gp.getView().setPreferredSize(new Dimension(800, 600));
+	}
+	
+	private Container createElementsPanel() {
+		String[] taskNames = new String[problem.getTasks().size()];
+		for (int i = 0; i < problem.getTasks().size(); i++) {
+			taskNames[i] = problem.getTasks().get(i).getName();
+		}
+		JComboBox comboBox = new JComboBox(taskNames);
+		return comboBox;
 	}
 
 	public void show() {
@@ -133,15 +153,28 @@ public class GeneticAlgorithmDialog {
 		public void run() {
 			running = true;
 			Population p = population;
-			//int oldFitness = p.getFittest().getFitness();
+			int oldFitness = p.getFittest().getFitness();
 			while (running) {
 				p.showInfo();
-				//if (p.getFittest().getFitness() != oldFitness)
-				//{
-				//	oldFitness = p.getFittest().getFitness();
-					dataset.addValue((float)p.getFittest().getFitness() / Chromosome.TOTAL_TIME_SCORE_MULTIPLIER, "fitness/" + Chromosome.TOTAL_TIME_SCORE_MULTIPLIER, "" + p.num());
-					dataset.addValue(p.getFittest().getTotalTime(), "total time", "" + p.num());
-				//}
+				Solution s = p.getFittest();
+				for (Task t : problem.getTasks()) {
+					System.out.println("Task \"" + t.getName() + "\" [" + s.getTaskStartTime(t) + ", " + s.getTaskCompletionTime(t) + "]: ");
+					Set<Element> elements = p.getFittest().getTaskAssignedElements(t);
+					if (elements == null) continue;
+					for (Element e : elements) {
+						System.out.print(e.getName() + ", ");
+					}
+					System.out.println();
+				}
+				
+				chart.setNotify(false);
+				if (p.getFittest().getFitness() != oldFitness)
+				{
+					chart.setNotify(true);
+					oldFitness = p.getFittest().getFitness();
+				}
+				dataset.addValue((float)p.getFittest().getFitness() / Chromosome.TOTAL_TIME_SCORE_MULTIPLIER, "fitness/" + Chromosome.TOTAL_TIME_SCORE_MULTIPLIER, "" + p.num());
+				dataset.addValue(p.getFittest().getTotalTime(), "total time", "" + p.num());
 				p = algorithm.evolve(p);
 				gp.update(p.getFittest());
 				generationLabel.setText("" + p.num());
