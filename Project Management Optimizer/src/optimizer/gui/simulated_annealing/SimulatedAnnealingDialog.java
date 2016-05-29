@@ -162,7 +162,7 @@ public class SimulatedAnnealingDialog {
                     chart.setNotify(true);
                     oldFitness = (int) algorithm.getScore();
                 }
-                dataset.addValue((float)algorithm.getScore(), "current score" , "" + algorithm.getI());
+                dataset.addValue(algorithm.getScore(), "current score" , "" + algorithm.getI());
                 dataset.addValue(algorithm.getBestAll(), "best score", "" + algorithm.getI());
 
                 elementListModel.clear();
