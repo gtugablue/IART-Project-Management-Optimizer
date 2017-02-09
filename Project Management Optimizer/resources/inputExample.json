@@ -1,0 +1,67 @@
+{
+  "skills": [
+    "S1",
+    "S2",
+    "S3"
+  ],
+  "tasks": [
+    {
+      "name": "T1",
+      "duration": 12,
+      "skill": 0,
+      "precedences": []
+    },
+    {
+      "name": "T2",
+      "duration": 5,
+      "skill": 1,
+      "precedences": [
+        0,
+        2
+      ]
+    },
+    {
+      "name": "T3",
+      "duration": 7,
+      "skill": 2,
+      "precedences": []
+    }
+  ],
+  "elements": [
+    {
+      "name": "Duarte Pinto",
+      "skills": [
+        [
+          0,
+          0.5
+        ],
+        [
+          2,
+          0.1
+        ]
+      ]
+    },
+    {
+      "name": "Filipa Ramos",
+      "skills": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "name": "Gustavo Silva",
+      "skills": [
+        [
+          1,
+          0.5
+        ],
+        [
+          2,
+          0.1
+        ]
+      ]
+    }
+  ]
+}
