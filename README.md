@@ -42,7 +42,7 @@ The steps to follow in order to get the project running are described below.
 
 ## Demo
 
-![Simulated Annealing](https://raw.githubusercontent.com/gtugablue/Project-Management-Optimizer/master/final%20report/images/sa_result_exp1.png)
+![Simulated Annealing](https://raw.githubusercontent.com/gtugablue/Project-Management-Optimizer/master/docs/final_report/images/sa_result_exp1.png)
 
 ## Authors
 
