@@ -10,4 +10,4 @@ For that, two different meta-heuristics have been applied: Genetic Algorithms an
 
 A graphical user interface has been developed to allow the user to choose the algorithm and configurations, as well as being able to see it run in real-time with statistics and the possibility of analysing the best solution.
 
-![Simulated Annealing](https://raw.githubusercontent.com/gtugablue/Project-Management-Optimizer/master/final%20report/images/sa_result_exp1.png)
+![Simulated Annealing](https://raw.githubusercontent.com/gtugablue/Project-Management-Optimizer/master/docs/final_report/images/sa_result_exp1.png)
